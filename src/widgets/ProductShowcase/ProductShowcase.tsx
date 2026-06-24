@@ -234,14 +234,14 @@ export default function ProductShowcase({
                     <span
                       aria-hidden="true"
                       className={`inline-flex h-5 min-h-5 w-5 min-w-5 items-center justify-center transition-transform duration-420 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                        activeTab === tab.id ? 'translate-y-[1px]' : ''
+                        activeTab === tab.id ? 'className="translate-y-[1px]' : ''
                       }`}
                     >
                       <span
                         className={`h-2.5 w-2.5 border-r-[1.5px] border-b-[1.5px] border-dark transition-transform duration-420 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                           activeTab === tab.id
-                            ? 'translate-x-[-1px] rotate-[-135deg]'
-                            : 'translate-y-[-1px] rotate-45'
+                            ? '-translate-x-px rotate-[-135deg]'
+                            : '-translate-y-px rotate-45'
                         }`}
                       />
                     </span>
