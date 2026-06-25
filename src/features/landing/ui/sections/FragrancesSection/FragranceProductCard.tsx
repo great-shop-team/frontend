@@ -22,9 +22,9 @@ export default function FragranceProductCard({
   const [selectedSize, setSelectedSize] = useState(sizes[0] ?? '');
 
   return (
-    <article className="flex w-full max-w-[413px] flex-col">
+    <article className="flex w-full max-w-103.25 flex-col">
       {/* <div className="mb-4 flex aspect-413/493 w-full items-center justify-center bg-white shadow-[0_4px_24px_rgb(19_17_24/8%)]"> */}
-      <div className="relative mb-4 flex aspect-[413/493] w-full items-center justify-center bg-[#FAFAFA]">
+      <div className="relative mb-4 flex aspect-413/493 w-full items-center justify-center bg-[#FAFAFA]">
         <div className="mx-auto flex h-[78.5%] w-fit items-stretch gap-2">
           <div className="relative aspect-258/387 h-full shrink-0 overflow-hidden">
             <Image src={image.src} alt={image.alt} fill sizes="258px" className="object-cover" />
