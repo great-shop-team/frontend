@@ -15,10 +15,16 @@
           "hex": "#111111",
           "images": [
             "https://cdn.synthetic.com.ua/media/assets/images/0/f/b/d/4/a/8/1/7/6/9/c/4/c/c/d/1600x1600/0fbd4a81769c4ccdbb9b25dbc9789435.webp",
-            "https://cdn.synthetic.com.ua/media/assets/images/2/e/f/8/3/6/4/1/f/9/8/6/4/0/c/b/1600x1600/2ef83641f98640cb9050d9ebf84486b0.webp"
+            "https://cdn.synthetic.com.ua/media/assets/images/2/e/f/8/3/6/4/1/f/9/8/6/4/0/c/b/1600x1600/2ef83641f98640cb9050d9ebf84486b0.webp",
+            "https://cdn.synthetic.com.ua/media/assets/images/6/a/6/8/2/a/1/8/e/5/a/2/4/e/d/4/1600x1600/6a682a18e5a24ed49c09f25f77699465.webp",
+            "https://cdn.synthetic.com.ua/media/assets/images/0/a/2/2/c/e/6/8/b/0/d/7/4/5/d/f/1600x1600/0a22ce68b0d745df9ef685ab7e517554.webp",
+            "https://cdn.synthetic.com.ua/media/assets/images/e/0/8/6/8/2/e/3/9/e/6/6/4/2/8/e/1600x1600/e08682e39e66428eb4a0f6425d767f89.webp"
           ],
           "thumbnails": [
             "https://cdn.synthetic.com.ua/media/assets/images/e/0/8/6/8/2/e/3/9/e/6/6/4/2/8/e/1600x1600/e08682e39e66428eb4a0f6425d767f89.webp",
+            "https://cdn.synthetic.com.ua/media/assets/images/2/e/f/8/3/6/4/1/f/9/8/6/4/0/c/b/1600x1600/2ef83641f98640cb9050d9ebf84486b0.webp",
+            "https://cdn.synthetic.com.ua/media/assets/images/0/a/2/2/c/e/6/8/b/0/d/7/4/5/d/f/1600x1600/0a22ce68b0d745df9ef685ab7e517554.webp",
+            "https://cdn.synthetic.com.ua/media/assets/images/6/a/6/8/2/a/1/8/e/5/a/2/4/e/d/4/1600x1600/6a682a18e5a24ed49c09f25f77699465.webp",
             "https://cdn.synthetic.com.ua/media/assets/images/6/a/6/8/2/a/1/8/e/5/a/2/4/e/d/4/1600x1600/6a682a18e5a24ed49c09f25f77699465.webp"
           ],
           "sizes": [
@@ -49,9 +55,11 @@
           "name": "Fuchsia",
           "hex": "#e91e63",
           "images": [
+            "https://cdn.synthetic.com.ua/media/assets/images/f/4/8/7/c/6/e/9/a/e/f/0/4/e/b/6/1600x1600/f487c6e9aef04eb6843f7ab40125623c.webp",
             "https://cdn.synthetic.com.ua/media/assets/images/f/4/8/7/c/6/e/9/a/e/f/0/4/e/b/6/1600x1600/f487c6e9aef04eb6843f7ab40125623c.webp"
           ],
           "thumbnails": [ 
+            "https://cdn.synthetic.com.ua/media/assets/images/f/4/8/7/c/6/e/9/a/e/f/0/4/e/b/6/1600x1600/f487c6e9aef04eb6843f7ab40125623c.webp",
             "https://cdn.synthetic.com.ua/media/assets/images/f/4/8/7/c/6/e/9/a/e/f/0/4/e/b/6/1600x1600/f487c6e9aef04eb6843f7ab40125623c.webp"
           ],
           "sizes": [
@@ -83,11 +91,15 @@
           "hex": "#ed675d",
           "images": [
             "https://cdn.synthetic.com.ua/media/assets/images/9/6/d/0/b/6/5/6/4/3/f/9/4/d/d/b/1600x1600/96d0b65643f94ddb9f39db725cc2beb8.webp",
-            "https://cdn.synthetic.com.ua/media/assets/images/c/f/8/d/b/d/7/d/0/d/b/a/4/6/1/9/1600x1600/cf8dbd7d0dba461999cddf49a30d2940.jpeg"
+            "https://cdn.synthetic.com.ua/media/assets/images/c/f/8/d/b/d/7/d/0/d/b/a/4/6/1/9/1600x1600/cf8dbd7d0dba461999cddf49a30d2940.jpeg",
+            "https://cdn.synthetic.com.ua/media/assets/images/b/a/9/7/3/3/3/5/4/2/1/e/4/9/3/c/1600x1600/ba973335421e493c9097089fe4fb24b9.jpeg",
+            "https://cdn.synthetic.com.ua/media/assets/images/5/b/e/2/d/c/9/e/6/d/4/2/4/5/2/f/1600x1600/5be2dc9e6d42452f9268081764a8cb3f.jpeg"
           ],
           "thumbnails": [
             "https://cdn.synthetic.com.ua/media/assets/images/5/b/e/2/d/c/9/e/6/d/4/2/4/5/2/f/1600x1600/5be2dc9e6d42452f9268081764a8cb3f.jpeg",
-            "https://cdn.synthetic.com.ua/media/assets/images/b/a/9/7/3/3/3/5/4/2/1/e/4/9/3/c/1600x1600/ba973335421e493c9097089fe4fb24b9.jpeg"
+            "https://cdn.synthetic.com.ua/media/assets/images/c/f/8/d/b/d/7/d/0/d/b/a/4/6/1/9/1600x1600/cf8dbd7d0dba461999cddf49a30d2940.jpeg",
+            "https://cdn.synthetic.com.ua/media/assets/images/b/a/9/7/3/3/3/5/4/2/1/e/4/9/3/c/1600x1600/ba973335421e493c9097089fe4fb24b9.jpeg",
+            "https://cdn.synthetic.com.ua/media/assets/images/c/f/8/d/b/d/7/d/0/d/b/a/4/6/1/9/1600x1600/cf8dbd7d0dba461999cddf49a30d2940.jpeg"
           ],
           "sizes": [
             { "size": "S", "quantity": 15 },
@@ -118,7 +130,8 @@
           "hex": "#6084a1",
           "images": [
             "https://cdn.synthetic.com.ua/media/assets/images/b/6/2/6/a/1/7/e/7/5/7/8/4/f/4/f/1600x1600/b626a17e75784f4fb4939328097e5581.webp",
-            "https://cdn.synthetic.com.ua/media/assets/images/7/f/c/d/0/e/b/4/6/c/a/2/4/6/b/9/1600x1600/7fcd0eb46ca246b9aaafaa1509711e4b.webp"
+            "https://cdn.synthetic.com.ua/media/assets/images/7/f/c/d/0/e/b/4/6/c/a/2/4/6/b/9/1600x1600/7fcd0eb46ca246b9aaafaa1509711e4b.webp",
+            "https://cdn.synthetic.com.ua/media/assets/images/f/1/7/7/c/a/c/5/8/b/d/7/4/6/a/7/1600x1600/f177cac58bd746a78a739b7916458e31.webp"
           ],
           "thumbnails": [
             "https://cdn.synthetic.com.ua/media/assets/images/f/1/7/7/c/a/c/5/8/b/d/7/4/6/a/7/1600x1600/f177cac58bd746a78a739b7916458e31.webp",
@@ -189,6 +202,42 @@
           ],
           "thumbnails": [
             "https://cdn.synthetic.com.ua/media/assets/images/e/9/e/d/a/9/2/4/3/e/4/5/4/7/b/d/1600x1600/e9eda9243e4547bd83a88fa625e42b77.webp"
+          ],
+          "sizes": [
+            { "size": "S", "quantity": 15 },
+            { "size": "M", "quantity": 25 },
+            { "size": "L", "quantity": 15 },
+            { "size": "XL", "quantity": 5 }
+          ]
+        }
+      ]
+    },
+    "totalQuantity": 60,
+    "tags": ["New Collection"],
+    "inStock": true
+  },
+  {
+    "id": "m-cloth-003",
+    "slug": "pullover knitted baxboy",
+    "name": "Pullover knitted Baxboy",
+    "category": "Men",
+    "subcategory": "clothing",
+    "type": "sweatshirt",
+    "description": "Pullover knitted Baxboy",
+    "price": { "amount": 135, "currency": "USD" },
+     "options": {
+      "colors": [
+        {
+          "name": "Blue",
+          "hex": "#6084a1",
+          "images": [
+            "https://cdn.synthetic.com.ua/media/assets/images/5/4/0/7/8/9/6/a/f/2/0/8/4/1/5/d/1600x1600/5407896af208415db5571e64a124a39f.jpeg",
+            "https://cdn.synthetic.com.ua/media/assets/images/4/9/8/a/9/6/e/d/4/b/2/5/4/0/1/8/1600x1600/498a96ed4b2540189e2e5364c492853d.jpeg"
+          ],
+          "thumbnails": [
+            "https://cdn.synthetic.com.ua/media/assets/images/e/9/e/d/a/9/2/4/3/e/4/5/4/7/b/d/1600x1600/e9eda9243e4547bd83a88fa625e42b77.webp",
+            "https://cdn.synthetic.com.ua/media/assets/images/d/5/b/9/e/1/8/4/0/8/4/e/4/5/4/e/1600x1600/d5b9e184084e454ea5d91ce0d1be02be.jpeg",
+            "https://cdn.synthetic.com.ua/media/assets/images/4/9/8/a/9/6/e/d/4/b/2/5/4/0/1/8/1600x1600/498a96ed4b2540189e2e5364c492853d.jpeg"
           ],
           "sizes": [
             { "size": "S", "quantity": 15 },

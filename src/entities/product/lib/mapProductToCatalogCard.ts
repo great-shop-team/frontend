@@ -1,5 +1,6 @@
 import type { Locale } from '@/i18n/config';
 import type { Product } from '@/entities/product/model/types';
+import { getProductDetailPath } from '@/entities/product/lib/catalogProducts';
 import type { CatalogProduct } from '@/features/catalog/model/catalogProduct';
 
 export function formatProductPrice(price: Product['price'], locale: Locale): string {
@@ -29,6 +30,6 @@ export function mapProductToCatalogCard(product: Product, locale: Locale): Catal
     sizes: product.options.sizes.length > 0 ? product.options.sizes : undefined,
     colors: product.options.colors.length > 0 ? product.options.colors : undefined,
     inStock: product.inStock,
-    href: `/catalog/${product.category.toLowerCase()}/${product.id}`,
+    href: getProductDetailPath(product),
   };
 }

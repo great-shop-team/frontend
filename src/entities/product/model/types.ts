@@ -21,12 +21,15 @@ export type Product = {
   slug: string;
   name: string;
   category: CatalogCategory;
+  /** Original category label from API/mock (e.g. Unisex, Perfumes). */
+  sourceCategory?: string;
   subcategory: string;
   type: string;
   description: string;
   price: ProductPrice;
   images: string[];
   options: ProductOptions;
+  tags: string[];
   inStock: boolean;
 };
 

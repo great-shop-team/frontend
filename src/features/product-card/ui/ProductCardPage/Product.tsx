@@ -1,18 +1,32 @@
 'use client';
 
+import { useMemo } from 'react';
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+
+import CatalogProductCard from '@/features/catalog/ui/CatalogProductCard/CatalogProductCard';
+import { getCatalogProductById } from '@/entities/product/lib/catalogProducts';
+import { mapProductToCatalogCard } from '@/entities/product/lib/mapProductToCatalogCard';
 import ProductShowcase from '@/widgets/ProductShowcase/ProductShowcase';
 import { useTranslation } from '@/i18n/useTranslation';
 import { useGetProductCardQuery } from '@/store/endpoints/productsEndpoints';
 import { useParams } from 'next/navigation';
-import type { CatalogProduct } from '@/features/catalog/model/catalogProduct';
-import ClothingProductCard from '@/features/catalog/ui/CatalogProductCard/CatalogProductCard';
 
 export default function Product() {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const params = useParams();
   const id = params.id as string;
   const { data: productCard, isLoading, isError, error } = useGetProductCardQuery(id);
+
+  const relatedProducts = useMemo(() => {
+    if (!productCard?.botonImages?.length) {
+      return [];
+    }
+
+    return productCard.botonImages
+      .map((item) => getCatalogProductById(item.id))
+      .filter((product) => product !== null)
+      .map((product) => mapProductToCatalogCard(product, locale));
+  }, [productCard, locale]);
 
   if (isLoading) {
     return <div>{t.common.loading}</div>;
@@ -28,7 +42,7 @@ export default function Product() {
           : null;
     const errorMessage =
       errorStatus === 404
-        ? 'Product API endpoint /api/products/product-card/ was not found on the server.'
+        ? t.common.error
         : errorStatus
           ? `${t.common.error}: ${String(errorStatus)}`
           : t.common.error;
@@ -50,24 +64,22 @@ export default function Product() {
         link={productCard.link}
       />
 
-      {/* Сетка блока рекомендаций (Tailwind) */}
-      <div className="m-[2%]">
-        <h2 className="m-[2%] text-[36px] font-normal">{t.product.youMayAlsoLike}</h2>
+      {relatedProducts.length > 0 ? (
+        <div className="m-[2%]">
+          <h2 className="m-[2%] text-[36px] font-normal">{t.product.youMayAlsoLike}</h2>
 
-        <div className="relative flex gap-[2%]">
-          {productCard.botonImages?.slice(0, 3).map((item, key) => (
-            <ClothingProductCard
-              key={key}
-              /* Просто прокидываем item. Умная карточка сама разберется с категориями 
-                и сформирует правильный URL без падений и ошибок компиляции!
-              */
-              product={item as unknown as CatalogProduct}
-              onAddToCart={(size) => console.log('Add to cart:', item.id, size)}
-              onAddToWishlist={() => console.log('Add to wishlist:', item.id)}
-            />
-          ))}
+          <div className="relative flex gap-[2%]">
+            {relatedProducts.map((product) => (
+              <CatalogProductCard
+                key={product.id}
+                product={product}
+                onAddToCart={(size) => console.log('Add to cart:', product.id, size)}
+                onAddToWishlist={() => console.log('Add to wishlist:', product.id)}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 }

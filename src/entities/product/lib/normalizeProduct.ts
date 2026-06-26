@@ -12,23 +12,23 @@ const asString = (value: unknown, fallback = ''): string =>
 const asBoolean = (value: unknown, fallback = true): boolean =>
   typeof value === 'boolean' ? value : fallback;
 
-const isCatalogCategory = (value: string): value is CatalogCategory =>
-  value === 'men' || value === 'women' || value === 'accessories';
-
 const toStringArray = (value: unknown): string[] =>
   Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : [];
 
-const toImages = (value: unknown, legacyImage?: unknown): string[] => {
-  const fromArray = toStringArray(value);
-
-  if (fromArray.length > 0) {
-    return fromArray;
+const toSizeLabels = (value: unknown): string[] => {
+  if (!Array.isArray(value)) {
+    return [];
   }
 
-  const image = asRecord(legacyImage);
-  const src = asString(image.src);
+  return value
+    .map((item) => {
+      if (typeof item === 'string') {
+        return item;
+      }
 
-  return src ? [src] : [];
+      return asString(asRecord(item).size);
+    })
+    .filter((size) => size.length > 0);
 };
 
 const toPrice = (value: unknown, legacyPrice?: unknown): ProductPrice => {
@@ -78,21 +78,51 @@ const toColors = (value: unknown): Product['options']['colors'] => {
     .filter((item): item is Product['options']['colors'][number] => item !== null);
 };
 
-const toOptions = (value: unknown, legacySizes?: unknown): Product['options'] => {
-  const options = asRecord(value);
-  const sizes = toStringArray(options.sizes);
+const extractImages = (raw: RawRecord): string[] => {
+  const topLevel = toStringArray(raw.images);
 
-  if (sizes.length > 0 || Array.isArray(options.colors)) {
-    return {
-      colors: toColors(options.colors),
-      sizes,
-    };
+  if (topLevel.length > 0) {
+    return topLevel;
   }
 
-  return {
-    colors: [],
-    sizes: toStringArray(legacySizes),
-  };
+  const legacyImage = asRecord(raw.image);
+  const legacySrc = asString(legacyImage.src);
+
+  if (legacySrc) {
+    return [legacySrc];
+  }
+
+  const options = asRecord(raw.options);
+  const colors = options.colors;
+
+  if (!Array.isArray(colors) || colors.length === 0) {
+    return [];
+  }
+
+  const firstColor = asRecord(colors[0]);
+  const colorImages = toStringArray(firstColor.images);
+
+  if (colorImages.length > 0) {
+    return colorImages;
+  }
+
+  return toStringArray(firstColor.thumbnails);
+};
+
+const toOptions = (value: unknown, legacySizes?: unknown): Product['options'] => {
+  const options = asRecord(value);
+  const colors = toColors(options.colors);
+  let sizes = toSizeLabels(options.sizes);
+
+  if (sizes.length === 0 && Array.isArray(options.colors) && options.colors.length > 0) {
+    sizes = toSizeLabels(asRecord(options.colors[0]).sizes);
+  }
+
+  if (sizes.length === 0) {
+    sizes = toStringArray(legacySizes);
+  }
+
+  return { colors, sizes };
 };
 
 const slugify = (value: string) =>
@@ -102,32 +132,85 @@ const slugify = (value: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
 
+const mapSourceCategoryToCatalog = (
+  sourceCategory: string,
+): { category: CatalogCategory; sourceCategory: string } | null => {
+  const key = sourceCategory.trim().toLowerCase();
+
+  switch (key) {
+    case 'women':
+      return { category: 'women', sourceCategory: sourceCategory };
+    case 'men':
+      return { category: 'men', sourceCategory: sourceCategory };
+    case 'unisex':
+      return { category: 'unisex', sourceCategory: sourceCategory };
+    case 'accessories':
+      return { category: 'accessories', sourceCategory: sourceCategory };
+    case 'perfumes':
+    case 'fragrances':
+      return { category: 'perfumes', sourceCategory: sourceCategory };
+    default:
+      return null;
+  }
+};
+
+export function productMatchesCatalogCategory(
+  product: Product,
+  category: CatalogCategory,
+): boolean {
+  const sourceKey = product.sourceCategory?.trim().toLowerCase();
+
+  switch (category) {
+    case 'women':
+      return sourceKey === 'women';
+    case 'men':
+      return sourceKey === 'men';
+    case 'unisex':
+      return sourceKey === 'unisex';
+    case 'accessories':
+      return sourceKey === 'accessories';
+    case 'perfumes':
+      return sourceKey === 'perfumes' || product.subcategory === 'fragrances';
+    default:
+      return false;
+  }
+}
+
+export function productMatchesCatalogCollection(product: Product, tag: string): boolean {
+  return product.tags.includes(tag);
+}
+
 export function normalizeProduct(value: unknown, index: number): Product | null {
   const raw = asRecord(value);
-  const categoryValue = asString(raw.category);
+  const sourceCategory = asString(raw.category);
+  const mappedCategory = mapSourceCategoryToCatalog(sourceCategory);
 
-  if (!isCatalogCategory(categoryValue)) {
+  if (!mappedCategory) {
     return null;
   }
 
+  const { category, sourceCategory: normalizedSource } = mappedCategory;
   const name = asString(raw.name) || asString(raw.title, `Product ${index + 1}`);
-  const id = asString(raw.id, `${categoryValue}-${index + 1}`);
+  const id = asString(raw.id, `${category}-${index + 1}`);
   const slug = asString(raw.slug, slugify(name));
+  const subcategory = asString(
+    raw.subcategory,
+    normalizedSource.toLowerCase() === 'perfumes' ? 'fragrances' : 'clothing',
+  );
 
   return {
     id,
     slug,
     name,
-    category: categoryValue,
-    subcategory: asString(
-      raw.subcategory,
-      categoryValue === 'accessories' ? 'fragrances' : 'clothing',
-    ),
+    category,
+    sourceCategory: normalizedSource,
+    subcategory,
     type: asString(raw.type, 'apparel'),
     description: asString(raw.description),
     price: toPrice(raw.price, raw.price),
-    images: toImages(raw.images, raw.image),
+    images: extractImages(raw),
     options: toOptions(raw.options, raw.sizes),
+    tags: toStringArray(raw.tags),
     inStock: asBoolean(raw.inStock, true),
   };
 }

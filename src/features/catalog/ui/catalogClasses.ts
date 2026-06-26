@@ -20,16 +20,25 @@ export const catalogToolbar = {
 } as const;
 
 export const catalogGrid = {
-  root: 'grid grid-cols-3 gap-5',
+  root: 'grid grid-cols-3 items-stretch gap-5',
 } as const;
 
 export const catalogProductCard = {
-  root: 'flex w-full max-w-[413px] flex-col',
+  root: 'flex h-full w-full max-w-[413px] flex-col',
+  body: 'flex flex-1 flex-col',
+  footer: 'mt-auto flex flex-col',
+  title:
+    'line-clamp-2 min-h-[2.75rem] text-base leading-snug font-normal [overflow-wrap:anywhere]',
+  sizes: 'mt-3 flex min-h-[46px] flex-wrap content-start gap-2',
+  actions: 'mt-3',
+  moreColoursSpacer: 'block h-12 w-[170px] max-w-full',
+  imageArea:
+    'relative mx-auto mb-4 flex aspect-258/387 w-full max-w-[280px] items-center justify-center bg-[#FAFAFA]',
   imageWrap: 'relative aspect-258/387 h-full shrink-0 overflow-hidden',
   addToCartBtn:
     'absolute right-4 bottom-4 flex h-10 w-10 items-center justify-center rounded-full border-none bg-black text-white transition-colors hover:bg-neutral-800 disabled:cursor-not-allowed disabled:bg-[#C4C4C4] disabled:text-white/70 disabled:hover:bg-[#C4C4C4]',
-  meta: 'mb-4 flex justify-between',
-  stockStatus: 'mt-3 min-h-4 text-xs font-light text-gray',
+  meta: 'mb-4 flex items-start justify-between gap-3',
+  stockStatus: 'mt-2 min-h-4 text-xs font-light text-gray',
 } as const;
 
 export const catalogLoadMore = {

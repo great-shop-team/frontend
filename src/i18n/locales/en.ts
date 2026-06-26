@@ -6,6 +6,7 @@ const en = {
   catalog: {
     title: 'Catalog',
     categoryNavAriaLabel: 'Catalog categories',
+    collectionsNavAriaLabel: 'Catalog collections',
     sort: 'sort',
     filter: 'filter',
     stylesFound: '{count} styles found',
@@ -18,14 +19,6 @@ const en = {
     bannerImageAlt: 'Catalog banner',
     bannerPlaceholder: 'Banner placeholder',
     categories: {
-      men: {
-        navLabel: 'Men',
-        title: "Men's catalog",
-        bannerImageAlt: "Men's catalog banner",
-        bannerTitle: 'Define Your Urban Edge',
-        bannerDescription:
-          'Essential pieces built for movement and everyday confidence. Clean lines, premium fabrics, and silhouettes made to move with you from street to studio.',
-      },
       women: {
         navLabel: 'Women',
         title: "Women's catalog",
@@ -34,13 +27,63 @@ const en = {
         bannerDescription:
           'Curated essentials and statement layers designed for modern rhythm. Discover fits, textures, and tones that feel effortless from morning to night.',
       },
+      men: {
+        navLabel: 'Men',
+        title: "Men's catalog",
+        bannerImageAlt: "Men's catalog banner",
+        bannerTitle: 'Define Your Urban Edge',
+        bannerDescription:
+          'Essential pieces built for movement and everyday confidence. Clean lines, premium fabrics, and silhouettes made to move with you from street to studio.',
+      },
+      unisex: {
+        navLabel: 'Unisex',
+        title: 'Unisex catalog',
+        bannerImageAlt: 'Unisex catalog banner',
+        bannerTitle: 'Style Without Boundaries',
+        bannerDescription:
+          'Versatile essentials designed for every body. Clean cuts and premium fabrics that belong in anyone’s wardrobe.',
+      },
       accessories: {
         navLabel: 'Accessories',
         title: 'Accessories',
         bannerImageAlt: 'Accessories catalog banner',
+        bannerTitle: 'Refined Everyday Details',
+        bannerDescription:
+          'Bags, leather goods, and finishing touches crafted to elevate every look with quiet luxury.',
+      },
+      perfumes: {
+        navLabel: 'Perfumes',
+        title: 'Perfumes',
+        bannerImageAlt: 'Perfumes catalog banner',
         bannerTitle: 'Discover the Essence of Luxury',
         bannerDescription:
-          'Fragrances that speak in emotion, not words. Each fragrance is a journey — crafted with rare ingredients and timeless artistry — created to awaken your senses and tell your story without saying a single word.',
+          'Fragrances that speak in emotion, not words. Each scent is a journey — crafted with rare ingredients and timeless artistry.',
+      },
+    },
+    collections: {
+      newCollection: {
+        navLabel: 'New Collection',
+        title: 'New Collection',
+        bannerImageAlt: 'New collection banner',
+        bannerTitle: 'Fresh Arrivals',
+        bannerDescription:
+          'Explore our latest drops — new silhouettes, textures, and tones for the season ahead.',
+      },
+      bestsellers: {
+        navLabel: 'Bestsellers',
+        title: 'Bestsellers',
+        bannerImageAlt: 'Bestsellers banner',
+        bannerTitle: 'Most Loved Pieces',
+        bannerDescription:
+          'The styles our community reaches for again and again. Proven favorites, always in demand.',
+      },
+      giftIdeas: {
+        navLabel: 'Gift Ideas',
+        title: 'Gift Ideas',
+        bannerImageAlt: 'Gift ideas banner',
+        bannerTitle: 'Thoughtful Gifts',
+        bannerDescription:
+          'Curated picks for every occasion — fragrances, accessories, and essentials they will remember.',
       },
     },
   },
