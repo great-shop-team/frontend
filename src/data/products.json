@@ -173,7 +173,12 @@
     "type": "t-shirts",
     "description": "Classic crew-neck tee in breathable cotton for everyday wear.",
     "price": { "amount": 35, "currency": "USD" },
-    "images": ["/images/product1.png"],
+    "images": [
+      "/images/frontViewhoodieBrown.png",
+      "/images/backViewhoodieBrown.png",
+      "/images/backViewhoodieBrownBotton.png",
+      "/images/frontViewhoodieBrownColor.png"
+    ],
     "options": {
       "colors": [
         { "name": "White", "hex": "#FFFFFF" },

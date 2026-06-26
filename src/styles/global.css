@@ -3,6 +3,7 @@
 @theme {
   --font-sans: var(--font-poppins), 'Poppins', sans-serif;
   --font-heading: var(--font-unbounded), 'Unbounded', sans-serif;
+  --second-family: var(--font-unbounded), 'Unbounded', sans-serif;
 
   --color-white: #fff;
   --color-white-fa: #fafafa;
