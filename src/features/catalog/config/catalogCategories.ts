@@ -6,16 +6,24 @@ type CatalogCategoryConfig = {
 };
 
 export const catalogCategoriesConfig: Record<CatalogCategory, CatalogCategoryConfig> = {
-  men: {
-    href: '/catalog/men',
-    bannerImageSrc: '/images/heroBanner.jpg',
-  },
   women: {
     href: '/catalog/women',
     bannerImageSrc: '/images/heroBanner.jpg',
   },
+  men: {
+    href: '/catalog/men',
+    bannerImageSrc: '/images/heroBanner.jpg',
+  },
+  unisex: {
+    href: '/catalog/unisex',
+    bannerImageSrc: '/images/heroBanner.jpg',
+  },
   accessories: {
     href: '/catalog/accessories',
+    bannerImageSrc: '/images/heroBanner.jpg',
+  },
+  perfumes: {
+    href: '/catalog/perfumes',
     bannerImageSrc: '/images/perfume.png',
   },
 };

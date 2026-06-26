@@ -5,5 +5,16 @@ export type {
   ProductOptions,
   ProductPrice,
 } from './model/types';
-export { normalizeProduct, parseProducts } from './lib/normalizeProduct';
+export {
+  normalizeProduct,
+  parseProducts,
+  productMatchesCatalogCategory,
+  productMatchesCatalogCollection,
+} from './lib/normalizeProduct';
+export {
+  catalogProducts,
+  getCatalogProductById,
+  getProductDetailPath,
+  getRelatedCatalogProducts,
+} from './lib/catalogProducts';
 export { formatProductPrice, mapProductToCatalogCard } from './lib/mapProductToCatalogCard';

@@ -92,7 +92,9 @@ export const normalizeRelatedProducts = (
 
     return {
       id: asString(product.id) || String(product.id || ''),
-      category: asString(product.category) || 'men',
+      category: asString(product.category),
+      subcategory: asString(product.subcategory),
+      href: asString(product.href),
       image: toProductImage(
         product.image ?? product.preview_image ?? product.photo,
         title || 'Product',
@@ -125,7 +127,7 @@ export const normalizeProduct = (
   const mainBack = mainImages.back ?? product.back_image ?? product.secondary_image ?? mainFront;
 
   return {
-    id: asNumber(product.id, id),
+    id: asString(product.id, String(id)),
     brand,
     title,
     description: normalizeDescription(product.description),

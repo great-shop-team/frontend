@@ -142,10 +142,14 @@ export interface RelatedProductCard {
   image: ProductImage;
   title: string;
   price: string;
+  category?: string;
+  subcategory?: string;
+  href?: string;
+  inStock?: boolean;
 }
 
 export interface ProductCardData {
-  id: number;
+  id: string;
   brand: string;
   title: string;
   description: string[];

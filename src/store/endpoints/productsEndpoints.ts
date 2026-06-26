@@ -1,4 +1,9 @@
 import productCardMock from '../../data/productCard.json';
+import {
+  getCatalogProductById,
+  getRelatedCatalogProducts,
+} from '@/entities/product/lib/catalogProducts';
+import { mapProductToProductCardData } from '@/features/product-card/lib/mapProductToProductCardData';
 import { api } from '../api';
 import { normalizeProduct } from '../api/mappers/products.mapper';
 import type { ProductCardData } from '../types';
@@ -20,19 +25,28 @@ export const productsEndpoints = api.injectEndpoints({
     }),
     getProductCard: builder.query<ProductCardData, string>({
       queryFn: async (id, _api, _extraOptions, fetchWithBQ) => {
-        // включаем мок, если бэкенд не готов
-        if (useMockProductCard || !id) {
+        if (!id) {
+          return { error: { status: 400, data: 'Product id is required' } };
+        }
+
+        const catalogProduct = getCatalogProductById(id);
+
+        if (catalogProduct) {
+          const related = getRelatedCatalogProducts(catalogProduct);
+          return {
+            data: mapProductToProductCardData(catalogProduct, related),
+          };
+        }
+
+        if (useMockProductCard) {
           return {
             data: normalizeProduct(productCardMock, 1, { preferLocalImages: true }),
           };
         }
 
-        // Если бэкенд упал, возможно адрес должен быть `/api/products/${id}/`
-        // Вместо `/api/products/product-card/${id}/`
         const result = await fetchWithBQ(`/api/products/${id}/`);
 
         if (result.error) {
-          // Фолбэк (запасной вариант): если бэкенд выдал 404, отдаем мок, чтобы приложение не падало
           console.warn(`Backend returned error for ID ${id}, falling back to mock data.`);
           return {
             data: normalizeProduct(productCardMock, 1, { preferLocalImages: true }),

@@ -31,7 +31,18 @@ const getProductCategoryPath = (product: CatalogProduct): string => {
   if (normalizedSubcategory === 'fragrances' || normalizedCategory === 'fragrances') {
     return `/catalog/fragrances/${product.id}`;
   }
-  if (normalizedCategory === 'accessories' || normalizedSubcategory === 'accessories') {
+  if (normalizedCategory === 'perfumes' || product.id.startsWith('a-frag')) {
+    return `/catalog/fragrances/${product.id}`;
+  }
+  if (normalizedCategory === 'unisex' || product.id.startsWith('u-')) {
+    return `/catalog/unisex/${product.id}`;
+  }
+  if (
+    normalizedCategory === 'accessories' ||
+    normalizedSubcategory === 'accessories' ||
+    normalizedSubcategory === 'bags' ||
+    product.id.startsWith('a-acc')
+  ) {
     return `/catalog/accessories/${product.id}`;
   }
   if (normalizedCategory === 'women' || product.id.startsWith('w-')) {
@@ -57,13 +68,13 @@ export default function CatalogProductCard({
 
   return (
     <article className={catalogProductCard.root}>
-      <div className="relative mb-4 flex aspect-413/493 w-full items-center justify-center bg-[#FAFAFA]">
+      <div className={catalogProductCard.imageArea}>
         <Link href={cardHref} className="relative flex h-full w-full items-center justify-center">
           <Image
             src={product.image.src}
             alt={product.image.alt}
             fill
-            sizes="(max-width: 768px) 100vw, 258px"
+            sizes="280px"
             className="object-contain mix-blend-multiply"
           />
         </Link>
@@ -111,48 +122,58 @@ export default function CatalogProductCard({
         </button>
       </div>
 
-      <div className={catalogProductCard.meta}>
-        <div className="flex flex-col gap-1">
-          <Link href={cardHref} className="hover:underline">
-            <h4>{product.title}</h4>
-          </Link>
+      <div className={catalogProductCard.body}>
+        <div className={catalogProductCard.meta}>
+          <div className="min-w-0 flex-1">
+            <Link href={cardHref} className="hover:underline">
+              <h4 className={catalogProductCard.title}>{product.title}</h4>
+            </Link>
+          </div>
+          <span className="shrink-0 font-medium whitespace-nowrap">{product.price}</span>
         </div>
-        <span className="font-medium whitespace-nowrap">{product.price}</span>
+
+        {hasSizes ? (
+          <div className={catalogProductCard.sizes} role="group" aria-label={t.catalog.addToCart}>
+            {product.sizes!.map((size) => {
+              const isSelected = selectedSize === size;
+              return (
+                <button
+                  key={size}
+                  type="button"
+                  className={`cursor-pointer rounded-[10px] border px-4 py-3 text-sm transition-all duration-200 ${
+                    isSelected
+                      ? 'border-black bg-black text-white'
+                      : 'border-neutral-300 bg-transparent text-neutral-800 hover:border-black'
+                  }`}
+                  onClick={() => setSelectedSize(size)}
+                  aria-pressed={isSelected}
+                  disabled={!canAddToCart}
+                >
+                  {size}
+                </button>
+              );
+            })}
+          </div>
+        ) : (
+          <div className={catalogProductCard.sizes} aria-hidden="true" />
+        )}
+
+        <p className={catalogProductCard.stockStatus} aria-live="polite">
+          {!canAddToCart ? t.catalog.outOfStock : '\u00a0'}
+        </p>
+
+        <div className={catalogProductCard.footer}>
+          <div className={catalogProductCard.actions}>
+            {!isFragrance ? (
+              <Link href={cardHref} className="bit-primary-thin inline-block">
+                {t.catalog.moreColours}
+              </Link>
+            ) : (
+              <span className={catalogProductCard.moreColoursSpacer} aria-hidden="true" />
+            )}
+          </div>
+        </div>
       </div>
-
-      {hasSizes && (
-        <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label={t.catalog.addToCart}>
-          {product.sizes!.map((size) => {
-            const isSelected = selectedSize === size;
-            return (
-              <button
-                key={size}
-                type="button"
-                className={`cursor-pointer rounded-[10px] border px-4 py-3 text-sm transition-all duration-200 ${
-                  isSelected
-                    ? 'border-black bg-black text-white'
-                    : 'border-neutral-300 bg-transparent text-neutral-800 hover:border-black'
-                }`}
-                onClick={() => setSelectedSize(size)}
-                aria-pressed={isSelected}
-                disabled={!canAddToCart}
-              >
-                {size}
-              </button>
-            );
-          })}
-        </div>
-      )}
-
-      {!isFragrance ? (
-        <Link href={cardHref} className="bit-primary-thin mt-3 inline-block">
-          {t.catalog.moreColours}
-        </Link>
-      ) : null}
-
-      <p className={catalogProductCard.stockStatus} aria-live="polite">
-        {!canAddToCart ? t.catalog.outOfStock : '\u00a0'}
-      </p>
     </article>
   );
 }
