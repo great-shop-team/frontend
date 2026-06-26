@@ -1,310 +1,510 @@
 [
   {
     "id": "w-cloth-001",
-    "slug": "zhinocha t-shirt guess activewear",
-    "name": "Zhinocha T-shirt GUESS Activewear",
-    "category": "Women",
+    "slug": "essential-oversized-t-shirt",
+    "name": "Essential Oversized T-Shirt",
+    "category": "women",
     "subcategory": "clothing",
     "type": "t-shirts",
-    "description": "A women's black GUESS T-shirt from the Activewear line is a perfect base that combines the sporty comfort and elegance of a premium brand. The main accent of the model is the large white GUESS logo, embroidered in voluminous embroidery on the chest. This laconic design allows you to easily mix the T-shirt with sports leggings for workouts, as well as with everyday jeans or sweatpants to create a stylish street look",
+    "description": "Relaxed oversized fit in soft cotton jersey. A versatile everyday essential.",
     "price": { "amount": 135, "currency": "USD" },
+    "images": ["/images/Landing/Essential Oversized T-Shirt.png"],
     "options": {
       "colors": [
-        {
-          "name": "Black",
-          "hex": "#111111",
-          "images": [
-            "https://cdn.synthetic.com.ua/media/assets/images/0/f/b/d/4/a/8/1/7/6/9/c/4/c/c/d/1600x1600/0fbd4a81769c4ccdbb9b25dbc9789435.webp",
-            "https://cdn.synthetic.com.ua/media/assets/images/2/e/f/8/3/6/4/1/f/9/8/6/4/0/c/b/1600x1600/2ef83641f98640cb9050d9ebf84486b0.webp"
-          ],
-          "thumbnails": [
-            "https://cdn.synthetic.com.ua/media/assets/images/e/0/8/6/8/2/e/3/9/e/6/6/4/2/8/e/1600x1600/e08682e39e66428eb4a0f6425d767f89.webp",
-            "https://cdn.synthetic.com.ua/media/assets/images/6/a/6/8/2/a/1/8/e/5/a/2/4/e/d/4/1600x1600/6a682a18e5a24ed49c09f25f77699465.webp"
-          ],
-          "sizes": [
-            { "size": "S", "quantity": 15 },
-            { "size": "M", "quantity": 20 },
-            { "size": "L", "quantity": 0 },
-            { "size": "XL", "quantity": 5 }
-          ]
-        }
-      ]
+        { "name": "White", "hex": "#FAFAFA" },
+        { "name": "Black", "hex": "#111111" }
+      ],
+      "sizes": ["XS", "S", "M", "L", "XL"]
     },
-    "totalQuantity": 40,
-    "tags": ["New Collection"],
     "inStock": true
   },
   {
     "id": "w-cloth-002",
-    "slug": "woman t-shirt guess activewear",
-    "name": "Woman T-shirt GUESS Activewear",
-    "category": "Women",
+    "slug": "rose-oversized-t-shirt",
+    "name": "Rose Oversized T-Shirt",
+    "category": "women",
     "subcategory": "clothing",
     "type": "t-shirts",
-    "description": "Women's GUESS T-shirt from the Activewear line in a rich fuchsia color - the perfect balance of energy and style. The model has a laconic design, with the main accent being the bright color and small golden jersey logo on the chest. This T-shirt is created for those who are not afraid of being in the center of respect, both during intense training and on an active walk.",
+    "description": "Oversized tee with a muted rose wash and dropped shoulders.",
     "price": { "amount": 35, "currency": "USD" },
+    "images": ["/images/Landing/Rose Oversized T-Shirt.png"],
     "options": {
-      "colors": [
-        {
-          "name": "Fuchsia",
-          "hex": "#e91e63",
-          "images": [
-            "https://cdn.synthetic.com.ua/media/assets/images/f/4/8/7/c/6/e/9/a/e/f/0/4/e/b/6/1600x1600/f487c6e9aef04eb6843f7ab40125623c.webp"
-          ],
-          "thumbnails": [
-            "https://cdn.synthetic.com.ua/media/assets/images/f/4/8/7/c/6/e/9/a/e/f/0/4/e/b/6/1600x1600/f487c6e9aef04eb6843f7ab40125623c.webp"
-          ],
-          "sizes": [
-            { "size": "S", "quantity": 15 },
-            { "size": "M", "quantity": 20 },
-            { "size": "L", "quantity": 0 },
-            { "size": "XL", "quantity": 5 }
-          ]
-        }
-      ]
+      "colors": [{ "name": "Rose", "hex": "#E8B4B8" }],
+      "sizes": ["XS", "S", "M", "L"]
     },
-    "totalQuantity": 40,
-    "tags": ["Bestsellers"],
     "inStock": true
   },
   {
     "id": "w-cloth-003",
-    "slug": "women's adidas pro climacool+ match t-shirt",
-    "name": "Women's adidas Pro Climacool+ Match T-shirt",
-    "category": "Women",
+    "slug": "green-oversized-t-shirt",
+    "name": "Green Oversized T-Shirt",
+    "category": "women",
     "subcategory": "clothing",
     "type": "t-shirts",
-    "description": "Light silhouette in a deep shade..",
+    "description": "Lightweight oversized silhouette in a deep green tone.",
     "price": { "amount": 135, "currency": "USD" },
+    "images": ["/images/Landing/Essential Oversized T-Shirt.png"],
     "options": {
       "colors": [
-        {
-          "name": "Orange",
-          "hex": "#ed675d",
-          "images": [
-            "https://cdn.synthetic.com.ua/media/assets/images/9/6/d/0/b/6/5/6/4/3/f/9/4/d/d/b/1600x1600/96d0b65643f94ddb9f39db725cc2beb8.webp",
-            "https://cdn.synthetic.com.ua/media/assets/images/c/f/8/d/b/d/7/d/0/d/b/a/4/6/1/9/1600x1600/cf8dbd7d0dba461999cddf49a30d2940.jpeg"
-          ],
-          "thumbnails": [
-            "https://cdn.synthetic.com.ua/media/assets/images/5/b/e/2/d/c/9/e/6/d/4/2/4/5/2/f/1600x1600/5be2dc9e6d42452f9268081764a8cb3f.jpeg",
-            "https://cdn.synthetic.com.ua/media/assets/images/b/a/9/7/3/3/3/5/4/2/1/e/4/9/3/c/1600x1600/ba973335421e493c9097089fe4fb24b9.jpeg"
-          ],
-          "sizes": [
-            { "size": "S", "quantity": 15 },
-            { "size": "M", "quantity": 20 },
-            { "size": "L", "quantity": 0 },
-            { "size": "XL", "quantity": 5 }
-          ]
-        }
-      ]
+        { "name": "Forest", "hex": "#2F4F2F" },
+        { "name": "Sage", "hex": "#9CAF88" }
+      ],
+      "sizes": ["S", "M", "L", "XL"]
     },
-    "totalQuantity": 40,
-    "tags": ["New Collection"],
+    "inStock": true
+  },
+  {
+    "id": "w-cloth-004",
+    "slug": "heritage-graphic-t-shirt",
+    "name": "Heritage Graphic T-Shirt",
+    "category": "women",
+    "subcategory": "clothing",
+    "type": "t-shirts",
+    "description": "Boxy cotton tee with a vintage-inspired graphic print on the chest.",
+    "price": { "amount": 89, "currency": "USD" },
+    "images": ["/images/Landing/Essential Oversized T-Shirt.png"],
+    "options": {
+      "colors": [
+        { "name": "Washed Black", "hex": "#2B2B2B" },
+        { "name": "Stone", "hex": "#B8B5AD" }
+      ],
+      "sizes": ["XS", "S", "M", "L", "XL"]
+    },
     "inStock": true
   },
   {
     "id": "w-cloth-005",
-    "slug": "women's jeans g‑stars",
-    "name": "Women's jeans G‑STARS",
-    "category": "Women",
+    "slug": "wide-leg-tailored-trousers",
+    "name": "Wide Leg Tailored Trousers",
+    "category": "women",
     "subcategory": "clothing",
-    "type": "jeans",
-    "description": "Women's jeans G‑STARS ",
+    "type": "trousers",
+    "description": "High-rise wide leg trousers with pressed creases and side pockets.",
     "price": { "amount": 198, "currency": "USD" },
+    "images": ["/images/Landing/Rose Oversized T-Shirt.png"],
     "options": {
       "colors": [
-        {
-          "name": "Blue",
-          "hex": "#6084a1",
-          "images": [
-            "https://cdn.synthetic.com.ua/media/assets/images/b/6/2/6/a/1/7/e/7/5/7/8/4/f/4/f/1600x1600/b626a17e75784f4fb4939328097e5581.webp",
-            "https://cdn.synthetic.com.ua/media/assets/images/7/f/c/d/0/e/b/4/6/c/a/2/4/6/b/9/1600x1600/7fcd0eb46ca246b9aaafaa1509711e4b.webp"
-          ],
-          "thumbnails": [
-            "https://cdn.synthetic.com.ua/media/assets/images/f/1/7/7/c/a/c/5/8/b/d/7/4/6/a/7/1600x1600/f177cac58bd746a78a739b7916458e31.webp",
-            "https://cdn.synthetic.com.ua/media/assets/images/5/0/8/9/f/a/5/0/a/e/4/a/4/9/b/1/1600x1600/5089fa50ae4a49b186416921a410da34.webp"
-          ],
-          "sizes": [
-            { "size": "S", "quantity": 15 },
-            { "size": "M", "quantity": 25 },
-            { "size": "L", "quantity": 5 },
-            { "size": "XL", "quantity": 5 }
-          ]
-        }
-      ]
+        { "name": "Charcoal", "hex": "#36454F" },
+        { "name": "Camel", "hex": "#C19A6B" }
+      ],
+      "sizes": ["M", "L", "XL"]
     },
-    "totalQuantity": 55,
-    "tags": ["Bestsellers"],
+    "inStock": true
+  },
+  {
+    "id": "w-cloth-006",
+    "slug": "oversized-wool-blazer",
+    "name": "Oversized Wool Blazer",
+    "category": "women",
+    "subcategory": "clothing",
+    "type": "blazers",
+    "description": "Structured single-breasted blazer in a soft wool blend with padded shoulders.",
+    "price": { "amount": 320, "currency": "USD" },
+    "images": ["/images/Landing/Essential Oversized T-Shirt.png"],
+    "options": {
+      "colors": [{ "name": "Black", "hex": "#0B0C10" }],
+      "sizes": ["XS", "S", "M", "L"]
+    },
+    "inStock": true
+  },
+  {
+    "id": "w-cloth-007",
+    "slug": "ribbed-knit-midi-dress",
+    "name": "Ribbed Knit Midi Dress",
+    "category": "women",
+    "subcategory": "clothing",
+    "type": "dresses",
+    "description": "Body-skimming rib knit dress with a square neckline and side slit.",
+    "price": { "amount": 165, "currency": "USD" },
+    "images": ["/images/Landing/Rose Oversized T-Shirt.png"],
+    "options": {
+      "colors": [
+        { "name": "Espresso", "hex": "#3C2415" },
+        { "name": "Ivory", "hex": "#FFFFF0" }
+      ],
+      "sizes": ["XS", "S", "M", "L"]
+    },
+    "inStock": true
+  },
+  {
+    "id": "w-cloth-008",
+    "slug": "cashmere-crew-sweater",
+    "name": "Cashmere Crew Sweater",
+    "category": "women",
+    "subcategory": "clothing",
+    "type": "sweaters",
+    "description": "Fine-gauge cashmere sweater with clean seams and a classic crew neck.",
+    "price": { "amount": 245, "currency": "USD" },
+    "images": ["/images/Landing/Essential Oversized T-Shirt.png"],
+    "options": {
+      "colors": [
+        { "name": "Oatmeal", "hex": "#E8DCC8" },
+        { "name": "Slate", "hex": "#708090" }
+      ],
+      "sizes": ["S", "M", "L"]
+    },
+    "inStock": false
+  },
+  {
+    "id": "w-cloth-009",
+    "slug": "relaxed-linen-shirt",
+    "name": "Relaxed Linen Shirt",
+    "category": "women",
+    "subcategory": "clothing",
+    "type": "shirts",
+    "description": "Breathable linen shirt with a relaxed fit and mother-of-pearl buttons.",
+    "price": { "amount": 110, "currency": "USD" },
+    "images": ["/images/Landing/Rose Oversized T-Shirt.png"],
+    "options": {
+      "colors": [
+        { "name": "Sand", "hex": "#C2B280" },
+        { "name": "White", "hex": "#FFFFFF" }
+      ],
+      "sizes": ["XS", "S", "M", "L"]
+    },
     "inStock": true
   },
   {
     "id": "m-cloth-001",
-    "slug": "guess jeans men's t-shirt",
-    "name": "Guess Jeans men's t-shirt",
-    "category": "Men",
+    "slug": "essential-cotton-tee",
+    "name": "Essential Cotton Tee",
+    "category": "men",
     "subcategory": "clothing",
     "type": "t-shirts",
-    "description": "The Guess Jeans men's t-shirt in classic blue is a successful combination of modern style and versatility. It will easily complement both everyday looks and more thoughtful casual looks. The laconic design with the brand's signature elements emphasizes individuality and a sense of taste, making the t-shirt appropriate in any situation.",
+    "description": "Classic crew-neck tee in breathable cotton for everyday wear.",
     "price": { "amount": 35, "currency": "USD" },
+    "images": [
+      "/images/frontViewhoodieBrown.png",
+      "/images/backViewhoodieBrown.png",
+      "/images/backViewhoodieBrownBotton.png",
+      "/images/frontViewhoodieBrownColor.png"
+    ],
     "options": {
       "colors": [
-        {
-          "name": "Blue",
-          "hex": "#6084a1",
-          "images": [
-            "https://cdn.synthetic.com.ua/media/assets/images/9/4/2/6/c/2/6/8/d/d/2/b/4/4/2/8/1600x1600/9426c268dd2b4428874ce32fd09522cc.jpeg"
-          ],
-          "thumbnails": [
-            "https://cdn.synthetic.com.ua/media/assets/images/9/4/2/6/c/2/6/8/d/d/2/b/4/4/2/8/1600x1600/9426c268dd2b4428874ce32fd09522cc.jpeg"
-          ],
-          "sizes": [
-            { "size": "S", "quantity": 15 },
-            { "size": "M", "quantity": 25 },
-            { "size": "L", "quantity": 5 },
-            { "size": "XL", "quantity": 5 }
-          ]
-        }
-      ]
+        { "name": "White", "hex": "#FFFFFF" },
+        { "name": "Navy", "hex": "#1B2A41" }
+      ],
+      "sizes": ["S", "M", "L", "XL"]
     },
-    "totalQuantity": 50,
-    "tags": ["Bestsellers"],
     "inStock": true
   },
   {
     "id": "m-cloth-002",
-    "slug": "ltb men's sweatshirt",
-    "name": "LTB men's sweatshirt",
-    "category": "Men",
+    "slug": "red-oversized-hoodie",
+    "name": "Red Oversized Hoodie",
+    "category": "men",
     "subcategory": "clothing",
-    "type": "sweatshirt",
-    "description": "LTB men's sweatshirt",
+    "type": "hoodies",
+    "description": "Heavyweight fleece hoodie with an oversized fit and kangaroo pocket.",
     "price": { "amount": 135, "currency": "USD" },
+    "images": ["/images/product2.png"],
     "options": {
-      "colors": [
-        {
-          "name": "Blue",
-          "hex": "#6084a1",
-          "images": [
-            "https://cdn.synthetic.com.ua/media/assets/images/e/9/e/d/a/9/2/4/3/e/4/5/4/7/b/d/1600x1600/e9eda9243e4547bd83a88fa625e42b77.webp"
-          ],
-          "thumbnails": [
-            "https://cdn.synthetic.com.ua/media/assets/images/e/9/e/d/a/9/2/4/3/e/4/5/4/7/b/d/1600x1600/e9eda9243e4547bd83a88fa625e42b77.webp"
-          ],
-          "sizes": [
-            { "size": "S", "quantity": 15 },
-            { "size": "M", "quantity": 25 },
-            { "size": "L", "quantity": 15 },
-            { "size": "XL", "quantity": 5 }
-          ]
-        }
-      ]
+      "colors": [{ "name": "Red", "hex": "#B22222" }],
+      "sizes": ["M", "L", "XL", "XXL"]
     },
-    "totalQuantity": 60,
-    "tags": ["New Collection"],
     "inStock": true
   },
   {
-    "id": "u-cloth-001",
-    "slug": "unisex-basic t-shirt 100% cotton long",
-    "name": "Basic t-shirt 100% cotton long",
-    "category": "Unisex",
+    "id": "m-cloth-003",
+    "slug": "green-oversized-hoodie",
+    "name": "Green Oversized Hoodie",
+    "category": "men",
     "subcategory": "clothing",
-    "type": "t-shirt",
-    "description": "The T-shirt is perfect for both everyday wear and active recreation.",
-    "price": { "amount": 115, "currency": "USD" },
+    "type": "hoodies",
+    "description": "Soft brushed interior with a relaxed streetwear silhouette.",
+    "price": { "amount": 135, "currency": "USD" },
+    "images": ["/images/product3.png"],
     "options": {
-      "colors": [
-        {
-          "name": "Blue",
-          "hex": "#6084a1",
-          "images": [
-            "https://cdn.kasta.ua/image/1035/s3/supplier_provided_link/feed/5ec/60c/e69/48c/ba6/424/1b0/2a6/106.jpeg"
-          ],
-          "thumbnails": [
-            "https://cdn.kasta.ua/image/1035/s3/supplier_provided_link/feed/5ec/60c/e69/48c/ba6/424/1b0/2a6/106.jpeg"
-          ],
-          "sizes": [
-            { "size": "S", "quantity": 15 },
-            { "size": "M", "quantity": 25 },
-            { "size": "L", "quantity": 15 },
-            { "size": "XL", "quantity": 5 }
-          ]
-        }
-      ]
+      "colors": [{ "name": "Olive", "hex": "#556B2F" }],
+      "sizes": ["M", "L", "XL"]
     },
-    "totalQuantity": 60,
-    "tags": ["New Collection", "Gift Ideas"],
     "inStock": true
   },
   {
-    "id": "a-acc-001",
-    "slug": "shoulder-bag",
-    "name": "LOONGYOON shoulder bag",
-    "category": "Accessories",
-    "subcategory": "bags",
-    "type": "tote",
-    "description": "Full-grain Italian leather tote bag with an interior zip pocket.",
-    "price": { "amount": 280, "currency": "USD" },
+    "id": "m-cloth-004",
+    "slug": "brown-fleece-hoodie",
+    "name": "Brown Fleece Hoodie",
+    "category": "men",
+    "subcategory": "clothing",
+    "type": "hoodies",
+    "description": "Premium loopback fleece with tonal embroidery and ribbed cuffs.",
+    "price": { "amount": 148, "currency": "USD" },
+    "images": ["/images/product1.png"],
+    "options": {
+      "colors": [{ "name": "Brown", "hex": "#6B4423" }],
+      "sizes": ["S", "M", "L", "XL", "XXL"]
+    },
+    "inStock": true
+  },
+  {
+    "id": "m-cloth-005",
+    "slug": "relaxed-fit-denim-jacket",
+    "name": "Relaxed Fit Denim Jacket",
+    "category": "men",
+    "subcategory": "clothing",
+    "type": "jackets",
+    "description": "Rigid denim trucker jacket with metal hardware and contrast stitching.",
+    "price": { "amount": 210, "currency": "USD" },
+    "images": ["/images/product2.png"],
     "options": {
       "colors": [
-        {
-          "name": "brown",
-          "hex": "#5d3c33",
-          "images": [
-            "https://cdn.synthetic.com.ua/media/assets/images/6/f/7/4/b/a/2/5/2/d/d/1/4/7/1/0/1600x1600/6f74ba252dd14710b8ab58667c381e79.webp"
-          ],
-          "thumbnails": [
-            "https://cdn.synthetic.com.ua/media/assets/images/5/e/e/6/9/7/1/9/6/1/4/7/4/f/9/9/1600x1600/5ee6971961474f99afbc8e6698b77015.jpg"
-          ],
-          "sizes": [{ "size": "One Size", "quantity": 14 }]
-        }
-      ]
+        { "name": "Mid Wash", "hex": "#6F8FAF" },
+        { "name": "Raw Indigo", "hex": "#2E3A59" }
+      ],
+      "sizes": ["M", "L", "XL"]
     },
-    "totalQuantity": 14,
-    "tags": ["Gift Ideas"],
+    "inStock": true
+  },
+  {
+    "id": "m-cloth-006",
+    "slug": "pleated-wide-trousers",
+    "name": "Pleated Wide Trousers",
+    "category": "men",
+    "subcategory": "clothing",
+    "type": "trousers",
+    "description": "Double-pleated trousers with a relaxed wide leg and belt loops.",
+    "price": { "amount": 175, "currency": "USD" },
+    "images": ["/images/product3.png"],
+    "options": {
+      "colors": [
+        { "name": "Black", "hex": "#111111" },
+        { "name": "Taupe", "hex": "#8B7D6B" }
+      ],
+      "sizes": ["M", "L", "XL"]
+    },
+    "inStock": true
+  },
+  {
+    "id": "m-cloth-007",
+    "slug": "oxford-cotton-shirt",
+    "name": "Oxford Cotton Shirt",
+    "category": "men",
+    "subcategory": "clothing",
+    "type": "shirts",
+    "description": "Button-down oxford shirt with a slightly relaxed fit and curved hem.",
+    "price": { "amount": 95, "currency": "USD" },
+    "images": ["/images/product1.png"],
+    "options": {
+      "colors": [
+        { "name": "Sky Blue", "hex": "#87CEEB" },
+        { "name": "White", "hex": "#FFFFFF" }
+      ],
+      "sizes": ["S", "M", "L", "XL"]
+    },
+    "inStock": true
+  },
+  {
+    "id": "m-cloth-008",
+    "slug": "technical-shell-jacket",
+    "name": "Technical Shell Jacket",
+    "category": "men",
+    "subcategory": "clothing",
+    "type": "jackets",
+    "description": "Lightweight water-repellent shell with packable hood and zip vents.",
+    "price": { "amount": 285, "currency": "USD" },
+    "images": ["/images/product2.png"],
+    "options": {
+      "colors": [{ "name": "Graphite", "hex": "#383838" }],
+      "sizes": ["M", "L", "XL"]
+    },
+    "inStock": true
+  },
+  {
+    "id": "m-cloth-010",
+    "slug": "merino-wool-crewneck",
+    "name": "Merino Wool Crewneck",
+    "category": "men",
+    "subcategory": "clothing",
+    "type": "sweaters",
+    "description": "Fine merino wool sweater with ribbed cuffs and a clean neckline.",
+    "price": { "amount": 155, "currency": "USD" },
+    "images": ["/images/product3.png"],
+    "options": {
+      "colors": [
+        { "name": "Charcoal", "hex": "#36454F" },
+        { "name": "Navy", "hex": "#1B2A41" }
+      ],
+      "sizes": ["S", "M", "L", "XL"]
+    },
+    "inStock": true
+  },
+  {
+    "id": "m-cloth-009",
+    "slug": "merino-wool-crewneck",
+    "name": "Merino Wool Crewneck",
+    "category": "men",
+    "subcategory": "clothing",
+    "type": "sweaters",
+    "description": "Fine merino wool sweater with ribbed cuffs and a clean neckline.",
+    "price": { "amount": 155, "currency": "USD" },
+    "images": ["/images/product3.png"],
+    "options": {
+      "colors": [
+        { "name": "Charcoal", "hex": "#36454F" },
+        { "name": "Navy", "hex": "#1B2A41" }
+      ],
+      "sizes": ["S", "M", "L", "XL"]
+    },
     "inStock": true
   },
   {
     "id": "a-frag-001",
     "slug": "tobacco-vanille-eau-de-parfum",
     "name": "Tobacco Vanille Eau de Parfum",
-    "category": "Perfumes",
+    "category": "accessories",
     "subcategory": "fragrances",
     "type": "eau de parfum",
     "description": "Warm tobacco leaf wrapped in vanilla, tonka bean and cocoa.",
     "price": { "amount": 300, "currency": "USD" },
-    "images": ["https://images.prom.ua/6491266472_w640_h640_6491266472.jpg"],
-    "thumbnails": ["https://images.prom.ua/6491266473_w640_h640_6491266473.jpg"],
+    "images": ["/images/Landing/TobaccoVanille.png"],
     "options": {
-      "sizes": [
-        { "size": "10 ml", "quantity": 50 },
-        { "size": "50 ml", "quantity": 20 },
-        { "size": "100 ml", "quantity": 15 }
-      ]
+      "colors": [],
+      "sizes": ["10 ml", "50 ml", "100 ml"]
     },
-    "totalQuantity": 85,
-    "tags": ["Bestsellers", "Gift Ideas"],
+    "inStock": true
+  },
+  {
+    "id": "a-frag-002",
+    "slug": "lost-cherry-eau-de-parfum",
+    "name": "Lost Cherry Eau de Parfum",
+    "category": "accessories",
+    "subcategory": "fragrances",
+    "type": "eau de parfum",
+    "description": "Bitter cherry liqueur blended with almond, rose and tonka.",
+    "price": { "amount": 500, "currency": "USD" },
+    "images": ["/images/Landing/LostCherry.png"],
+    "options": {
+      "colors": [],
+      "sizes": ["10 ml", "50 ml", "100 ml"]
+    },
+    "inStock": true
+  },
+  {
+    "id": "a-frag-003",
+    "slug": "vanilla-sex-eau-de-parfum",
+    "name": "Vanilla Sex Eau de Parfum",
+    "category": "accessories",
+    "subcategory": "fragrances",
+    "type": "eau de parfum",
+    "description": "Creamy vanilla with sandalwood and a soft floral heart.",
+    "price": { "amount": 405, "currency": "USD" },
+    "images": ["/images/Landing/VanillaSex.png"],
+    "options": {
+      "colors": [],
+      "sizes": ["10 ml", "50 ml", "100 ml"]
+    },
+    "inStock": true
+  },
+  {
+    "id": "a-frag-004",
+    "slug": "sweet-obsession-eau-de-parfum",
+    "name": "Sweet Obsession Eau de Parfum",
+    "category": "accessories",
+    "subcategory": "fragrances",
+    "type": "eau de parfum",
+    "description": "Gourmand amber with candied fruits, vanilla orchid and soft musk.",
+    "price": { "amount": 360, "currency": "USD" },
+    "images": ["/images/Landing/TobaccoVanille.png"],
+    "options": {
+      "colors": [],
+      "sizes": ["10 ml", "50 ml", "100 ml"]
+    },
+    "inStock": true
+  },
+  {
+    "id": "a-frag-005",
+    "slug": "ombre-leather-eau-de-parfum",
+    "name": "Ombré Leather Eau de Parfum",
+    "category": "accessories",
+    "subcategory": "fragrances",
+    "type": "eau de parfum",
+    "description": "Smoky leather wrapped in spices with a dark floral heart.",
+    "price": { "amount": 420, "currency": "USD" },
+    "images": ["/images/Landing/LostCherry.png"],
+    "options": {
+      "colors": [],
+      "sizes": ["10 ml", "50 ml", "100 ml"]
+    },
     "inStock": true
   },
   {
     "id": "a-frag-006",
     "slug": "noir-parfum-extrait",
-    "name": "Chanel Coco Noir",
-    "category": "Perfumes",
+    "name": "Noir Parfum Extrait",
+    "category": "accessories",
     "subcategory": "fragrances",
     "type": "parfum",
     "description": "Concentrated extrait with incense, patchouli and black tea accords.",
     "price": { "amount": 275, "currency": "USD" },
-    "images": ["https://content1.rozetka.com.ua/goods/images/big/588440776.jpg"],
-    "thumbnails": ["https://content1.rozetka.com.ua/goods/images/big/588440776.jpg"],
+    "images": ["/images/Landing/VanillaSex.png"],
     "options": {
-      "sizes": [
-        { "size": "10 ml", "quantity": 0 },
-        { "size": "30 ml", "quantity": 0 }
-      ]
+      "colors": [],
+      "sizes": ["10 ml", "30 ml"]
     },
-    "totalQuantity": 0,
-    "tags": ["New Collection"],
+    "inStock": false
+  },
+  {
+    "id": "a-frag-008",
+    "slug": "noir-extreme-eau-de-parfum",
+    "name": "Noir Extreme Eau de Parfum",
+    "category": "accessories",
+    "subcategory": "fragrances",
+    "type": "eau de parfum",
+    "description": "Dark plum and black tea over smoky woods with a velvet dry-down.",
+    "price": { "amount": 78, "currency": "USD" },
+    "images": ["/images/Landing/TobaccoVanille.png"],
+    "options": {
+      "colors": [],
+      "sizes": ["10 ml", "50 ml", "100 ml"]
+    },
+    "inStock": true
+  },
+  {
+    "id": "a-frag-009",
+    "slug": "velvet-rose-eau-de-parfum",
+    "name": "Velvet Rose Eau de Parfum",
+    "category": "accessories",
+    "subcategory": "fragrances",
+    "type": "eau de parfum",
+    "description": "Centifolia rose wrapped in raspberry, patchouli and soft musk.",
+    "price": { "amount": 120, "currency": "USD" },
+    "images": ["/images/Landing/LostCherry.png"],
+    "options": {
+      "colors": [],
+      "sizes": ["10 ml", "50 ml", "100 ml"]
+    },
+    "inStock": true
+  },
+  {
+    "id": "a-frag-010",
+    "slug": "noir-extreme-eau-de-parfum",
+    "name": "Noir Extreme Eau de Parfum",
+    "category": "accessories",
+    "subcategory": "fragrances",
+    "type": "eau de parfum",
+    "description": "Dark plum and black tea over smoky woods with a velvet dry-down.",
+    "price": { "amount": 78, "currency": "USD" },
+    "images": ["/images/Landing/TobaccoVanille.png"],
+    "options": {
+      "colors": [],
+      "sizes": ["10 ml", "50 ml", "100 ml"]
+    },
+    "inStock": true
+  },
+  {
+    "id": "a-frag-007",
+    "slug": "amber-oud-eau-de-parfum",
+    "name": "Amber Oud Eau de Parfum",
+    "category": "accessories",
+    "subcategory": "fragrances",
+    "type": "eau de parfum",
+    "description": "Resinous oud layered with warm amber, saffron and soft woods.",
+    "price": { "amount": 390, "currency": "USD" },
+    "images": ["/images/Landing/VanillaSex.png"],
+    "options": {
+      "colors": [],
+      "sizes": ["10 ml", "50 ml", "100 ml"]
+    },
     "inStock": false
   }
 ]
