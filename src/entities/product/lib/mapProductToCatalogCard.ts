@@ -3,11 +3,13 @@ import type { Product } from '@/entities/product/model/types';
 import type { CatalogProduct } from '@/features/catalog/model/catalogProduct';
 
 export function formatProductPrice(price: Product['price'], locale: Locale): string {
-  return new Intl.NumberFormat(locale === 'uk' ? 'uk-UA' : 'en-US', {
-    style: 'currency',
-    currency: price.currency,
+  const formattedAmount = new Intl.NumberFormat(locale === 'uk' ? 'uk-UA' : 'en-US', {
     maximumFractionDigits: 0,
   }).format(price.amount);
+
+  const displayCurrency = price.currency === 'USD' ? '$' : price.currency;
+
+  return `${formattedAmount} ${displayCurrency}`;
 }
 
 export function mapProductToCatalogCard(product: Product, locale: Locale): CatalogProduct {
