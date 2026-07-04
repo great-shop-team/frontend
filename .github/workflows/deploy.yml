@@ -13,9 +13,6 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      - name: Link Vercel Project
-        run: vercel link --yes --token=${{ secrets.VERCEL_TOKEN }} --scope katerynas-projects --project frontend
-
       - name: Build Project Artifacts
         run: |
           set -o allexport
