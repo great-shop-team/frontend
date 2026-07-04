@@ -17,8 +17,11 @@ jobs:
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build Project Artifacts
-        # ✨ Додаємо env блок сюди, щоб Next.js "вшив" цей URL у фронтенд під час збірки:
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          set -o allexport
+          if [ -f .env ]; then source .env; fi
+          set +o allexport
+          vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
           NEXT_PUBLIC_API_BASE_URL: ${{ vars.NEXT_PUBLIC_API_BASE_URL }}
           NEXT_PUBLIC_USE_MOCK_PRODUCT_CARD: 'true'
