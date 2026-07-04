@@ -3,9 +3,11 @@
 import Image from 'next/image';
 import { useState } from 'react';
 
+import WishlistButton from '@/features/wishlist/ui/WishlistButton/WishlistButton';
 import { useTranslation } from '@/i18n/useTranslation';
 
 type FragranceProductCardProps = {
+  id: string;
   image: { src: string; alt: string };
   title: string;
   price: string;
@@ -13,6 +15,7 @@ type FragranceProductCardProps = {
 };
 
 export default function FragranceProductCard({
+  id,
   image,
   title,
   price,
@@ -30,26 +33,7 @@ export default function FragranceProductCard({
             <Image src={image.src} alt={image.alt} fill sizes="258px" className="object-cover" />
           </div>
           <div className="flex shrink-0 flex-col items-center justify-between py-4">
-            <button
-              type="button"
-              className="cursor-pointer border-none bg-transparent p-1 text-dark"
-              aria-label={t.landing.addToWishlist}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                />
-              </svg>
-            </button>
+            <WishlistButton productId={id} iconClassName="size-6" />
             <button
               type="button"
               className="flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-full border-none bg-black text-white"

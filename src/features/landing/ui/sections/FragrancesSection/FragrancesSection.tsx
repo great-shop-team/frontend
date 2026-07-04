@@ -22,7 +22,7 @@ export default function FragrancesSection() {
         </div>
         <div className={landingSection.productGrid}>
           {fragrances.map((product) => (
-            <FragranceProductCard key={product.title} {...product} />
+            <FragranceProductCard key={product.id} {...product} />
           ))}
         </div>
       </div>

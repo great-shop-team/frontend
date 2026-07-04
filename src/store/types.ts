@@ -28,6 +28,11 @@ export interface User {
   is_active: boolean;
 }
 
+export interface GoogleAuthInput {
+  token: string;
+  accept_terms: boolean;
+}
+
 export interface LoginInput {
   email_or_phone: string;
   password: string;
@@ -119,7 +124,7 @@ export interface CartItem {
 }
 
 export interface WishlistItem {
-  productId: number;
+  productId: string;
 }
 
 export interface ProductImage {

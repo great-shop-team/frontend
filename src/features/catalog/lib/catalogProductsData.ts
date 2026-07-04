@@ -7,14 +7,33 @@ import type { Product } from '@/entities/product/model/types';
 
 const allProducts: Product[] = parseProducts(productsMock);
 
-export function getCatalogProducts(category: CatalogCategory, locale: Locale): CatalogProduct[] {
+export type CatalogFilters = {
+  subcategory?: string;
+  type?: string;
+};
+
+export function getCatalogProducts(
+  category: CatalogCategory,
+  locale: Locale,
+  filters: CatalogFilters = {},
+): CatalogProduct[] {
   return allProducts
-    .filter((product) => product.category === category)
+    .filter((product) => {
+      if (product.category !== category) return false;
+      if (filters.subcategory && product.subcategory !== filters.subcategory) return false;
+      if (filters.type && product.type !== filters.type) return false;
+      return true;
+    })
     .map((product) => mapProductToCatalogCard(product, locale));
 }
 
-export function getCatalogProductsCount(category: CatalogCategory) {
-  return allProducts.filter((product) => product.category === category).length;
+export function getCatalogProductsCount(category: CatalogCategory, filters: CatalogFilters = {}) {
+  return allProducts.filter((product) => {
+    if (product.category !== category) return false;
+    if (filters.subcategory && product.subcategory !== filters.subcategory) return false;
+    if (filters.type && product.type !== filters.type) return false;
+    return true;
+  }).length;
 }
 
 export function getProductById(id: string) {

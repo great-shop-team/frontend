@@ -3,15 +3,16 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 import AuthInput from '../AuthInput/AuthInput';
+import GoogleAuthButton from '@/features/auth/ui/GoogleAuthButton/GoogleAuthButton';
 import { normalizeEmail } from '@/features/auth/lib/normalizeEmail';
 import { savePendingAuth } from '@/features/auth/lib/pendingAuth';
 import { useTranslation } from '@/i18n/useTranslation';
 import { useRegisterUserMutation } from '@/store/endpoints/authEndpoints';
 
-import googleLogo from '../../../../../public/icons/GoogleLogo.svg';
 import facebookLogo from '../../../../../public/icons/FacebookLogo.svg';
 import appleLogo from '../../../../../public/icons/AppleLogo.svg';
 import { registerForm } from '@/features/auth/ui/authClasses';
@@ -19,9 +20,10 @@ import { registerForm } from '@/features/auth/ui/authClasses';
 type RegisterFormProps = {
   onLogin: () => void;
   onRegistered: (email: string) => void;
+  onSuccess?: () => void;
 };
 
-export default function RegisterForm({ onLogin, onRegistered }: RegisterFormProps) {
+export default function RegisterForm({ onLogin, onRegistered, onSuccess }: RegisterFormProps) {
   const { t, validators } = useTranslation();
   const [isChecked, setIsChecked] = useState(false);
 
@@ -35,6 +37,7 @@ export default function RegisterForm({ onLogin, onRegistered }: RegisterFormProp
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const [registerUser, { isSuccess, isLoading }] = useRegisterUserMutation();
+  const router = useRouter();
 
   useEffect(() => {
     if (!isSuccess) return;
@@ -114,6 +117,19 @@ export default function RegisterForm({ onLogin, onRegistered }: RegisterFormProp
     const msg = validators.validateField(name, value, { ...formData, [name]: value });
     setFieldErrors((prev) => ({ ...prev, [name]: msg }));
     setErrorMessages([]);
+  };
+
+  const handleGoogleSuccess = () => {
+    onSuccess?.();
+    router.push('/profile');
+  };
+
+  const handleGoogleTermsRequired = () => {
+    setFieldErrors((prev) => ({
+      ...prev,
+      acceptTerms: t.validation.acceptTermsShort,
+    }));
+    document.getElementById('terms')?.focus();
   };
 
   return (
@@ -216,10 +232,17 @@ export default function RegisterForm({ onLogin, onRegistered }: RegisterFormProp
             {isLoading ? t.common.loading : t.auth.register.submit}
           </button>
 
+          <p className="m-0 text-center text-xs text-gray">{t.auth.register.googleTermsHint}</p>
+
           <div className={registerForm.socialRow}>
-            <button type="button" className={registerForm.socialBtn}>
-              <Image src={googleLogo} alt="Google" className={registerForm.socialIcon} />
-            </button>
+            <GoogleAuthButton
+              acceptTerms={isChecked}
+              className={registerForm.socialBtn}
+              iconClassName={registerForm.socialIcon}
+              onSuccess={handleGoogleSuccess}
+              onError={(message) => setErrorMessages([message])}
+              onTermsRequired={handleGoogleTermsRequired}
+            />
 
             <button type="button" className={registerForm.socialBtn}>
               <Image src={facebookLogo} alt="Facebook" className={registerForm.socialIcon} />

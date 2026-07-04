@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { getStoredUserEmail } from '@/features/auth/lib/userInitials';
+import { logTokenExpirations } from '@/features/auth/lib/jwtExpiration';
 import { useGetCurrentUserQuery } from '@/store/endpoints/authEndpoints';
 import { setAuthEmail, setToken } from '@/store/slices/userSlice';
 
@@ -14,6 +15,7 @@ export default function AuthBootstrap() {
   useEffect(() => {
     if (token) {
       dispatch(setToken(token));
+      logTokenExpirations(token);
     }
 
     const storedEmail = getStoredUserEmail();

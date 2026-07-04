@@ -4,6 +4,7 @@ import {
   TokenRefreshResponse,
   RegisterInput,
   User,
+  GoogleAuthInput,
   PasswordChangeInput,
   PasswordResetInput,
   ActivationCodeInput,
@@ -25,7 +26,13 @@ export const authEndpoints = api.injectEndpoints({
       query: (body) => ({ url: '/api/users/register/', method: 'POST', body }),
     }),
 
-    // Поточний користувач (для отримання даних після логіну або при відкритті сайту, якщо токен вже є)
+    // Авторизація / реєстрація через Google
+    googleAuth: builder.mutation<TokenRefreshResponse, GoogleAuthInput>({
+      query: (body) => ({ url: '/api/users/auth/google/', method: 'POST', body }),
+      invalidatesTags: ['User'],
+    }),
+
+    // Поточний користувач
     getCurrentUser: builder.query<User, void>({
       query: () => '/api/users/current-user/',
       providesTags: ['User'], // Тегуємо цей запит
@@ -69,6 +76,7 @@ export const authEndpoints = api.injectEndpoints({
 export const {
   useLoginMutation,
   useRegisterUserMutation,
+  useGoogleAuthMutation,
   useGetCurrentUserQuery,
   useLazyGetCurrentUserQuery,
   useActivateUserPatchMutation,
