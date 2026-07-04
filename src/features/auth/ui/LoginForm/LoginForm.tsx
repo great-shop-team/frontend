@@ -6,14 +6,15 @@ import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 
 import AuthInput from '@/features/auth/ui/AuthInput/AuthInput';
+import GoogleAuthButton from '@/features/auth/ui/GoogleAuthButton/GoogleAuthButton';
 import { extractApiError } from '@/features/auth/lib/apiError';
 import { normalizeEmail } from '@/features/auth/lib/normalizeEmail';
 import { saveUserEmail } from '@/features/auth/lib/userInitials';
+import { logTokenExpirations } from '@/features/auth/lib/jwtExpiration';
 import { useTranslation } from '@/i18n/useTranslation';
 import { useLazyGetCurrentUserQuery, useLoginMutation } from '@/store/endpoints/authEndpoints';
 import { setAuthEmail, setToken } from '@/store/slices/userSlice';
 
-import googleLogo from '../../../../../public/icons/GoogleLogo.svg';
 import facebookLogo from '../../../../../public/icons/FacebookLogo.svg';
 import appleLogo from '../../../../../public/icons/AppleLogo.svg';
 import { loginForm } from '@/features/auth/ui/authClasses';
@@ -65,6 +66,7 @@ export default function LoginForm({
       saveUserEmail(normalizedEmail);
       localStorage.setItem('accessToken', result.access);
       localStorage.setItem('refreshToken', result.refresh);
+      logTokenExpirations(result.access, result.refresh);
       dispatch(setToken(result.access));
       dispatch(setAuthEmail(normalizedEmail));
       await fetchCurrentUser();
@@ -79,6 +81,11 @@ export default function LoginForm({
         setErrorMessage(detail || t.auth.errors.incorrectCredentials);
       }
     }
+  };
+
+  const handleGoogleSuccess = () => {
+    onSuccess?.();
+    router.push('/profile');
   };
 
   return (
@@ -168,9 +175,13 @@ export default function LoginForm({
           </button>
 
           <div className={loginForm.socialRow}>
-            <button type="button" className={loginForm.socialBtn}>
-              <Image src={googleLogo} alt="Google" className={loginForm.socialIcon} />
-            </button>
+            <GoogleAuthButton
+              acceptTerms
+              className={loginForm.socialBtn}
+              iconClassName={loginForm.socialIcon}
+              onSuccess={handleGoogleSuccess}
+              onError={setErrorMessage}
+            />
 
             <button type="button" className={loginForm.socialBtn}>
               <Image src={facebookLogo} alt="Facebook" className={loginForm.socialIcon} />

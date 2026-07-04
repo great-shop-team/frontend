@@ -120,8 +120,6 @@ export default function Product() {
             <ClothingProductCard
               key={key}
               product={item as CatalogProduct}
-              onAddToCart={(size) => console.log('Add to cart:', item.id, size)}
-              onAddToWishlist={() => console.log('Add to wishlist:', item.id)}
             />
           ))}
         </div>

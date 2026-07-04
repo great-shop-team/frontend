@@ -1,9 +1,12 @@
+export const headerBarTextClass =
+  'font-(family-name:--font-unbounded) text-base font-normal leading-5';
+
 export const headerActionBaseClass =
-  'inline-flex items-center justify-center border-b px-4 pt-2 pb-1 text-inherit transition-[border-color] duration-300 ease-in-out';
+  'inline-flex h-10 w-10 items-center justify-center text-inherit transition-[border-color] duration-300 ease-in-out';
 
 export function getHeaderActionClass(isActive: boolean) {
   return `${headerActionBaseClass} ${
-    isActive ? 'border-current' : 'border-transparent hover:border-current'
+    isActive ? 'border-b border-current' : 'border-b-0 hover:border-b hover:border-current'
   }`;
 }
 

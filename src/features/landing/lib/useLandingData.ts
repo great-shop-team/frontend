@@ -24,6 +24,7 @@ export function useLandingData() {
       clothing: landingClothingItems.map((item) => {
         const copy = t.landing.clothing[item.id];
         return {
+          id: item.id,
           image: { src: item.image.src, alt: copy.imageAlt },
           title: copy.title,
           price: copy.price,
@@ -47,6 +48,7 @@ export function useLandingData() {
       fragrances: landingFragranceItems.map((item) => {
         const copy = t.landing.fragrances[item.id];
         return {
+          id: item.id,
           image: { src: item.image.src, alt: copy.imageAlt },
           title: copy.title,
           price: copy.price,

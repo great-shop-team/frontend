@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { clearPendingAuth } from '@/features/auth/lib/pendingAuth';
 import { normalizeEmail } from '@/features/auth/lib/normalizeEmail';
 import { saveUserEmail } from '@/features/auth/lib/userInitials';
+import { logTokenExpirations } from '@/features/auth/lib/jwtExpiration';
 import { useLazyGetCurrentUserQuery, useLoginMutation } from '@/store/endpoints/authEndpoints';
 import { setAuthEmail, setToken } from '@/store/slices/userSlice';
 
@@ -41,6 +42,7 @@ export function useAutoLogin() {
           saveUserEmail(normalizedEmail);
           localStorage.setItem('accessToken', result.access);
           localStorage.setItem('refreshToken', result.refresh);
+          logTokenExpirations(result.access, result.refresh);
           dispatch(setToken(result.access));
           dispatch(setAuthEmail(normalizedEmail));
           await fetchCurrentUser();
