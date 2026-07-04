@@ -14,7 +14,7 @@ jobs:
         run: npm install --global vercel@latest
 
       - name: Link Vercel Project
-        run: vercel link --yes --token=${{ secrets.VERCEL_TOKEN }} --org katerynas-projects --project frontend
+        run: vercel link --yes --token=${{ secrets.VERCEL_TOKEN }} --scope katerynas-projects --project frontend
 
       - name: Build Project Artifacts
         run: |
