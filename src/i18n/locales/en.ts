@@ -408,6 +408,34 @@ const en = {
   },
   profile: {
     return: 'Return',
+    returnPage: {
+      title: 'Return an item',
+      stepOneTitle: 'Choose your order',
+      stepOneDescription:
+        'Select the order and item(s) you would like to return. Returns are accepted within 30 days of delivery.',
+
+      stepTwoTitle: 'Select return reason',
+      stepTwoDescription: 'Let us know why: wrong size, changed mind, damaged item, or other.',
+
+      stepThreeTitle: 'Print label & ship',
+      stepThreeDescription:
+        'We will email a prepaid return label. Drop the parcel at any courier point within 5 days.',
+
+      stepFourTitle: 'Refund processed',
+      stepFourDescription:
+        'Once received, refund is issued within 3–5 business days to your original payment method.',
+
+      orderNumber: 'Order number',
+      itemName: 'Item name',
+      reason: 'Reason',
+      preferredResolution: 'Preferred resolution',
+      additionalNotes: 'Additional notes (optional)',
+
+      reasonPlaceholder: 'Damage/Defective',
+      resolutionPlaceholder: 'Refund',
+
+      submitButton: 'Submit return request',
+    },
     myPromocodes: 'My Promocodes',
     myPurchases: 'My Purchases',
     myBonuses: 'My Bonuses',
