@@ -1,6 +1,7 @@
 'use client';
 
-import { GoogleLogin, type CredentialResponse } from '@react-oauth/google';
+import { useEffect, useCallback } from 'react';
+import { type IdConfiguration, type CredentialResponse } from '@react-oauth/google';
 import Image from 'next/image';
 
 import { extractApiError } from '@/features/auth/lib/apiError';
@@ -8,6 +9,31 @@ import { useGoogleAuth } from '@/features/auth/hooks/useGoogleAuth';
 import { useTranslation } from '@/i18n/useTranslation';
 
 import googleLogo from '../../../../../public/icons/GoogleLogo.svg';
+
+interface GooglePromptNotification {
+  isNotDisplayed: () => boolean;
+  isSkippedMoment: () => boolean;
+}
+
+interface CustomIdConfiguration extends IdConfiguration {
+  use_fedcm?: boolean;
+}
+
+declare global {
+  interface Window {
+    // Безопасно расширяем объект window, чтобы ESLint не ругался на any
+    __googleGsiInitialized?: boolean;
+    google?: {
+      accounts: {
+        id: {
+          initialize: (config: CustomIdConfiguration) => void;
+          prompt: (callback?: (notification: GooglePromptNotification) => void) => void;
+          requestCode: () => void;
+        };
+      };
+    };
+  }
+}
 
 type GoogleAuthButtonProps = {
   acceptTerms: boolean;
@@ -33,55 +59,72 @@ export default function GoogleAuthButton({
   const { t } = useTranslation();
   const { signInWithGoogle, isLoading } = useGoogleAuth();
 
-  if (!googleClientId) {
-    return null;
-  }
+  const googleSignInFailedError = t.auth.errors.googleSignInFailed;
 
-  const isBlocked = disabled || isLoading;
-  const canUseGoogle = acceptTerms && !isBlocked;
+  const handleSuccess = useCallback(
+    async (credential: string) => {
+      try {
+        await signInWithGoogle(credential, acceptTerms);
+        onSuccess?.();
+      } catch (error) {
+        onError?.(extractApiError(error) ?? googleSignInFailedError);
+      }
+    },
+    [signInWithGoogle, acceptTerms, onSuccess, onError, googleSignInFailedError],
+  );
 
-  const handleTermsClick = () => {
-    onTermsRequired?.();
-  };
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.google?.accounts.id && googleClientId) {
+      // Чистая проверка глобального флага без использования as any
+      if (window.__googleGsiInitialized) return;
 
-  const handleSuccess = async (response: CredentialResponse) => {
-    if (!response.credential) {
-      onError?.(t.auth.errors.googleSignInFailed);
+      window.google.accounts.id.initialize({
+        client_id: googleClientId,
+        use_fedcm: true,
+        callback: (response: CredentialResponse) => {
+          if (response.credential) {
+            handleSuccess(response.credential);
+          } else {
+            onError?.(googleSignInFailedError);
+          }
+        },
+      });
+
+      window.__googleGsiInitialized = true;
+    }
+  }, [handleSuccess, onError, googleSignInFailedError]);
+
+  const handleButtonClick = () => {
+    if (!acceptTerms) {
+      onTermsRequired?.();
       return;
     }
 
-    try {
-      await signInWithGoogle(response.credential, acceptTerms);
-      onSuccess?.();
-    } catch (error) {
-      onError?.(extractApiError(error) ?? t.auth.errors.googleSignInFailed);
+    if (typeof window !== 'undefined' && window.google?.accounts.id) {
+      const googleAuthId = window.google.accounts.id;
+
+      googleAuthId.prompt((notification: GooglePromptNotification) => {
+        if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+          googleAuthId.requestCode();
+        }
+      });
+    } else {
+      onError?.(googleSignInFailedError);
     }
   };
 
-  return (
-    <div className={`relative ${className ?? ''}`}>
-      <button
-        type="button"
-        onClick={!acceptTerms ? handleTermsClick : undefined}
-        disabled={isBlocked}
-        className="flex h-10 w-10 cursor-pointer items-center justify-center disabled:cursor-not-allowed disabled:opacity-50"
-        aria-label="Google"
-      >
-        <Image src={googleLogo} alt="Google" className={iconClassName ?? 'h-6 w-6'} />
-      </button>
+  const isBlocked = disabled || isLoading;
 
-      {canUseGoogle && (
-        <div className="absolute inset-0 overflow-hidden opacity-[0.01]">
-          <GoogleLogin
-            onSuccess={handleSuccess}
-            onError={() => onError?.(t.auth.errors.googleSignInFailed)}
-            type="icon"
-            shape="circle"
-            size="large"
-            useOneTap={false}
-          />
-        </div>
-      )}
-    </div>
+  return (
+    <button
+      type="button"
+      onClick={handleButtonClick}
+      disabled={isBlocked}
+      className={`flex h-10 w-10 cursor-pointer items-center justify-center disabled:cursor-not-allowed disabled:opacity-50 ${className ?? ''}`}
+      aria-label="Google"
+    >
+      <Image src={googleLogo} alt="Google" className={iconClassName ?? 'h-6 w-6'} />
+    </button>
   );
 }
+
