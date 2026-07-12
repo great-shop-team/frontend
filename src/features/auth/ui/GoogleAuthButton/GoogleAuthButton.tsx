@@ -61,6 +61,7 @@ export default function GoogleAuthButton({
 
   const googleSignInFailedError = t.auth.errors.googleSignInFailed;
 
+<<<<<<< HEAD
   const handleSuccess = useCallback(
     async (credential: string) => {
       try {
@@ -68,6 +69,20 @@ export default function GoogleAuthButton({
         onSuccess?.();
       } catch (error) {
         onError?.(extractApiError(error) ?? googleSignInFailedError);
+=======
+  useEffect(() => {
+    const handleMessage = async (event: MessageEvent) => {
+      if (event.origin !== window.location.origin) return;
+
+      if (event.data && event.data.type === 'GOOGLE_AUTH_SUCCESS') {
+        const { idToken } = event.data;
+        try {
+          await signInWithGoogle(idToken, acceptTerms);
+          onSuccess?.();
+        } catch (error) {
+          onError?.(extractApiError(error) ?? googleSignInFailedError);
+        }
+>>>>>>> a7db2d4 (fix(auth): resolve TypeScript undefined type error for googleClientId in build pipeline)
       }
     },
     [signInWithGoogle, acceptTerms, onSuccess, onError, googleSignInFailedError],
@@ -112,7 +127,6 @@ export default function GoogleAuthButton({
       onError?.(googleSignInFailedError);
     }
 
-    // Роут внутри Next.js (убедись, что создала файл src/app/google-callback/page.tsx)
     const redirectUri =
       typeof window !== 'undefined'
         ? `${window.location.origin}/google-callback`
@@ -120,7 +134,7 @@ export default function GoogleAuthButton({
 
     const targetUrl =
       `https://accounts.google.com/o/oauth2/v2/auth?` +
-      `client_id=${encodeURIComponent(googleClientId)}` +
+      `client_id=${encodeURIComponent(googleClientId || '')}` +
       `&redirect_uri=${encodeURIComponent(redirectUri)}` +
       `&response_type=id_token` +
       `&scope=${encodeURIComponent('openid profile email')}` +
@@ -131,7 +145,6 @@ export default function GoogleAuthButton({
     const left = window.screen.width / 2 - width / 2;
     const top = window.screen.height / 2 - height / 2;
 
-    // Просто открываем окно. Никаких проверок его статуса в этом файле больше нет!
     window.open(
       targetUrl,
       'google-auth-popup',
