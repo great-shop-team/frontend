@@ -31,7 +31,7 @@ export default function AuthShell({ children, onBackdropClick }: AuthShellProps)
     >
       <button
         type="button"
-        className={`relative z-1 min-w-0 shrink-0 cursor-pointer border-0 p-0 max-md:h-[30%] max-md:min-h-[120px] max-md:w-full md:w-[60%] md:flex-[0_0_60%] ${backdropClass}`}
+        className={`relative z-1 min-w-0 shrink-0 cursor-pointer border-0 p-0 max-md:h-[30%] max-md:min-h-30 max-md:w-full md:w-[60%] md:flex-[0_0_60%] ${backdropClass}`}
         aria-label="Close"
         onClick={onBackdropClick}
       />

@@ -7,6 +7,7 @@ const en = {
     shop: 'Shop',
     brandsMenuAriaLabel: 'Brands navigation',
     viewAllBrands: 'View all brands',
+    showLess: 'Show less',
     shopMenuAriaLabel: 'Shop navigation',
     shopMenu: {
       shop: 'Shop',
@@ -28,6 +29,7 @@ const en = {
       beauty: 'Beauty',
       womenTile: 'Women',
       menTile: 'Men',
+      viewAllTypes: 'View all types',
     },
   },
   catalog: {

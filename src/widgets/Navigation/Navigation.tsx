@@ -44,7 +44,7 @@ export default function Navigation() {
 
         <NavMegaMenuItem
           label={t.nav.brands}
-          href={catalogRoutes.women}
+          href={catalogRoutes.brands}
           isActive={false}
           panelLabel={t.nav.brandsMenuAriaLabel}
           panel={<BrandsMegaMenu />}
