@@ -1,7 +1,6 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
-import { type IdConfiguration, type CredentialResponse } from '@react-oauth/google';
+import { useEffect } from 'react';
 import Image from 'next/image';
 
 import { extractApiError } from '@/features/auth/lib/apiError';
@@ -9,31 +8,6 @@ import { useGoogleAuth } from '@/features/auth/hooks/useGoogleAuth';
 import { useTranslation } from '@/i18n/useTranslation';
 
 import googleLogo from '../../../../../public/icons/GoogleLogo.svg';
-
-interface GooglePromptNotification {
-  isNotDisplayed: () => boolean;
-  isSkippedMoment: () => boolean;
-}
-
-interface CustomIdConfiguration extends IdConfiguration {
-  use_fedcm?: boolean;
-}
-
-declare global {
-  interface Window {
-    // Безопасно расширяем объект window, чтобы ESLint не ругался на any
-    __googleGsiInitialized?: boolean;
-    google?: {
-      accounts: {
-        id: {
-          initialize: (config: CustomIdConfiguration) => void;
-          prompt: (callback?: (notification: GooglePromptNotification) => void) => void;
-          requestCode: () => void;
-        };
-      };
-    };
-  }
-}
 
 type GoogleAuthButtonProps = {
   acceptTerms: boolean;
@@ -61,15 +35,6 @@ export default function GoogleAuthButton({
 
   const googleSignInFailedError = t.auth.errors.googleSignInFailed;
 
-<<<<<<< HEAD
-  const handleSuccess = useCallback(
-    async (credential: string) => {
-      try {
-        await signInWithGoogle(credential, acceptTerms);
-        onSuccess?.();
-      } catch (error) {
-        onError?.(extractApiError(error) ?? googleSignInFailedError);
-=======
   useEffect(() => {
     const handleMessage = async (event: MessageEvent) => {
       if (event.origin !== window.location.origin) return;
@@ -82,32 +47,12 @@ export default function GoogleAuthButton({
         } catch (error) {
           onError?.(extractApiError(error) ?? googleSignInFailedError);
         }
->>>>>>> a7db2d4 (fix(auth): resolve TypeScript undefined type error for googleClientId in build pipeline)
       }
-    },
-    [signInWithGoogle, acceptTerms, onSuccess, onError, googleSignInFailedError],
-  );
+    };
 
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.google?.accounts.id && googleClientId) {
-      // Чистая проверка глобального флага без использования as any
-      if (window.__googleGsiInitialized) return;
-
-      window.google.accounts.id.initialize({
-        client_id: googleClientId,
-        use_fedcm: true,
-        callback: (response: CredentialResponse) => {
-          if (response.credential) {
-            handleSuccess(response.credential);
-          } else {
-            onError?.(googleSignInFailedError);
-          }
-        },
-      });
-
-      window.__googleGsiInitialized = true;
-    }
-  }, [handleSuccess, onError, googleSignInFailedError]);
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [signInWithGoogle, acceptTerms, onSuccess, onError, googleSignInFailedError]);
 
   const handleButtonClick = () => {
     if (!acceptTerms) {
@@ -115,16 +60,9 @@ export default function GoogleAuthButton({
       return;
     }
 
-    if (typeof window !== 'undefined' && window.google?.accounts.id) {
-      const googleAuthId = window.google.accounts.id;
-
-      googleAuthId.prompt((notification: GooglePromptNotification) => {
-        if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-          googleAuthId.requestCode();
-        }
-      });
-    } else {
+    if (!googleClientId) {
       onError?.(googleSignInFailedError);
+      return;
     }
 
     const redirectUri =
@@ -134,7 +72,7 @@ export default function GoogleAuthButton({
 
     const targetUrl =
       `https://accounts.google.com/o/oauth2/v2/auth?` +
-      `client_id=${encodeURIComponent(googleClientId || '')}` +
+      `client_id=${encodeURIComponent(googleClientId)}` +
       `&redirect_uri=${encodeURIComponent(redirectUri)}` +
       `&response_type=id_token` +
       `&scope=${encodeURIComponent('openid profile email')}` +
@@ -166,4 +104,3 @@ export default function GoogleAuthButton({
     </button>
   );
 }
-
