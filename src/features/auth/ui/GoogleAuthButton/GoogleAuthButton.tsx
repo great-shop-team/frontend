@@ -85,7 +85,7 @@ export default function GoogleAuthButton({
 
     window.open(
       targetUrl,
-      'google-auth-popup',
+     '_blank',
       `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`,
     );
   };
