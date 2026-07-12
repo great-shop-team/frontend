@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
+import { type IdConfiguration, type CredentialResponse } from '@react-oauth/google';
 import Image from 'next/image';
 
 import { extractApiError } from '@/features/auth/lib/apiError';
@@ -8,6 +9,31 @@ import { useGoogleAuth } from '@/features/auth/hooks/useGoogleAuth';
 import { useTranslation } from '@/i18n/useTranslation';
 
 import googleLogo from '../../../../../public/icons/GoogleLogo.svg';
+
+interface GooglePromptNotification {
+  isNotDisplayed: () => boolean;
+  isSkippedMoment: () => boolean;
+}
+
+interface CustomIdConfiguration extends IdConfiguration {
+  use_fedcm?: boolean;
+}
+
+declare global {
+  interface Window {
+    // Безопасно расширяем объект window, чтобы ESLint не ругался на any
+    __googleGsiInitialized?: boolean;
+    google?: {
+      accounts: {
+        id: {
+          initialize: (config: CustomIdConfiguration) => void;
+          prompt: (callback?: (notification: GooglePromptNotification) => void) => void;
+          requestCode: () => void;
+        };
+      };
+    };
+  }
+}
 
 type GoogleAuthButtonProps = {
   acceptTerms: boolean;
@@ -35,36 +61,55 @@ export default function GoogleAuthButton({
 
   const googleSignInFailedError = t.auth.errors.googleSignInFailed;
 
-  useEffect(() => {
-    // Слушаем сообщение от нашей новой страницы /google-callback
-    const handleMessage = async (event: MessageEvent) => {
-      if (event.origin !== window.location.origin) return;
-
-      if (event.data && event.data.type === 'GOOGLE_AUTH_SUCCESS') {
-        const { idToken } = event.data;
-        try {
-          // Отправляем на бэкенд чистый JWT-токен
-          await signInWithGoogle(idToken, acceptTerms);
-          onSuccess?.();
-        } catch (error) {
-          onError?.(extractApiError(error) ?? googleSignInFailedError);
-        }
+  const handleSuccess = useCallback(
+    async (credential: string) => {
+      try {
+        await signInWithGoogle(credential, acceptTerms);
+        onSuccess?.();
+      } catch (error) {
+        onError?.(extractApiError(error) ?? googleSignInFailedError);
       }
-    };
+    },
+    [signInWithGoogle, acceptTerms, onSuccess, onError, googleSignInFailedError],
+  );
 
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, [signInWithGoogle, acceptTerms, onSuccess, onError, googleSignInFailedError]);
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.google?.accounts.id && googleClientId) {
+      // Чистая проверка глобального флага без использования as any
+      if (window.__googleGsiInitialized) return;
 
-  const handleGoogleLogin = () => {
+      window.google.accounts.id.initialize({
+        client_id: googleClientId,
+        use_fedcm: true,
+        callback: (response: CredentialResponse) => {
+          if (response.credential) {
+            handleSuccess(response.credential);
+          } else {
+            onError?.(googleSignInFailedError);
+          }
+        },
+      });
+
+      window.__googleGsiInitialized = true;
+    }
+  }, [handleSuccess, onError, googleSignInFailedError]);
+
+  const handleButtonClick = () => {
     if (!acceptTerms) {
       onTermsRequired?.();
       return;
     }
 
-    if (!googleClientId) {
+    if (typeof window !== 'undefined' && window.google?.accounts.id) {
+      const googleAuthId = window.google.accounts.id;
+
+      googleAuthId.prompt((notification: GooglePromptNotification) => {
+        if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+          googleAuthId.requestCode();
+        }
+      });
+    } else {
       onError?.(googleSignInFailedError);
-      return;
     }
 
     // Роут внутри Next.js (убедись, что создала файл src/app/google-callback/page.tsx)
@@ -99,7 +144,7 @@ export default function GoogleAuthButton({
   return (
     <button
       type="button"
-      onClick={handleGoogleLogin}
+      onClick={handleButtonClick}
       disabled={isBlocked}
       className={`flex h-10 w-10 cursor-pointer items-center justify-center disabled:cursor-not-allowed disabled:opacity-50 ${className ?? ''}`}
       aria-label="Google"
@@ -108,3 +153,4 @@ export default function GoogleAuthButton({
     </button>
   );
 }
+
