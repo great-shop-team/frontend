@@ -1,31 +1,69 @@
 import { api } from '../api';
-import { Category, CategoryCreateInput, CategoryUpdateInput } from '../types';
+import {
+  Category,
+  CategoryCreateInput,
+  CategoryUpdateInput,
+  Subcategory,
+  SubcategoryCreateInput,
+  SubcategoryUpdateInput,
+} from '../types';
 
 const categoriesEndpoints = api.injectEndpoints({
   endpoints: (builder) => ({
-    // Получение всех категорий
+    // Категорії
     getCategories: builder.query<Category[], void>({
-      query: () => '/api/categories/',
+      query: () => '/api/categories/categories/',
     }),
-    // Получение категории по ID
     getCategoryById: builder.query<Category, number>({
-      query: (id) => `/api/categories/${id}/`,
+      query: (id) => `/api/categories/categories/${id}/`,
     }),
-    // Создание категории
     createCategory: builder.mutation<Category, CategoryCreateInput>({
-      query: (body) => ({ url: '/api/categories/', method: 'POST', body }),
+      query: (body) => ({ url: '/api/categories/categories/', method: 'POST', body }),
     }),
-    // Обновление категории
     updateCategory: builder.mutation<Category, { id: number; body: CategoryUpdateInput }>({
       query: ({ id, body }) => ({
-        url: `/api/categories/${id}/`,
+        url: `/api/categories/categories/${id}/`,
+        method: 'PUT',
+        body,
+      }),
+    }),
+    patchCategory: builder.mutation<Category, { id: number; body: CategoryUpdateInput }>({
+      query: ({ id, body }) => ({
+        url: `/api/categories/categories/${id}/`,
         method: 'PATCH',
         body,
       }),
     }),
-    // Удаление категории по ID
     deleteCategory: builder.mutation<void, number>({
-      query: (id) => ({ url: `/api/categories/${id}/`, method: 'DELETE' }),
+      query: (id) => ({ url: `/api/categories/categories/${id}/`, method: 'DELETE' }),
+    }),
+
+    // Підкатегорії
+    getSubcategories: builder.query<Subcategory[], void>({
+      query: () => '/api/categories/subcategories/',
+    }),
+    getSubcategoryById: builder.query<Subcategory, number>({
+      query: (id) => `/api/categories/subcategories/${id}/`,
+    }),
+    createSubcategory: builder.mutation<Subcategory, SubcategoryCreateInput>({
+      query: (body) => ({ url: '/api/categories/subcategories/', method: 'POST', body }),
+    }),
+    updateSubcategory: builder.mutation<Subcategory, { id: number; body: SubcategoryUpdateInput }>({
+      query: ({ id, body }) => ({
+        url: `/api/categories/subcategories/${id}/`,
+        method: 'PUT',
+        body,
+      }),
+    }),
+    patchSubcategory: builder.mutation<Subcategory, { id: number; body: SubcategoryUpdateInput }>({
+      query: ({ id, body }) => ({
+        url: `/api/categories/subcategories/${id}/`,
+        method: 'PATCH',
+        body,
+      }),
+    }),
+    deleteSubcategory: builder.mutation<void, number>({
+      query: (id) => ({ url: `/api/categories/subcategories/${id}/`, method: 'DELETE' }),
     }),
   }),
 });
@@ -35,5 +73,12 @@ export const {
   useGetCategoryByIdQuery,
   useCreateCategoryMutation,
   useUpdateCategoryMutation,
+  usePatchCategoryMutation,
   useDeleteCategoryMutation,
+  useGetSubcategoriesQuery,
+  useGetSubcategoryByIdQuery,
+  useCreateSubcategoryMutation,
+  useUpdateSubcategoryMutation,
+  usePatchSubcategoryMutation,
+  useDeleteSubcategoryMutation,
 } = categoriesEndpoints;

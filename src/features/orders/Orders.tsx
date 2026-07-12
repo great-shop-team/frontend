@@ -23,7 +23,7 @@ type OrderItem = {
 function OrderItemCard({ productCard }: { productCard: OrderItem }) {
   return (
     <article className="grid grid-cols-[140px_1fr_auto] items-center gap-5 rounded-xl border border-gray-200 px-5 py-4">
-      <div className="flex h-[120px] w-[120px] items-center justify-center rounded-lg bg-[#f3f3f3] p-2">
+      <div className="flex h-30 w-30 items-center justify-center rounded-lg bg-[#f3f3f3] p-2">
         <Image
           src={productCard.image}
           alt={productCard.name}
@@ -34,7 +34,7 @@ function OrderItemCard({ productCard }: { productCard: OrderItem }) {
         />
       </div>
 
-      <div className="flex min-h-[120px] flex-col justify-between py-1">
+      <div className="flex min-h-30 flex-col justify-between py-1">
         <div className="space-y-0.5">
           <p className="text-sm font-semibold text-black">{productCard.brand}</p>
           <p className="text-base font-semibold text-black">{productCard.name}</p>

@@ -5,10 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import { logTokenExpirations } from '@/features/auth/lib/jwtExpiration';
 import { saveUserEmail } from '@/features/auth/lib/userInitials';
-import {
-  useGoogleAuthMutation,
-  useLazyGetCurrentUserQuery,
-} from '@/store/endpoints/authEndpoints';
+import { useGoogleAuthMutation, useLazyGetCurrentUserQuery } from '@/store/endpoints/authEndpoints';
 import { setAuthEmail, setToken } from '@/store/slices/userSlice';
 
 export function useGoogleAuth() {

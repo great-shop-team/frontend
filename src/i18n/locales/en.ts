@@ -7,6 +7,7 @@ const en = {
     shop: 'Shop',
     brandsMenuAriaLabel: 'Brands navigation',
     viewAllBrands: 'View all brands',
+    showLess: 'Show less',
     shopMenuAriaLabel: 'Shop navigation',
     shopMenu: {
       shop: 'Shop',
@@ -28,6 +29,7 @@ const en = {
       beauty: 'Beauty',
       womenTile: 'Women',
       menTile: 'Men',
+      viewAllTypes: 'View all types',
     },
   },
   catalog: {
@@ -341,7 +343,7 @@ const en = {
       subtitle: 'Please login here',
       rememberMe: 'Remember Me',
       forgotPassword: 'Forgot Password?',
-      submit: 'Login',
+      submit: 'Log In',
       createAccount: 'Create New Account?',
     },
     register: {
@@ -350,7 +352,7 @@ const en = {
       agreeTerms: 'I agree to the',
       termsLink: 'Terms & Conditions',
       googleTermsHint: 'To sign up with Google, accept the Terms & Conditions above.',
-      submit: 'Signup',
+      submit: 'Sign Up',
       alreadyHaveAccount: 'Already have an account?',
     },
     forgotPassword: {

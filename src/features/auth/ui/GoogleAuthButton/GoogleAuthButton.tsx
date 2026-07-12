@@ -1,6 +1,6 @@
 'use client';
 
-import { GoogleLogin, type CredentialResponse } from '@react-oauth/google';
+import { useEffect } from 'react';
 import Image from 'next/image';
 
 import { extractApiError } from '@/features/auth/lib/apiError';
@@ -33,55 +33,78 @@ export default function GoogleAuthButton({
   const { t } = useTranslation();
   const { signInWithGoogle, isLoading } = useGoogleAuth();
 
-  if (!googleClientId) {
-    return null;
-  }
+  const googleSignInFailedError = t.auth.errors.googleSignInFailed;
 
-  const isBlocked = disabled || isLoading;
-  const canUseGoogle = acceptTerms && !isBlocked;
+  useEffect(() => {
+    // Слушаем сообщение от нашей новой страницы /google-callback
+    const handleMessage = async (event: MessageEvent) => {
+      if (event.origin !== window.location.origin) return;
 
-  const handleTermsClick = () => {
-    onTermsRequired?.();
-  };
+      if (event.data && event.data.type === 'GOOGLE_AUTH_SUCCESS') {
+        const { idToken } = event.data;
+        try {
+          // Отправляем на бэкенд чистый JWT-токен
+          await signInWithGoogle(idToken, acceptTerms);
+          onSuccess?.();
+        } catch (error) {
+          onError?.(extractApiError(error) ?? googleSignInFailedError);
+        }
+      }
+    };
 
-  const handleSuccess = async (response: CredentialResponse) => {
-    if (!response.credential) {
-      onError?.(t.auth.errors.googleSignInFailed);
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [signInWithGoogle, acceptTerms, onSuccess, onError, googleSignInFailedError]);
+
+  const handleGoogleLogin = () => {
+    if (!acceptTerms) {
+      onTermsRequired?.();
       return;
     }
 
-    try {
-      await signInWithGoogle(response.credential, acceptTerms);
-      onSuccess?.();
-    } catch (error) {
-      onError?.(extractApiError(error) ?? t.auth.errors.googleSignInFailed);
+    if (!googleClientId) {
+      onError?.(googleSignInFailedError);
+      return;
     }
+
+    // Роут внутри Next.js (убедись, что создала файл src/app/google-callback/page.tsx)
+    const redirectUri =
+      typeof window !== 'undefined'
+        ? `${window.location.origin}/google-callback`
+        : 'http://localhost:3000/google-callback';
+
+    const targetUrl =
+      `https://accounts.google.com/o/oauth2/v2/auth?` +
+      `client_id=${encodeURIComponent(googleClientId)}` +
+      `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+      `&response_type=id_token` +
+      `&scope=${encodeURIComponent('openid profile email')}` +
+      `&nonce=${encodeURIComponent(Math.random().toString(36).substring(2))}`;
+
+    const width = 500;
+    const height = 600;
+    const left = window.screen.width / 2 - width / 2;
+    const top = window.screen.height / 2 - height / 2;
+
+    // Просто открываем окно. Никаких проверок его статуса в этом файле больше нет!
+    window.open(
+      targetUrl,
+      'google-auth-popup',
+      `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`,
+    );
   };
 
-  return (
-    <div className={`relative ${className ?? ''}`}>
-      <button
-        type="button"
-        onClick={!acceptTerms ? handleTermsClick : undefined}
-        disabled={isBlocked}
-        className="flex h-10 w-10 cursor-pointer items-center justify-center disabled:cursor-not-allowed disabled:opacity-50"
-        aria-label="Google"
-      >
-        <Image src={googleLogo} alt="Google" className={iconClassName ?? 'h-6 w-6'} />
-      </button>
+  const isBlocked = disabled || isLoading;
 
-      {canUseGoogle && (
-        <div className="absolute inset-0 overflow-hidden opacity-[0.01]">
-          <GoogleLogin
-            onSuccess={handleSuccess}
-            onError={() => onError?.(t.auth.errors.googleSignInFailed)}
-            type="icon"
-            shape="circle"
-            size="large"
-            useOneTap={false}
-          />
-        </div>
-      )}
-    </div>
+  return (
+    <button
+      type="button"
+      onClick={handleGoogleLogin}
+      disabled={isBlocked}
+      className={`flex h-10 w-10 cursor-pointer items-center justify-center disabled:cursor-not-allowed disabled:opacity-50 ${className ?? ''}`}
+      aria-label="Google"
+    >
+      <Image src={googleLogo} alt="Google" className={iconClassName ?? 'h-6 w-6'} />
+    </button>
   );
 }

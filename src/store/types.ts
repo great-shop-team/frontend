@@ -22,6 +22,57 @@ export interface CategoryUpdateInput {
   is_hidden?: boolean;
 }
 
+export interface Subcategory {
+  id: number;
+  slug: string;
+  name: string;
+  created_at: string;
+  updated_at: string;
+  is_active: boolean;
+  is_hidden: boolean;
+  category?: number;
+}
+
+export interface SubcategoryCreateInput {
+  slug: string;
+  name: string;
+  is_active: boolean;
+  is_hidden: boolean;
+  category?: number;
+}
+
+export interface SubcategoryUpdateInput {
+  slug?: string;
+  name?: string;
+  is_active?: boolean;
+  is_hidden?: boolean;
+  category?: number;
+}
+
+export interface Brand {
+  id: number;
+  slug: string;
+  created_at: string;
+  updated_at: string;
+  name: string;
+  is_active: boolean;
+  is_hidden: boolean;
+}
+
+export interface BrandCreateInput {
+  slug: string;
+  name: string;
+  is_active: boolean;
+  is_hidden: boolean;
+}
+
+export interface BrandUpdateInput {
+  slug?: string;
+  name?: string;
+  is_active?: boolean;
+  is_hidden?: boolean;
+}
+
 export interface User {
   id: number;
   email: string;

@@ -9,6 +9,7 @@ const uk: Dictionary = {
     shop: 'Магазин',
     brandsMenuAriaLabel: 'Навігація брендів',
     viewAllBrands: 'Всі бренди',
+    showLess: 'Показати менше',
     shopMenuAriaLabel: 'Навігація магазину',
     shopMenu: {
       shop: 'Магазин',
@@ -30,6 +31,7 @@ const uk: Dictionary = {
       beauty: 'Краса',
       womenTile: 'Жінки',
       menTile: 'Чоловіки',
+      viewAllTypes: 'Дивитись всі типи',
     },
   },
   catalog: {
@@ -353,7 +355,8 @@ const uk: Dictionary = {
       subtitle: 'Введіть свої дані',
       agreeTerms: 'Я погоджуюсь з',
       termsLink: 'Умовами використання',
-      googleTermsHint: 'Щоб зареєструватися через Google, спочатку прийміть Умови використання вище.',
+      googleTermsHint:
+        'Щоб зареєструватися через Google, спочатку прийміть Умови використання вище.',
       submit: 'Зареєструватися',
       alreadyHaveAccount: 'Вже є обліковий запис?',
     },
