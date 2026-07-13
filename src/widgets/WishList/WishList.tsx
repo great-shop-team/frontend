@@ -46,8 +46,7 @@ export default function WishList() {
     </span>
   );
 
-  const ariaLabel =
-    count > 0 ? `${t.account.wishlist} (${count})` : t.account.wishlist;
+  const ariaLabel = count > 0 ? `${t.account.wishlist} (${count})` : t.account.wishlist;
 
   if (!hasSession) {
     return (
