@@ -35,12 +35,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${poppins.variable} ${unbounded.variable} ${poppins.className}`}>
-      <body>
+      <body className="flex min-h-screen flex-col">
         <Providers>
           <Header />
-          <div className="site-content">
-            <div className="layout-container">
-              <MainContent>{children}</MainContent>
+
+          <div className="site-content flex flex-1 flex-col">
+            <div className="layout-container flex flex-1 flex-col">
+              <div className="flex-1">
+                <MainContent>{children}</MainContent>
+              </div>
             </div>
             <Footer />
           </div>

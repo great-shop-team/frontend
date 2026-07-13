@@ -69,9 +69,7 @@ export default function Header() {
           <div className="ml-8 flex items-center gap-8">
             <div
               aria-hidden
-              className={`h-10 w-px shrink-0 ${
-                isTransparent ? 'bg-white/80' : 'bg-gray/40'
-              }`}
+              className={`h-10 w-px shrink-0 ${isTransparent ? 'bg-white/80' : 'bg-gray/40'}`}
             />
             <LanguageSwitcher variant="dropdown" />
           </div>
