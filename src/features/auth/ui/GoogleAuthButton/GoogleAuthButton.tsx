@@ -60,15 +60,29 @@ export default function GoogleAuthButton({
       return;
     }
 
-    if (!googleClientId) {
+    const width = 500;
+    const height = 600;
+    const left = typeof window !== 'undefined' ? window.screen.width / 2 - width / 2 : 0;
+    const top = typeof window !== 'undefined' ? window.screen.height / 2 - height / 2 : 0;
+
+    const authPopup = window.open(
+      'about:blank',
+      '_blank',
+      `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`,
+    );
+
+    if (!authPopup) {
       onError?.(googleSignInFailedError);
       return;
     }
 
-    const redirectUri =
-      typeof window !== 'undefined'
-        ? `${window.location.origin}/google-callback`
-        : 'http://localhost:3000/google-callback';
+    if (!googleClientId) {
+      authPopup.close();
+      onError?.(googleSignInFailedError);
+      return;
+    }
+
+    const redirectUri = `${window.location.origin}/google-callback`;
 
     const targetUrl =
       `https://accounts.google.com/o/oauth2/v2/auth?` +
@@ -78,16 +92,7 @@ export default function GoogleAuthButton({
       `&scope=${encodeURIComponent('openid profile email')}` +
       `&nonce=${encodeURIComponent(Math.random().toString(36).substring(2))}`;
 
-    const width = 500;
-    const height = 600;
-    const left = window.screen.width / 2 - width / 2;
-    const top = window.screen.height / 2 - height / 2;
-
-    window.open(
-      targetUrl,
-     '_blank',
-      `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`,
-    );
+    authPopup.location.href = targetUrl;
   };
 
   const isBlocked = disabled || isLoading;
