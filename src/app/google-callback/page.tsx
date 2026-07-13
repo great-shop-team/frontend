@@ -12,15 +12,29 @@ export default function GoogleCallbackPage() {
         const idToken = params.get('id_token');
 
         if (idToken && window.opener) {
-          // Безопасно передаем JWT токен в родительское окно кнопки
+          // 1. Передаем токен родителю
           window.opener.postMessage(
             { type: 'GOOGLE_AUTH_SUCCESS', idToken },
             window.location.origin,
           );
+
+          // 2. Даем 100мс задержки, чтобы блокировщики успели переварить событие postMessage
+          setTimeout(() => {
+            try {
+              window.close();
+            } catch (e) {
+              console.error('Failed to close window via setTimeout', e);
+            }
+          }, 100);
         }
       }
-      // Закрываем поп-ап окно сразу после передачи данных
-      window.close();
+
+      // 3. Запасной вызов закрытия, если токена нет или re-auth не удался
+      try {
+        window.close();
+      } catch (e) {
+        console.error('Failed to close window directly', e);
+      }
     }
   }, []);
 
