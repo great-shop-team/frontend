@@ -64,7 +64,7 @@ export default function GetVerifiedForm({ onBack, onGetCode, onLogin }: GetVerif
       <h1 className={authPanel.title}>{t.auth.getVerified.title}</h1>
       <p className={authPanel.subtitleLinkEmail}>{t.auth.getVerified.subtitle}</p>
 
-      <form className={authPanel.form} onSubmit={handleSubmit}>
+      <form noValidate className={authPanel.form} onSubmit={handleSubmit}>
         <AuthInput
           id="verify-email"
           name="email"

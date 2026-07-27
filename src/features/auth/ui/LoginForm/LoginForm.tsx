@@ -102,7 +102,7 @@ export default function LoginForm({
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className={loginForm.form}>
+        <form noValidate onSubmit={handleSubmit} className={loginForm.form}>
           <div className={loginForm.inputContainer}>
             <AuthInput
               id="email"
@@ -180,7 +180,11 @@ export default function LoginForm({
               className={loginForm.socialBtn}
               iconClassName={loginForm.socialIcon}
               onSuccess={handleGoogleSuccess}
-              onError={setErrorMessage}
+              onError={() => {
+                setErrorMessage(
+                  'Failed to load Google login window. Check if third-party extensions (AdBlock, etc.) are blocking the site.',
+                );
+              }}
             />
 
             <button type="button" className={loginForm.socialBtn}>

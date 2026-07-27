@@ -138,7 +138,7 @@ export default function RegisterForm({ onLogin, onRegistered, onSuccess }: Regis
         <h1 className={registerForm.title}>{t.auth.register.title}</h1>
         <h2 className={registerForm.subtitle}>{t.auth.register.subtitle}</h2>
 
-        <form onSubmit={handleSubmit} className={registerForm.form}>
+        <form noValidate onSubmit={handleSubmit} className={registerForm.form}>
           <div className={registerForm.inputContainer}>
             <AuthInput
               id="email"
@@ -240,7 +240,11 @@ export default function RegisterForm({ onLogin, onRegistered, onSuccess }: Regis
               className={registerForm.socialBtn}
               iconClassName={registerForm.socialIcon}
               onSuccess={handleGoogleSuccess}
-              onError={(message) => setErrorMessages([message])}
+              onError={() => {
+                setErrorMessages([
+                  'Failed to load Google login window. Check if third-party extensions (AdBlock, etc.) are blocking the site.',
+                ]);
+              }}
               onTermsRequired={handleGoogleTermsRequired}
             />
 
