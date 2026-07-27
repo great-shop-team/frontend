@@ -148,7 +148,7 @@ export default function VerifyEmailForm({ email, onBack, onVerified }: VerifyEma
         </div>
       )}
 
-      <form className={authPanel.form} onSubmit={handleSubmit}>
+      <form noValidate className={authPanel.form} onSubmit={handleSubmit}>
         <label className={authForm.fieldLabel}>{t.auth.labels.enterCode}</label>
 
         <div className={authPanel.codeRow}>

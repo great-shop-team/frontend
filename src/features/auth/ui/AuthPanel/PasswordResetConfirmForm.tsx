@@ -119,7 +119,7 @@ export default function PasswordResetConfirmForm({
         {formatMessage(t.auth.resetPassword.subtitle, { email })}
       </p>
 
-      <form className={authPanel.form} onSubmit={handleSubmit}>
+      <form noValidate className={authPanel.form} onSubmit={handleSubmit}>
         {errors.global && <div className={authPanel.errorText}>{errors.global}</div>}
 
         <div className="mb-5">
