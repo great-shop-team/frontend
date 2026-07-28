@@ -49,7 +49,7 @@ export default function Header() {
       }`}
     >
       <div
-        className={`mx-auto box-border flex h-(--site-header-height) w-full max-w-(--layout-max-width) items-center justify-between px-(--header-padding-x) py-(--header-padding-y) ${headerBarTextClass}`}
+        className={` mx-auto box-border flex h-(--site-header-height) w-full max-w-(--layout-max-width) items-center justify-between px-(--header-padding-x) py-(--header-padding-y) ${headerBarTextClass}`}
       >
         <div className="flex min-w-0 items-center gap-24">
           <Logo />

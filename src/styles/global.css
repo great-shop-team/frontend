@@ -48,9 +48,8 @@
   --layout-gutter-tablet: 24px;
   --layout-gutter-desktop: 80px;
 
-  /* Figma header: 90px height, 22px horizontal / 14px vertical padding */
   --site-header-height: 90px;
-  --header-padding-x: 22px;
+  --header-padding-x: 80px;
   --header-padding-y: 14px;
   --site-footer-height: 400px;
 
