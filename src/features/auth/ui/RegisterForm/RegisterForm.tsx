@@ -240,10 +240,8 @@ export default function RegisterForm({ onLogin, onRegistered, onSuccess }: Regis
               className={registerForm.socialBtn}
               iconClassName={registerForm.socialIcon}
               onSuccess={handleGoogleSuccess}
-              onError={() => {
-                setErrorMessages([
-                  'Failed to load Google login window. Check if third-party extensions (AdBlock, etc.) are blocking the site.',
-                ]);
+              onError={(message) => {
+                setErrorMessages([message]);
               }}
               onTermsRequired={handleGoogleTermsRequired}
             />

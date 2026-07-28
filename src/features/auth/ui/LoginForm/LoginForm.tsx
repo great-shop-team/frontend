@@ -180,10 +180,8 @@ export default function LoginForm({
               className={loginForm.socialBtn}
               iconClassName={loginForm.socialIcon}
               onSuccess={handleGoogleSuccess}
-              onError={() => {
-                setErrorMessage(
-                  'Failed to load Google login window. Check if third-party extensions (AdBlock, etc.) are blocking the site.',
-                );
+              onError={(message) => {
+                setErrorMessage(message);
               }}
             />
 
