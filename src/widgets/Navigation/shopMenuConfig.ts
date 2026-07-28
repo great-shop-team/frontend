@@ -46,11 +46,13 @@ export const shopMenuTiles = [
   {
     labelKey: 'womenTile',
     href: catalogRoutes.women,
-    className: 'bg-[#E8E4DE] text-dark',
+    className: 'text-white',
+    background: '/images/Mega/women.svg',
   },
   {
     labelKey: 'menTile',
     href: catalogRoutes.men,
-    className: 'bg-[#2A2A2A] text-white',
+    className: 'text-white',
+    background: '/images/Mega/men.svg',
   },
 ] as const;

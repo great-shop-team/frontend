@@ -138,6 +138,12 @@ export default function ShopMegaMenu() {
             key={tile.labelKey}
             href={tile.href}
             className={`${headerNav.shopTile} ${tile.className}`}
+            style={{
+              backgroundImage: `url(${tile.background})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+            }}
           >
             {menu[tile.labelKey as keyof typeof menu]}
           </Link>

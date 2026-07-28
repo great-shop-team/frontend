@@ -38,15 +38,12 @@ export default function RootLayout({
       <body className="flex min-h-screen flex-col">
         <Providers>
           <Header />
-
-          <div className="site-content flex flex-1 flex-col">
-            <div className="layout-container flex flex-1 flex-col">
-              <div className="flex-1">
-                <MainContent>{children}</MainContent>
-              </div>
+          <div className="layout-container flex flex-1 flex-col">
+            <div className="flex-1">
+              <MainContent>{children}</MainContent>
             </div>
-            <Footer />
           </div>
+          <Footer />
         </Providers>
       </body>
     </html>
