@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useAuthOverlay } from '@/features/auth/context/AuthOverlayContext';
 import { useSessionEmail } from '@/features/auth/hooks/useSessionEmail';
 import { useTranslation } from '@/i18n/useTranslation';
-import { selectIsAuthenticated } from '@/store/slices/userSlice';
+import { selectIsAuthenticated, selectCurrentUser } from '@/store/slices/userSlice';
 import { getHeaderActionClass, isActivePath } from '@/widgets/Header/headerActionClasses';
 
 export default function MyAccount({
@@ -17,9 +17,10 @@ export default function MyAccount({
   const { t } = useTranslation();
   const router = useRouter();
   const pathname = usePathname();
-  const { hasSession, initials } = useSessionEmail();
+  const { hasSession, initials: hookInitials, email: hookEmail } = useSessionEmail();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const { isOpen, openAuth } = useAuthOverlay();
+  const currentUser = useSelector(selectCurrentUser);
 
   const isActive = isActivePath(pathname, '/profile') || isOpen;
 
@@ -32,7 +33,25 @@ export default function MyAccount({
     openAuth('login');
   };
 
-  const showInitials = hasSession && isAuthenticated && Boolean(initials);
+  // 1. Проверяем буквы из стандартного хука
+  let firstLetter = hookInitials || (typeof hookEmail === 'string' ? hookEmail[0] : '') || '';
+
+  // 2. Если хук пустой (как в случае с Google), достаем данные из вложенного объекта currentUser.user
+  if (!firstLetter && currentUser && typeof currentUser === 'object' && 'user' in currentUser) {
+    const nestedUser = currentUser.user as Record<string, unknown> | null;
+
+    if (nestedUser && typeof nestedUser === 'object') {
+      const googleEmail = typeof nestedUser.email === 'string' ? nestedUser.email : '';
+      const googleName = typeof nestedUser.username === 'string' ? nestedUser.username : '';
+      const googleFirstName =
+        typeof nestedUser.first_name === 'string' ? nestedUser.first_name : '';
+
+      firstLetter = googleFirstName[0] || googleName[0] || googleEmail[0] || '';
+    }
+  }
+
+  const finalInitials = firstLetter.trim().toUpperCase();
+  const showInitials = hasSession && isAuthenticated && Boolean(finalInitials);
 
   return (
     <button
@@ -46,12 +65,12 @@ export default function MyAccount({
     >
       {showInitials ? (
         <span
-          className={`flex h-7 w-7 select-none items-center justify-center rounded-full font-(family-name:--font-unbounded) text-[11px] font-semibold leading-none tracking-wide ${
+          className={`flex h-7 w-7 select-none items-center justify-center rounded-full font-(family-name:--font-unbounded) text-[11px] font-semibold leading-none tracking-wide uppercase ${
             isHeaderTransparent ? 'bg-white text-dark' : 'bg-dark text-white'
           }`}
           aria-hidden
         >
-          {initials}
+          {finalInitials}
         </span>
       ) : (
         <svg

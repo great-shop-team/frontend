@@ -2,6 +2,35 @@ const en = {
   nav: {
     catalog: 'Catalog',
     sales: 'Sales',
+    search: 'Search',
+    brands: 'Brands',
+    shop: 'Shop',
+    brandsMenuAriaLabel: 'Brands navigation',
+    viewAllBrands: 'View all brands',
+    showLess: 'Show less',
+    shopMenuAriaLabel: 'Shop navigation',
+    shopMenu: {
+      shop: 'Shop',
+      category: 'Category',
+      type: 'Type',
+      allProducts: 'All Products',
+      newArrivals: 'New Arrivals',
+      bestsellers: 'Bestsellers',
+      giftCard: 'Gift Card',
+      women: 'Women',
+      men: 'Men',
+      perfumes: 'Perfumes',
+      accessories: 'Accessories',
+      sport: 'Sport',
+      clothing: 'Clothing',
+      shoes: 'Shoes',
+      bags: 'Bags',
+      jewellery: 'Jewellery',
+      beauty: 'Beauty',
+      womenTile: 'Women',
+      menTile: 'Men',
+      viewAllTypes: 'View all types',
+    },
   },
   catalog: {
     title: 'Catalog',
@@ -238,6 +267,14 @@ const en = {
       description: 'Watch WEARLY on TikTok for looks, trends, and behind-the-scenes content.',
     },
   },
+  wishlist: {
+    loginRequiredTitle: 'Login required',
+    loginRequiredText:
+      'Want to save your favorite products? Sign in to your account or use quick registration.',
+    loginButton: 'Log in to account',
+    registerButton: 'Registration',
+    closeModal: 'Close',
+  },
   account: {
     profile: 'Profile',
     account: 'Account',
@@ -306,7 +343,7 @@ const en = {
       subtitle: 'Please login here',
       rememberMe: 'Remember Me',
       forgotPassword: 'Forgot Password?',
-      submit: 'Login',
+      submit: 'Log In',
       createAccount: 'Create New Account?',
     },
     register: {
@@ -314,7 +351,8 @@ const en = {
       subtitle: 'Please enter details',
       agreeTerms: 'I agree to the',
       termsLink: 'Terms & Conditions',
-      submit: 'Signup',
+      googleTermsHint: 'To sign up with Google, accept the Terms & Conditions above.',
+      submit: 'Sign Up',
       alreadyHaveAccount: 'Already have an account?',
     },
     forgotPassword: {
@@ -367,10 +405,39 @@ const en = {
       resetCodeFailed: 'Could not send the reset code. Check your email and try again.',
       registrationFailed: 'Registration error. Please check your details and try again.',
       requestFailed: 'Request error. Please try again later.',
+      googleSignInFailed: 'Google sign in failed. Please try again.',
     },
   },
   profile: {
     return: 'Return',
+    returnPage: {
+      title: 'Return an item',
+      stepOneTitle: 'Choose your order',
+      stepOneDescription:
+        'Select the order and item(s) you would like to return. Returns are accepted within 30 days of delivery.',
+
+      stepTwoTitle: 'Select return reason',
+      stepTwoDescription: 'Let us know why: wrong size, changed mind, damaged item, or other.',
+
+      stepThreeTitle: 'Print label & ship',
+      stepThreeDescription:
+        'We will email a prepaid return label. Drop the parcel at any courier point within 5 days.',
+
+      stepFourTitle: 'Refund processed',
+      stepFourDescription:
+        'Once received, refund is issued within 3–5 business days to your original payment method.',
+
+      orderNumber: 'Order number',
+      itemName: 'Item name',
+      reason: 'Reason',
+      preferredResolution: 'Preferred resolution',
+      additionalNotes: 'Additional notes (optional)',
+
+      reasonPlaceholder: 'Damage/Defective',
+      resolutionPlaceholder: 'Refund',
+
+      submitButton: 'Submit return request',
+    },
     myPromocodes: 'My Promocodes',
     myPurchases: 'My Purchases',
     myBonuses: 'My Bonuses',

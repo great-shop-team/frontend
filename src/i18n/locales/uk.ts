@@ -4,6 +4,35 @@ const uk: Dictionary = {
   nav: {
     catalog: 'Каталог',
     sales: 'Знижки',
+    search: 'Пошук',
+    brands: 'Бренди',
+    shop: 'Магазин',
+    brandsMenuAriaLabel: 'Навігація брендів',
+    viewAllBrands: 'Всі бренди',
+    showLess: 'Показати менше',
+    shopMenuAriaLabel: 'Навігація магазину',
+    shopMenu: {
+      shop: 'Магазин',
+      category: 'Категорія',
+      type: 'Тип',
+      allProducts: 'Усі товари',
+      newArrivals: 'Новинки',
+      bestsellers: 'Хіти продажів',
+      giftCard: 'Подарункова карта',
+      women: 'Жінкам',
+      men: 'Чоловікам',
+      perfumes: 'Парфуми',
+      accessories: 'Аксесуари',
+      sport: 'Спорт',
+      clothing: 'Одяг',
+      shoes: 'Взуття',
+      bags: 'Сумки',
+      jewellery: 'Прикраси',
+      beauty: 'Краса',
+      womenTile: 'Жінки',
+      menTile: 'Чоловіки',
+      viewAllTypes: 'Дивитись всі типи',
+    },
   },
   catalog: {
     title: 'Каталог',
@@ -242,6 +271,14 @@ const uk: Dictionary = {
       description: 'Дивіться WEARLY у TikTok — образи, тренди та закулісся.',
     },
   },
+  wishlist: {
+    loginRequiredTitle: 'Потрібен вхід',
+    loginRequiredText:
+      'Хочете зберегти улюблені товари? Увійдіть в особистий кабінет або скористайтесь швидкою реєстрацією.',
+    loginButton: 'Увійти в акаунт',
+    registerButton: 'Реєстрація',
+    closeModal: 'Закрити',
+  },
   account: {
     profile: 'Профіль',
     account: 'Обліковий запис',
@@ -318,6 +355,8 @@ const uk: Dictionary = {
       subtitle: 'Введіть свої дані',
       agreeTerms: 'Я погоджуюсь з',
       termsLink: 'Умовами використання',
+      googleTermsHint:
+        'Щоб зареєструватися через Google, спочатку прийміть Умови використання вище.',
       submit: 'Зареєструватися',
       alreadyHaveAccount: 'Вже є обліковий запис?',
     },
@@ -371,10 +410,41 @@ const uk: Dictionary = {
       resetCodeFailed: 'Не вдалося надіслати код. Перевірте email і спробуйте ще раз.',
       registrationFailed: 'Помилка реєстрації. Перевірте дані та спробуйте ще раз.',
       requestFailed: 'Помилка запиту. Спробуйте пізніше.',
+      googleSignInFailed: 'Не вдалося увійти через Google. Спробуйте ще раз.',
     },
   },
   profile: {
     return: 'Повернення',
+    returnPage: {
+      title: 'Повернення товару',
+
+      stepOneTitle: 'Оберіть замовлення',
+      stepOneDescription:
+        'Оберіть замовлення та товар(и), які ви бажаєте повернути. Повернення приймаються протягом 30 днів після доставки.',
+
+      stepTwoTitle: 'Вкажіть причину повернення',
+      stepTwoDescription:
+        'Повідомте нам причину: неправильний розмір, передумали, пошкоджений товар або інше.',
+
+      stepThreeTitle: 'Роздрукуйте етикетку та відправте',
+      stepThreeDescription:
+        'Ми надішлемо вам передплачену етикетку для повернення електронною поштою. Передайте посилку до будь-якого пункту прийому протягом 5 днів.',
+
+      stepFourTitle: 'Повернення коштів',
+      stepFourDescription:
+        'Після отримання товару повернення коштів буде здійснено протягом 3–5 робочих днів на початковий спосіб оплати.',
+
+      orderNumber: 'Номер замовлення',
+      itemName: 'Назва товару',
+      reason: 'Причина',
+      preferredResolution: 'Бажане рішення',
+      additionalNotes: 'Додаткові примітки (необов’язково)',
+
+      reasonPlaceholder: 'Пошкоджений / Бракований',
+      resolutionPlaceholder: 'Повернення коштів',
+
+      submitButton: 'Надіслати запит на повернення',
+    },
     myPromocodes: 'Мої промокоди',
     myPurchases: 'Мої покупки',
     myBonuses: 'Мої бонуси',

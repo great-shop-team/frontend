@@ -4,17 +4,29 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { CATALOG_PAGE_SIZE } from '@/features/catalog/config/catalogPagination';
 import type { CatalogCategory } from '@/features/catalog/model/catalogCategory';
+import type { CatalogFilters } from '@/features/catalog/lib/catalogProductsData';
 import { useCatalogProducts } from '@/features/catalog/lib/useCatalogProducts';
 
-export function useCatalogProductsPage(category: CatalogCategory) {
-  const products = useCatalogProducts(category);
+export function useCatalogProductsPage(category: CatalogCategory, filters: CatalogFilters = {}) {
+  const products = useCatalogProducts(category, filters);
   const [pagination, setPagination] = useState({
     category,
+    subcategory: filters.subcategory ?? '',
+    type: filters.type ?? '',
     visibleCount: CATALOG_PAGE_SIZE,
   });
 
-  if (pagination.category !== category) {
-    setPagination({ category, visibleCount: CATALOG_PAGE_SIZE });
+  if (
+    pagination.category !== category ||
+    pagination.subcategory !== (filters.subcategory ?? '') ||
+    pagination.type !== (filters.type ?? '')
+  ) {
+    setPagination({
+      category,
+      subcategory: filters.subcategory ?? '',
+      type: filters.type ?? '',
+      visibleCount: CATALOG_PAGE_SIZE,
+    });
   }
 
   const { visibleCount } = pagination;

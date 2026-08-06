@@ -68,7 +68,7 @@ export default function ForgotPasswordForm({
       <h1 className={authPanel.title}>{t.auth.forgotPassword.title}</h1>
       <p className={authPanel.subtitleLinkEmail}>{t.auth.forgotPassword.subtitle}</p>
 
-      <form className={authPanel.form} onSubmit={handleSubmit}>
+      <form noValidate className={authPanel.form} onSubmit={handleSubmit}>
         <AuthInput
           id="forgot-email"
           name="email"

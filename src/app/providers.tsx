@@ -6,19 +6,28 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import AuthOverlayProvider from '@/features/auth/context/AuthOverlayProvider';
 import AuthBootstrap from '@/features/auth/ui/AuthBootstrap';
+import WishlistAuthProvider from '@/features/wishlist/context/WishlistAuthProvider';
 import { I18nProvider } from '@/i18n/I18nProvider';
 import { persistor, store } from '@/store/store';
+
+function AppProviders({ children }: { children: React.ReactNode }) {
+  return (
+    <I18nProvider>
+      <AuthBootstrap />
+      <Suspense fallback={null}>
+        <AuthOverlayProvider>
+          <WishlistAuthProvider>{children}</WishlistAuthProvider>
+        </AuthOverlayProvider>
+      </Suspense>
+    </I18nProvider>
+  );
+}
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <I18nProvider>
-          <AuthBootstrap />
-          <Suspense fallback={null}>
-            <AuthOverlayProvider>{children}</AuthOverlayProvider>
-          </Suspense>
-        </I18nProvider>
+        <AppProviders>{children}</AppProviders>
       </PersistGate>
     </Provider>
   );

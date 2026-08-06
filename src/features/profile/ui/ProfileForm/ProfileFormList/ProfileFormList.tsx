@@ -46,7 +46,7 @@ const ProfileFormList = () => {
 
   return (
     <>
-      <div className="flex h-screen min-h-[50vh] mt-10">
+      <div className="flex min-h-[50vh] mt-10">
         <div className="flex flex-col  gap-6 mr-25">
           {tabs.map((tab) => (
             <button

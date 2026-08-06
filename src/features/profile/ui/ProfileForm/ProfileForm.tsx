@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { ReactNode, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { useSessionEmail } from '@/features/auth/hooks/useSessionEmail';
@@ -16,6 +17,7 @@ import {
 import OrderFormList from '@/features/profile/ui/ProfileForm/OrderFormList/OrderFormList';
 import ProfileFormList from '@/features/profile/ui/ProfileForm/ProfileFormList/ProfileFormList';
 import { useTranslation } from '@/i18n/useTranslation';
+import { selectCurrentUser } from '@/store/slices/userSlice';
 
 import styles from './Profile.module.scss';
 
@@ -24,8 +26,9 @@ type MenuId = 'profile' | 'bonuses' | 'orders' | 'addresses' | 'notifications' |
 const ProfileForm = () => {
   const { t } = useTranslation();
   const router = useRouter();
-  const { email } = useSessionEmail();
+  const { email: hookEmail } = useSessionEmail();
   const { logoutUser } = useAuth();
+  const currentUser = useSelector(selectCurrentUser);
 
   const tabMenuContent: Record<string, ReactNode> = {
     profile: <ProfileFormList />,
@@ -58,7 +61,28 @@ const ProfileForm = () => {
     setActiveTab(id);
   }
 
-  const displayName = email.split('@')[0] || t.account.user;
+  let nameToDisplay = '';
+
+  // 1. Сначала ищем данные во вложенном объекте user (для Google)
+  if (currentUser && typeof currentUser === 'object' && 'user' in currentUser) {
+    const nestedUser = currentUser.user as Record<string, unknown> | null;
+    if (nestedUser && typeof nestedUser === 'object') {
+      const googleName = typeof nestedUser.username === 'string' ? nestedUser.username : '';
+      const googleFirstName =
+        typeof nestedUser.first_name === 'string' ? nestedUser.first_name : '';
+      const googleEmail = typeof nestedUser.email === 'string' ? nestedUser.email : '';
+
+      nameToDisplay = googleFirstName || googleName || googleEmail.split('@')[0] || '';
+    }
+  }
+
+  // 2. Если в Redux ничего не нашлось, падаем на стандартный email из хука (для обычной почты)
+  if (!nameToDisplay && typeof hookEmail === 'string' && hookEmail) {
+    nameToDisplay = hookEmail.split('@')[0];
+  }
+
+  // 3. Если вообще всё пусто, берем заглушку из локализации
+  const displayName = nameToDisplay || t.account.user;
 
   return (
     <div className={styles.headerProfile}>

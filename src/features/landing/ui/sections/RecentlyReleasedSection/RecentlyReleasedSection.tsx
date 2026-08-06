@@ -12,7 +12,7 @@ export default function RecentlyReleasedSection() {
   const { clothing, labels } = useLandingData();
 
   return (
-    <section className={landingSection.section}>
+    <section id="new-arrivals" className={landingSection.section}>
       <div className={landingSection.sectionContent}>
         <h2 className={landingSection.sectionTitle}>{labels.recentlyReleased}</h2>
 

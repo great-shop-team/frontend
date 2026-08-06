@@ -138,6 +138,7 @@ export default function AuthFlow({
           onVerifyEmailChange(email);
           onViewChange('verify');
         }}
+        onSuccess={onLoginSuccess}
       />
     );
   }

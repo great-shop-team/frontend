@@ -12,6 +12,7 @@ import {
 } from '@/features/auth/context/AuthOverlayContext';
 import { AUTH_OVERLAY_CLOSE_EVENT } from '@/features/auth/lib/authOverlayEvents';
 import { isAuthView, type AuthView } from '@/features/auth/lib/authViews';
+import { consumeGoogleOAuthResult } from '@/features/auth/lib/googleOAuth';
 import { useTranslation } from '@/i18n/useTranslation';
 
 const AuthOverlayPortal = dynamic(() => import('@/features/auth/ui/AuthOverlayPortal'), {
@@ -89,6 +90,16 @@ export default function AuthOverlayProvider({ children }: { children: React.Reac
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [open, closeAuth]);
+
+  useEffect(() => {
+    const result = consumeGoogleOAuthResult();
+    if (!result || result.ok) return;
+
+    openAuth('login', {
+      hintMessage: result.message || t.auth.errors.googleSignInFailed,
+      hintType: 'error',
+    });
+  }, [openAuth, t.auth.errors.googleSignInFailed]);
 
   useEffect(() => {
     const auth = searchParams.get('auth');

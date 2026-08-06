@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useId, useState } from 'react';
 
 import { authForm } from '@/features/auth/ui/authClasses';
 import { useTranslation } from '@/i18n/useTranslation';
@@ -8,7 +8,7 @@ import { useTranslation } from '@/i18n/useTranslation';
 type InputType = 'text' | 'email' | 'password' | 'tel' | 'number' | 'search' | 'url';
 
 interface AuthInputProps {
-  id: string;
+  id?: string;
   name: string;
   label: string;
   placeholder?: string;
@@ -37,9 +37,12 @@ export default function AuthInput({
   const inputType =
     type === 'password' && togglePassword ? (showPassword ? 'text' : 'password') : type;
 
+  const reactId = useId();
+  const inputId = id ?? `auth-input-${reactId}`;
+
   return (
     <div className="flex flex-col gap-2">
-      <label htmlFor={id} className={authForm.fieldLabel}>
+      <label htmlFor={inputId} className={authForm.fieldLabel}>
         {label}
       </label>
       <div
@@ -48,7 +51,7 @@ export default function AuthInput({
         }`}
       >
         <input
-          id={id}
+          id={inputId}
           name={name}
           type={inputType}
           placeholder={placeholder}
@@ -56,7 +59,7 @@ export default function AuthInput({
           onChange={onChange}
           className="box-border w-full rounded-[10px] border-none bg-transparent px-4 py-4 pr-12 text-sm text-dark outline-none focus:shadow-none focus-visible:shadow-none placeholder:text-gray"
           aria-invalid={Boolean(error)}
-          aria-describedby={error ? `${id}-error` : undefined}
+          aria-describedby={error ? `${inputId}-error` : undefined}
         />
         {togglePassword && type === 'password' && (
           <button
@@ -95,7 +98,7 @@ export default function AuthInput({
       </div>
       {hint && <p className="text-sm leading-5 text-gray">{hint}</p>}
       {error && (
-        <p id={`${id}-error`} className="text-sm leading-5 text-error">
+        <p id={`${inputId}-error`} className="text-sm leading-5 text-error">
           {error}
         </p>
       )}
