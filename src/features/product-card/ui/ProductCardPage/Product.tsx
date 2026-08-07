@@ -7,13 +7,16 @@ import { useParams, usePathname } from 'next/navigation';
 import type { CatalogProduct } from '@/features/catalog/model/catalogProduct';
 import ClothingProductCard from '@/features/catalog/ui/CatalogProductCard/CatalogProductCard';
 import {
-  useGetBrandByIdQuery,
-  useGetCategoryByIdQuery,
+  useGetProductDetailsBySlugOrIdQuery,
   useGetProductImagesQuery,
   useGetProductVariantsQuery,
   useGetProductsRawQuery,
-  useGetSubcategoryByIdQuery,
 } from '@/store/endpoints/productsEndpoints';
+import { useGetBrandByIdQuery } from '@/store/endpoints/brandsEndpoints';
+import {
+  useGetCategoryByIdQuery,
+  useGetSubcategoryByIdQuery,
+} from '@/store/endpoints/categoriesEndpoints';
 import type { ApiProductImage, ApiProductVariant } from '@/store/types';
 
 const PRODUCT_IMAGE_PRESETS: Partial<Record<string, string[]>> = {
@@ -92,19 +95,18 @@ export default function Product() {
   const pathname = usePathname();
   const slugOrId = params.id as string;
 
-  const { data: productsRaw = [], isLoading: isProductsLoading } = useGetProductsRawQuery();
+  const {
+    data: product,
+    isLoading: isProductLoading,
+    isFetching: isProductFetching,
+  } = useGetProductDetailsBySlugOrIdQuery(slugOrId, {
+    skip: !slugOrId,
+  });
+  const { data: productsRaw = [] } = useGetProductsRawQuery(undefined, {
+    skip: !product,
+  });
   const { data: variantsRaw = [] } = useGetProductVariantsQuery();
   const { data: imagesRaw = [] } = useGetProductImagesQuery();
-
-  const product = useMemo(() => {
-    if (!slugOrId) return null;
-    const numericId = Number(slugOrId);
-    return (
-      productsRaw.find((item) => item.slug === slugOrId) ??
-      (Number.isFinite(numericId) ? productsRaw.find((item) => item.id === numericId) : undefined) ??
-      null
-    );
-  }, [productsRaw, slugOrId]);
 
   const { data: brand } = useGetBrandByIdQuery(product?.brand ?? 0, {
     skip: !product,
@@ -121,9 +123,10 @@ export default function Product() {
     return variantsRaw.filter((variant) => variant.product === product.id);
   }, [product, variantsRaw]);
 
-  const productVariantIds = useMemo(() => new Set(productVariants.map((variant) => variant.id)), [
-    productVariants,
-  ]);
+  const productVariantIds = useMemo(
+    () => new Set(productVariants.map((variant) => variant.id)),
+    [productVariants],
+  );
 
   const productImages = useMemo(() => {
     if (!product) return [];
@@ -150,11 +153,17 @@ export default function Product() {
   const relatedProducts = useMemo(() => {
     if (!product) return [];
 
-    // Simple fallback: other products from the backend list.
-    return productsRaw
-      .filter((item) => item.id !== product.id)
-      .slice(0, 3)
-      .map((item): CatalogProduct => ({
+    const sameSubcategoryProducts = productsRaw.filter(
+      (item) => item.id !== product.id && item.subcategory === product.subcategory,
+    );
+    const fallbackProducts = productsRaw.filter(
+      (item) =>
+        item.id !== product.id &&
+        !sameSubcategoryProducts.some((candidate) => candidate.id === item.id),
+    );
+
+    return [...sameSubcategoryProducts, ...fallbackProducts].slice(0, 3).map(
+      (item): CatalogProduct => ({
         id: String(item.id),
         title: item.name,
         price: '—',
@@ -165,7 +174,8 @@ export default function Product() {
         href: pathname ? `${pathname.split('/').slice(0, 3).join('/')}/${item.slug}` : '',
         slug: item.slug,
         description: item.description ?? '',
-      }));
+      }),
+    );
   }, [pathname, product, productsRaw]);
 
   const breadcrumbs = useMemo(() => {
@@ -186,7 +196,7 @@ export default function Product() {
     ];
   }, [category?.name, pathname, product, subcategory?.name]);
 
-  if (isProductsLoading) {
+  if (isProductLoading || isProductFetching) {
     return <div>{t.common.loading}</div>;
   }
 
@@ -204,7 +214,7 @@ export default function Product() {
           current: 0,
           currency: 'USD',
         }}
-        code={String(product.id)}
+        code={productVariants[0]?.sku || String(product.id)}
         size={sizes}
         rating={5}
         images={showcaseImages}
@@ -220,10 +230,7 @@ export default function Product() {
 
         <div className="relative flex gap-[2%]">
           {relatedProducts.map((item, key) => (
-            <ClothingProductCard
-              key={key}
-              product={item as CatalogProduct}
-            />
+            <ClothingProductCard key={key} product={item as CatalogProduct} />
           ))}
         </div>
       </div>

@@ -63,6 +63,45 @@ export const productsEndpoints = api.injectEndpoints({
       },
       providesTags: (_result, _error, slugOrId) => [{ type: 'Product', id: `product-${slugOrId}` }],
     }),
+    getProductDetailsBySlugOrId: builder.query<ApiProduct | null, string>({
+      async queryFn(slugOrId, _api, _extraOptions, baseQuery) {
+        const numericId = Number(slugOrId);
+
+        if (Number.isFinite(numericId)) {
+          const productResult = await baseQuery(`/api/products/${numericId}/`);
+
+          if (productResult.error) {
+            return { error: productResult.error };
+          }
+
+          return { data: (productResult.data as ApiProduct) ?? null };
+        }
+
+        const listResult = await baseQuery('/api/products/');
+
+        if (listResult.error) {
+          return { error: listResult.error };
+        }
+
+        const products = Array.isArray(listResult.data) ? (listResult.data as ApiProduct[]) : [];
+        const matchedProduct = products.find((item) => item.slug === slugOrId) ?? null;
+
+        if (!matchedProduct) {
+          return { data: null };
+        }
+
+        const productResult = await baseQuery(`/api/products/${matchedProduct.id}/`);
+
+        if (productResult.error) {
+          return { error: productResult.error };
+        }
+
+        return { data: (productResult.data as ApiProduct) ?? matchedProduct };
+      },
+      providesTags: (_result, _error, slugOrId) => [
+        { type: 'Product', id: `product-details-${slugOrId}` },
+      ],
+    }),
     getProductVariants: builder.query<ApiProductVariant[], void>({
       query: () => '/api/product-variants/',
       providesTags: ['Product'],
@@ -90,6 +129,7 @@ export const {
   useGetProductRawByIdQuery,
   useGetProductsRawQuery,
   useGetProductBySlugQuery,
+  useGetProductDetailsBySlugOrIdQuery,
   useGetProductVariantsQuery,
   useGetProductImagesQuery,
   useGetBrandByIdQuery,
