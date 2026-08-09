@@ -3,7 +3,10 @@
 import { useMemo } from 'react';
 
 import type { CatalogCategory } from '@/features/catalog/model/catalogCategory';
-import type { CatalogListingFilters, CatalogSortOption } from '@/features/catalog/model/catalogFilters';
+import type {
+  CatalogListingFilters,
+  CatalogSortOption,
+} from '@/features/catalog/model/catalogFilters';
 import type { CatalogProduct } from '@/features/catalog/model/catalogProduct';
 import { getCatalogProducts } from '@/features/catalog/lib/catalogProductsData';
 import { mapApiProductToCatalogCard } from '@/features/catalog/lib/mapApiProductToCatalogCard';
@@ -28,9 +31,15 @@ function sortProducts(products: CatalogProduct[], sort: CatalogSortOption | unde
 
   switch (sort) {
     case 'price_asc':
-      return next.sort((a, b) => (a.priceValue ?? Number.POSITIVE_INFINITY) - (b.priceValue ?? Number.POSITIVE_INFINITY));
+      return next.sort(
+        (a, b) =>
+          (a.priceValue ?? Number.POSITIVE_INFINITY) - (b.priceValue ?? Number.POSITIVE_INFINITY),
+      );
     case 'price_desc':
-      return next.sort((a, b) => (b.priceValue ?? Number.NEGATIVE_INFINITY) - (a.priceValue ?? Number.NEGATIVE_INFINITY));
+      return next.sort(
+        (a, b) =>
+          (b.priceValue ?? Number.NEGATIVE_INFINITY) - (a.priceValue ?? Number.NEGATIVE_INFINITY),
+      );
     case 'name_asc':
       return next.sort((a, b) => a.title.localeCompare(b.title));
     case 'name_desc':
@@ -55,7 +64,9 @@ function matchesRouteCategory(
   const clothingId = categoryIdBySlug.get('clothing');
   const shoesId = categoryIdBySlug.get('shoes');
   const isApparel =
-    subcategory?.category === clothingId || subcategory?.category === shoesId || subcategory == null;
+    subcategory?.category === clothingId ||
+    subcategory?.category === shoesId ||
+    subcategory == null;
 
   if (!isApparel) return false;
 
@@ -107,7 +118,12 @@ export function useCatalogListing(category: CatalogCategory, filters: CatalogLis
   const isError = Boolean(productsQuery.isError);
 
   const facetData = useMemo(() => {
-    const brands = (brandsQuery.data ?? []).filter((item) => item.is_active && !item.is_hidden);
+    const brands = (brandsQuery.data ?? []).filter((item) => {
+      const active = 'is_active' in item ? (item as { is_active?: boolean }).is_active : true;
+      const hidden = 'is_hidden' in item ? (item as { is_hidden?: boolean }).is_hidden : false;
+      return active !== false && !hidden;
+    });
+
     const categories = categoriesQuery.data ?? [];
     const categoryIdBySlug = new Map(categories.map((item) => [item.slug, item.id]));
     const clothingId = categoryIdBySlug.get('clothing');
@@ -115,13 +131,21 @@ export function useCatalogListing(category: CatalogCategory, filters: CatalogLis
     const accessoriesId = categoryIdBySlug.get('accessories');
 
     const subcategories = (subcategoriesQuery.data ?? [])
-      .filter((item) => item.is_active && !item.is_hidden)
+      .filter((item) => {
+        const active = 'is_active' in item ? (item as { is_active?: boolean }).is_active : true;
+        const hidden = 'is_hidden' in item ? (item as { is_hidden?: boolean }).is_hidden : false;
+        return active !== false && !hidden;
+      })
       .filter((item) => {
         if (category === 'accessories') return item.category === accessoriesId;
         return item.category === clothingId || item.category === shoesId;
       });
 
-    const colors = (colorsQuery.data ?? []).filter((item) => item.is_active);
+    const colors = (colorsQuery.data ?? []).filter((item) => {
+      const active = 'is_active' in item ? (item as { is_active?: boolean }).is_active : true;
+      return active !== false;
+    });
+
     const sizes = [...(sizesQuery.data ?? [])].sort((a, b) => a.sort_order - b.sort_order);
 
     return { brands, subcategories, colors, sizes };
@@ -135,9 +159,13 @@ export function useCatalogListing(category: CatalogCategory, filters: CatalogLis
   ]);
 
   const products = useMemo(() => {
-    const apiProducts = (productsQuery.data ?? []).filter(
-      (product) => product.is_active && !product.is_hidden,
-    );
+    // Безопасная фильтрация продуктов (проверяет наличие полей is_active / is_hidden)
+    const apiProducts = (productsQuery.data ?? []).filter((product) => {
+      const p = product as unknown as { is_active?: boolean; is_hidden?: boolean };
+      const isActive = p.is_active !== undefined ? p.is_active : true;
+      const isHidden = p.is_hidden !== undefined ? p.is_hidden : false;
+      return isActive && !isHidden;
+    });
 
     const brandById = new Map<number, Brand>(
       (brandsQuery.data ?? []).map((brand) => [brand.id, brand]),
@@ -164,13 +192,7 @@ export function useCatalogListing(category: CatalogCategory, filters: CatalogLis
         const productVariants = variants.filter((variant) => variant.product === product.id);
         const genders = productVariants.map((variant) => variant.gender);
 
-        return matchesRouteCategory(
-          category,
-          product.name,
-          subcategory,
-          categoryIdBySlug,
-          genders,
-        );
+        return matchesRouteCategory(category, product.name, subcategory, categoryIdBySlug, genders);
       })
       .map((product) =>
         mapApiProductToCatalogCard({
