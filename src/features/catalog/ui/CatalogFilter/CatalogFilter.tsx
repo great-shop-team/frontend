@@ -5,14 +5,20 @@ import { catalogToolbar } from '@/features/catalog/ui/catalogClasses';
 
 type CatalogFilterProps = {
   onClick?: () => void;
+  activeCount?: number;
 };
 
-export default function CatalogFilter({ onClick }: CatalogFilterProps) {
+export default function CatalogFilter({ onClick, activeCount = 0 }: CatalogFilterProps) {
   const { t } = useTranslation();
 
   return (
     <button type="button" className={catalogToolbar.control} onClick={onClick}>
       {t.catalog.filter}
+      {activeCount > 0 ? (
+        <span className="ml-1 inline-flex min-w-5 items-center justify-center rounded-full bg-dark px-1.5 text-xs text-white">
+          {activeCount}
+        </span>
+      ) : null}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

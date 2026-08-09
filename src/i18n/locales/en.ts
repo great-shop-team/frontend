@@ -8,6 +8,9 @@ const en = {
     brandsMenuAriaLabel: 'Brands navigation',
     viewAllBrands: 'View all brands',
     showLess: 'Show less',
+    openMenu: 'Open menu',
+    closeMenu: 'Close menu',
+    menu: 'Menu',
     shopMenuAriaLabel: 'Shop navigation',
     shopMenu: {
       shop: 'Shop',
@@ -46,6 +49,25 @@ const en = {
     bannerAriaLabel: 'Catalog banner',
     bannerImageAlt: 'Catalog banner',
     bannerPlaceholder: 'Banner placeholder',
+    clearFilters: 'Clear all',
+    applyFilters: 'Show results',
+    closeFilters: 'Close filters',
+    empty: 'No products found',
+    loadError: 'Could not load products. Please try again.',
+    filtersEmpty: 'Filters will appear when catalog data is available.',
+    sortOptions: {
+      featured: 'Featured',
+      priceAsc: 'Price: Low to High',
+      priceDesc: 'Price: High to Low',
+      nameAsc: 'Name: A–Z',
+      nameDesc: 'Name: Z–A',
+    },
+    filterGroups: {
+      subcategory: 'Category',
+      brand: 'Brand',
+      color: 'Color',
+      size: 'Size',
+    },
     categories: {
       men: {
         navLabel: 'Men',
@@ -77,18 +99,58 @@ const en = {
     recentlyReleased: 'Recently released',
     viewAllProducts: 'View all products',
     viewAll: 'View all',
+    shopAll: 'Shop all',
     shopNow: 'Shop now',
     showMore: 'Show more',
     addToCart: 'Add to cart',
     addToWishlist: 'Add to wishlist',
     add: 'Add',
     selectSize: 'Select size',
+    bestSellers: 'Shop / Best Sellers',
+    shopBy: 'New In / Shop By',
+    shopByCategory: 'Shop by Category',
+    prev: 'Previous',
+    next: 'Next',
+    streetStyle: 'Street Style',
+    pressMedia: 'FOLLOW US',
+    pressHandle: '@wearlystore',
+    wearly: '#WEARLY',
+    benefits: {
+      worldwideShipping: 'Worldwide Shipping',
+      freeReturns: 'Free Returns',
+      secureCheckout: 'Secure Checkout',
+      liveStyleAdvice: 'Live Style Advice',
+    },
     hero: {
       imageAlt: 'Urban fashion editorial',
       title: 'Urban Pulse',
       description:
         'Step into a world where fashion meets the rhythm of the city. Our latest collection blends streetwear energy with refined silhouettes.',
-      cta: 'New Collection',
+      cta: 'Explore',
+      slidesAriaLabel: 'Hero carousel',
+      goToSlide: 'Go to slide {n}',
+      slides: {
+        lessNoise: {
+          title: 'Less noise\nMore comfort',
+          description: 'Pieces made for the fearless — season after season',
+        },
+        builtDifferent: {
+          title: 'Built different\nWorn better',
+          description: 'Built for durability. Designed for everywhere.',
+        },
+        quietConfidence: {
+          title: 'Quiet\nconfidence',
+          description: 'Find the ease within the intensity.',
+        },
+        madeForMovement: {
+          title: 'Made for\nmovement',
+          description: 'Grace in every stride, comfort in every cut.',
+        },
+        lessTrend: {
+          title: 'Less trend\nMore you',
+          description: 'Timeless style designed for the individual you are.',
+        },
+      },
     },
     promo: {
       imageAlt: 'Tom Ford Lost Cherry fragrance',
@@ -105,21 +167,100 @@ const en = {
       cta: 'Explore The Campaign',
     },
     clothing: {
-      essentialTee: {
+      'w-cloth-001': {
         title: 'Essential Oversized T-shirt',
         imageAlt: 'Essential Oversized T-shirt',
         price: '$100',
       },
-      roseTee: {
+      'w-cloth-002': {
         title: 'Rose Oversized T-shirt',
         imageAlt: 'Rose Oversized T-shirt',
         price: '$100',
       },
-      heritageTee: {
+      'w-cloth-004': {
         title: 'Heritage Graphic T-shirt',
         imageAlt: 'Heritage Graphic T-shirt',
         price: '$100',
       },
+    },
+    shopByItems: {
+      women: { label: 'Women', imageAlt: 'Shop women' },
+      men: { label: 'Men', imageAlt: 'Shop men' },
+      perfumes: { label: 'Perfume', imageAlt: 'Shop perfumes' },
+      accessories: { label: 'Accessories', imageAlt: 'Shop accessories' },
+    },
+    featuredFrames: {
+      lookEditorial: {
+        title: 'Essentials crafted for the city',
+        imageAlt: 'City tailored look editorial',
+      },
+      lookProduct: {
+        title: 'Heritage Crop Vest',
+        imageAlt: 'Heritage crop vest',
+        price: '$300',
+      },
+      scentProduct: {
+        title: 'Oud Sambac',
+        subtitle: 'Oud Sambac eau de parfum',
+        imageAlt: 'Oud Sambac eau de parfum',
+        price: '$130',
+      },
+      scentEditorial: {
+        title: 'Scent crafted for the city',
+        imageAlt: 'Oud Sambac styled editorial',
+      },
+    },
+    featuredLook: {
+      editorialAlt: 'Featured look editorial',
+      product: {
+        title: 'Black Ribbed Top',
+        imageAlt: 'Black ribbed cropped top',
+        price: '$20',
+      },
+    },
+    featuredFragrance: {
+      editorialAlt: 'Lost Cherry fragrance editorial',
+      product: {
+        title: 'Lost Cherry Eau de Parfum',
+        imageAlt: 'Lost Cherry Eau de Parfum',
+        price: '$350',
+      },
+    },
+    streetStyleItems: {
+      streetOne: { imageAlt: 'Street style editorial one' },
+      streetTwo: { imageAlt: 'Street style editorial two' },
+      streetThree: { imageAlt: 'Street style editorial three' },
+    },
+    wearlyItems: {
+      container1: { imageAlt: '#WEARLY look one' },
+      container2: { imageAlt: '#WEARLY look two' },
+      container3: { imageAlt: '#WEARLY look three' },
+      container4: { imageAlt: '#WEARLY look four' },
+    },
+    promoDuo: {
+      nike: { label: 'Nike', imageAlt: 'Nike campaign' },
+      ysl: { label: 'Yves Saint Laurent', imageAlt: 'Yves Saint Laurent fragrance' },
+    },
+    campaign: {
+      imageAlt: 'Eyewear campaign portrait',
+      title: 'EYEWEAR EDIT',
+      subtitle: 'Oliver Peoples',
+      cta: 'Discover',
+    },
+    eyewear: {
+      title: 'See differently',
+      editorialAlt: 'Model wearing tortoise aviator frames',
+      product: {
+        title: 'Tortoise Aviator Frames',
+        imageAlt: 'Tortoise aviator frames on wood stand',
+        price: '$150',
+      },
+    },
+    pressItems: {
+      pressOne: { imageAlt: 'Press media shot one' },
+      pressTwo: { imageAlt: 'Press media shot two' },
+      pressThree: { imageAlt: 'Press media shot three' },
+      pressFour: { imageAlt: 'Press media shot four' },
     },
     fragrances: {
       tobaccoVanille: {

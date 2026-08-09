@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Poppins, Unbounded } from 'next/font/google';
+import { PT_Sans_Caption, Unbounded } from 'next/font/google';
 
 import '@/styles/global.css';
 
@@ -16,16 +16,16 @@ import Footer from '@/widgets/Footer/Footer';
 import MainContent from '@/widgets/MainContent/MainContent';
 import Providers from './providers';
 
-const poppins = Poppins({
-  subsets: ['latin'],
-  variable: '--font-poppins',
-  weight: ['300', '400', '500', '600', '700'],
+const ptSansCaption = PT_Sans_Caption({
+  subsets: ['latin', 'latin-ext'],
+  variable: '--font-pt-sans-caption',
+  weight: ['400', '700'],
 });
 
 const unbounded = Unbounded({
-  subsets: ['latin'],
+  subsets: ['latin', 'cyrillic'],
   variable: '--font-unbounded',
-  weight: ['400', '500', '600', '700'],
+  weight: ['300', '400', '500', '600', '700'],
 });
 
 export default function RootLayout({
@@ -34,7 +34,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${poppins.variable} ${unbounded.variable} ${poppins.className}`}>
+    <html
+      lang="en"
+      className={`${ptSansCaption.variable} ${unbounded.variable} ${ptSansCaption.className}`}
+    >
       <body className="flex min-h-screen flex-col">
         <Providers>
           <Header />

@@ -18,4 +18,10 @@ export type CatalogProduct = {
   inStock?: boolean;
   sizes?: string[];
   colors?: ProductColorOption[];
+  brandId?: number;
+  brandName?: string;
+  subcategoryId?: number;
+  colorIds?: number[];
+  sizeIds?: number[];
+  priceValue?: number;
 };

@@ -70,7 +70,9 @@ export default function LoginRequiredModal({
           {t.wishlist.loginRequiredTitle}
         </h2>
 
-        <p className="mb-8 text-base leading-relaxed text-black/80">{t.wishlist.loginRequiredText}</p>
+        <p className="mb-8 text-base leading-relaxed text-black/80">
+          {t.wishlist.loginRequiredText}
+        </p>
 
         <div className="flex flex-col gap-3 sm:flex-row">
           <button

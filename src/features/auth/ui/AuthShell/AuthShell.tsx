@@ -24,7 +24,7 @@ export default function AuthShell({ children, onBackdropClick }: AuthShellProps)
 
   return (
     <div
-      className="pointer-events-auto fixed top-(--site-header-height) right-0 bottom-0 left-0 z-50 flex w-full max-md:flex-col"
+      className="pointer-events-auto fixed top-[var(--site-header-height)] right-0 bottom-0 left-0 z-50 flex w-full max-md:flex-col"
       role="dialog"
       aria-modal
       aria-label="Account"

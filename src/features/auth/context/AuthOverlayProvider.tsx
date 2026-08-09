@@ -95,10 +95,15 @@ export default function AuthOverlayProvider({ children }: { children: React.Reac
     const result = consumeGoogleOAuthResult();
     if (!result || result.ok) return;
 
-    openAuth('login', {
-      hintMessage: result.message || t.auth.errors.googleSignInFailed,
-      hintType: 'error',
-    });
+    // Avoid calling setState synchronously inside effect to prevent cascading renders
+    const id = setTimeout(() => {
+      openAuth('login', {
+        hintMessage: result.message || t.auth.errors.googleSignInFailed,
+        hintType: 'error',
+      });
+    }, 0);
+
+    return () => clearTimeout(id);
   }, [openAuth, t.auth.errors.googleSignInFailed]);
 
   useEffect(() => {

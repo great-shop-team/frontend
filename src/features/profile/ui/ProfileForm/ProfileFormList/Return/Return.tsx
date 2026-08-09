@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import returnProfile from '@/data/profile_json/return_json/returnProfile.json';
 import { useTranslation } from '@/i18n/useTranslation';
 
@@ -20,9 +21,9 @@ const Return = () => {
 
       <div>
         <div className={blockStyles}>
-          <img
-            width="50"
-            height="50"
+          <Image
+            width={50}
+            height={50}
             src={returnProfile.imagesFirst.image_first}
             alt={returnProfile.imagesFirst.alt}
             className={imgStyles}
@@ -34,9 +35,9 @@ const Return = () => {
         </div>
 
         <div className={blockStyles}>
-          <img
-            width="50"
-            height="50"
+          <Image
+            width={50}
+            height={50}
             src={returnProfile.imagesSecond.image_first}
             alt={returnProfile.imagesSecond.alt}
             className={imgStyles}
@@ -48,9 +49,9 @@ const Return = () => {
         </div>
 
         <div className={blockStyles}>
-          <img
-            width="50"
-            height="50"
+          <Image
+            width={50}
+            height={50}
             src={returnProfile.imagesThird.image_first}
             alt={returnProfile.imagesThird.alt}
             className={imgStyles}
@@ -62,9 +63,9 @@ const Return = () => {
         </div>
 
         <div className={blockStyles}>
-          <img
-            width="50"
-            height="50"
+          <Image
+            width={50}
+            height={50}
             src={returnProfile.imagesFouth.image_first}
             alt={returnProfile.imagesFouth.alt}
             className={imgStyles}

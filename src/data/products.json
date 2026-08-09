@@ -506,5 +506,37 @@
       "sizes": ["10 ml", "50 ml", "100 ml"]
     },
     "inStock": false
+  },
+  {
+    "id": "a-eye-001",
+    "slug": "tortoise-aviator-frames",
+    "name": "Tortoise Aviator Frames",
+    "category": "accessories",
+    "subcategory": "eyewear",
+    "type": "sunglasses",
+    "description": "Bold tortoise acetate frames with a flat top bar and double bridge. A modern aviator silhouette for everyday wear.",
+    "price": { "amount": 150, "currency": "USD" },
+    "images": ["/images/Landing/Frame7.png", "/images/Landing/Frame6.png"],
+    "options": {
+      "colors": [{ "name": "Tortoise", "hex": "#6B3E26" }],
+      "sizes": ["One Size"]
+    },
+    "inStock": true
+  },
+  {
+    "id": "a-eye-002",
+    "slug": "oliver-peoples-edit",
+    "name": "Narrow Black Sunglasses",
+    "category": "accessories",
+    "subcategory": "eyewear",
+    "type": "sunglasses",
+    "description": "Slim rectangular sunglasses with a low bridge fit. Clean lines for a sharp eyewear edit.",
+    "price": { "amount": 180, "currency": "USD" },
+    "images": ["/images/Landing/Frame5.png", "/images/Landing/Frame6.png"],
+    "options": {
+      "colors": [{ "name": "Black", "hex": "#111111" }],
+      "sizes": ["One Size"]
+    },
+    "inStock": true
   }
 ]

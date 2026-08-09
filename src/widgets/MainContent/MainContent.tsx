@@ -12,5 +12,7 @@ export default function MainContent({ children }: MainContentProps) {
   const pathname = usePathname();
   const isBannerPage = hasBannerHeader(pathname);
 
-  return <main className={isBannerPage ? undefined : 'pt-(--site-header-height)'}>{children}</main>;
+  return (
+    <main className={isBannerPage ? undefined : 'pt-[var(--site-header-height)]'}>{children}</main>
+  );
 }
