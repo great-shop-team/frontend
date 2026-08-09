@@ -49,11 +49,12 @@
   --layout-gutter-desktop: 80px;
 
   --site-header-height: 64px;
+  --hero-view-height: 100dvh;
+  --hero-section-height: calc(var(--hero-view-height) - var(--site-header-height));
   --header-padding-x: 16px;
   --header-padding-y: 10px;
   --site-footer-height: 400px;
 
-  --landing-hero-height: 850px;
   --landing-hero-ratio: 0.5903;
   --landing-section-gap: 100px;
   --landing-product-card-width: 413px;
@@ -66,7 +67,13 @@
   --landing-category-thumb-height: 140px;
 
   --auth-backdrop-ratio: 60%;
-  --auth-panel-ratio: 40%;
+  --auth-panel-ratio: 40%; 
+}
+
+@supports not (height: 100dvh) {
+  :root {
+    --hero-view-height: 100vh;
+  }
 }
 
 @media (min-width: 768px) {
@@ -209,6 +216,12 @@
     color: var(--color-white);
     border-color: var(--color-white);
   }
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
 }
 
 html {

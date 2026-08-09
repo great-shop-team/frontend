@@ -42,9 +42,44 @@ export default function HeroSection() {
     goTo(activeIndex + 1);
   }, [activeIndex, goTo]);
 
+  // Keep the hero height in sync with the real viewport, including mobile browser UI changes.
+  useEffect(() => {
+    const updateHeroHeight = () => {
+      if (typeof window === 'undefined') return;
+
+      const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+
+      document.documentElement.style.setProperty('--hero-view-height', `${viewportHeight}px`);
+      document.documentElement.style.setProperty('--hero-section-height', `${viewportHeight}px`);
+    };
+
+    updateHeroHeight();
+
+    const viewport = window.visualViewport;
+    window.addEventListener('resize', updateHeroHeight);
+    window.addEventListener('orientationchange', updateHeroHeight);
+    viewport?.addEventListener('resize', updateHeroHeight);
+
+    return () => {
+      window.removeEventListener('resize', updateHeroHeight);
+      window.removeEventListener('orientationchange', updateHeroHeight);
+      viewport?.removeEventListener('resize', updateHeroHeight);
+    };
+  }, []);
+
   return (
     <section
-      className={`${landingSection.breakout} relative mb-16 h-[700px] w-screen overflow-hidden md:mb-20 lg:mb-[100px]`}
+      className="relative overflow-hidden bg-black transition-[height] duration-300 mb-16 md:mb-20 lg:mb-[100px]"
+      style={{
+        height: 'var(--hero-view-height)',
+        width: '100vw',
+        maxWidth: '100vw',
+        position: 'relative',
+        left: '50%',
+        marginLeft: '-50vw',
+        marginRight: '-50vw',
+        overflowX: 'hidden',
+      }}
       aria-roledescription="carousel"
       aria-label={hero.slidesAriaLabel}
     >
@@ -63,7 +98,7 @@ export default function HeroSection() {
               ref={(el) => {
                 videoRefs.current[index] = el;
               }}
-              className="absolute inset-0 h-full w-full object-cover object-[center_top]"
+              className="absolute inset-0 h-full w-full object-cover object-[center_top] bg-black"
               src={slide.video}
               muted
               playsInline
@@ -75,8 +110,8 @@ export default function HeroSection() {
               aria-hidden
             />
 
-            <div className="layout-gutter relative z-1 flex h-full items-center pt-[calc(var(--site-header-height)+16px)] pb-20">
-              <div className="flex w-full max-w-[421px] flex-col gap-8">
+            <div className="mx-auto box-border relative z-1 flex h-full w-full max-w-[var(--layout-max-width)] items-center pt-[var(--site-header-height)] pb-20 px-[var(--header-padding-x)]">
+              <div className="flex w-full max-w-[421px] flex-col gap-8 -translate-y-[calc(var(--site-header-height)/2)]">
                 <div className="flex flex-col gap-3">
                   <h1 className="m-0 font-(family-name:--font-unbounded) text-[clamp(1.875rem,3.6vw,3rem)] leading-[1.15] font-semibold tracking-tight text-white">
                     {slide.title.split('\n').map((line, lineIndex) => (
