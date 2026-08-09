@@ -57,7 +57,7 @@ export default function Header() {
       }`}
     >
       <div
-        className={`mx-auto box-border flex h-(--site-header-height) w-full max-w-(--layout-max-width) items-center justify-between px-(--header-padding-x) py-(--header-padding-y) ${headerBarTextClass}`}
+        className={`mx-auto box-border flex h-[var(--site-header-height)] w-full max-w-[var(--layout-max-width)] items-center justify-between px-[var(--header-padding-x)] py-[var(--header-padding-y)] ${headerBarTextClass}`}
       >
         <div className="flex min-w-0 items-center gap-3 lg:gap-24">
           <button

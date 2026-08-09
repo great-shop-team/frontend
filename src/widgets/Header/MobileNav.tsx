@@ -84,7 +84,7 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
         }`}
         aria-labelledby={titleId}
       >
-        <div className="flex h-(--site-header-height) shrink-0 items-center justify-between border-b border-black/8 px-4">
+        <div className="flex h-[var(--site-header-height)] shrink-0 items-center justify-between border-b border-black/8 px-4">
           <p
             id={titleId}
             className="m-0 font-(family-name:--font-unbounded) text-base font-medium text-dark"
