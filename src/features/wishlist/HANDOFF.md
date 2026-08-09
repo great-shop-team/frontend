@@ -22,8 +22,8 @@
 Сердечко подключено в:
 
 - `src/features/catalog/ui/CatalogProductCard/CatalogProductCard.tsx` — каталог;
-- `src/features/landing/ui/sections/RecentlyReleasedSection/ClothingProductCard.tsx` — лендинг, одежда;
-- `src/features/landing/ui/sections/FragrancesSection/FragranceProductCard.tsx` — лендинг, парфюм.
+- `src/features/landing/ui/sections/LandingProductCard/LandingProductCard.tsx` — лендинг, product card;
+- `src/features/landing/ui/sections/FeaturedProductCard/FeaturedProductCard.tsx` — лендинг, featured product.
 
 Общий компонент кнопки:
 

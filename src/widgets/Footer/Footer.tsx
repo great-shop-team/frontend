@@ -130,7 +130,7 @@ export default function Footer() {
   );
 
   return (
-    <footer className="bg-[#121212] py-12 pb-10 font-(family-name:--font-poppins) text-white">
+    <footer className="bg-[#121212] py-12 pb-10 font-(family-name:--font-pt-sans-caption) text-white">
       <div className="layout-container mx-auto box-border w-full max-w-[1440px]">
         <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[420px_minmax(0,1fr)] lg:grid-rows-[1fr_auto_auto] lg:items-stretch lg:gap-x-24 lg:gap-y-0">
           <div className="order-1 flex flex-col gap-4 lg:col-start-1 lg:row-start-1 lg:min-h-full lg:gap-0">
