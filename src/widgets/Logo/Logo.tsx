@@ -17,7 +17,7 @@ export default function Logo() {
         alt="WEARLY"
         width={132}
         height={30}
-        className="header-logo block h-auto w-[132px]"
+        className="header-logo block h-auto w-[100px] lg:w-[132px]"
       />
     </Link>
   );

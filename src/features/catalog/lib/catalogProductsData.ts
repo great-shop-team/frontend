@@ -10,6 +10,10 @@ const allProducts: Product[] = parseProducts(productsMock);
 export type CatalogFilters = {
   subcategory?: string;
   type?: string;
+  brand?: string[];
+  color?: string[];
+  size?: string[];
+  sort?: import('@/features/catalog/model/catalogFilters').CatalogSortOption;
 };
 
 export function getCatalogProducts(

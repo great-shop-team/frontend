@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 @theme {
-  --font-sans: var(--font-poppins), 'Poppins', sans-serif;
+  --font-sans: var(--font-pt-sans-caption), 'PT Sans Caption', sans-serif;
   --font-heading: var(--font-unbounded), 'Unbounded', sans-serif;
   --second-family: var(--font-unbounded), 'Unbounded', sans-serif;
 
@@ -48,9 +48,9 @@
   --layout-gutter-tablet: 24px;
   --layout-gutter-desktop: 80px;
 
-  --site-header-height: 90px;
-  --header-padding-x: 80px;
-  --header-padding-y: 14px;
+  --site-header-height: 64px;
+  --header-padding-x: 16px;
+  --header-padding-y: 10px;
   --site-footer-height: 400px;
 
   --landing-hero-height: 850px;
@@ -67,6 +67,22 @@
 
   --auth-backdrop-ratio: 60%;
   --auth-panel-ratio: 40%;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --site-header-height: 80px;
+    --header-padding-x: 24px;
+    --header-padding-y: 12px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --site-header-height: 90px;
+    --header-padding-x: 80px;
+    --header-padding-y: 14px;
+  }
 }
 
 @layer base {
