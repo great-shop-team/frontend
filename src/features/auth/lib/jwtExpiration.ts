@@ -60,11 +60,9 @@ export function logTokenExpirations(
   refreshToken?: string | null,
 ): void {
   const access =
-    accessToken ??
-    (typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null);
+    accessToken ?? (typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null);
   const refresh =
-    refreshToken ??
-    (typeof window !== 'undefined' ? localStorage.getItem('refreshToken') : null);
+    refreshToken ?? (typeof window !== 'undefined' ? localStorage.getItem('refreshToken') : null);
 
   console.log('[Tokens]', formatExpiration(access, 'Access'));
   console.log('[Tokens]', formatExpiration(refresh, 'Refresh'));

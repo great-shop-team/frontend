@@ -1,12 +1,12 @@
 import { api } from '../api';
 import { normalizeProduct } from '../api/mappers/products.mapper';
 import type {
-  ApiBrand,
-  ApiCategory,
+  Brand,
+  Category,
   ApiProduct,
-  ApiProductImage,
-  ApiProductVariant,
-  ApiSubcategory,
+  ProductImageRecord,
+  ProductVariant,
+  Subcategory,
   ProductCardData,
 } from '../types';
 
@@ -102,21 +102,21 @@ export const productsEndpoints = api.injectEndpoints({
         { type: 'Product', id: `product-details-${slugOrId}` },
       ],
     }),
-    getProductVariants: builder.query<ApiProductVariant[], void>({
+    getProductVariants: builder.query<ProductVariant[], void>({
       query: () => '/api/product-variants/',
       providesTags: ['Product'],
     }),
-    getProductImages: builder.query<ApiProductImage[], void>({
+    getProductImages: builder.query<ProductImageRecord[], void>({
       query: () => '/api/product-images/',
       providesTags: ['Product'],
     }),
-    getBrandById: builder.query<ApiBrand, number>({
+    getBrandById: builder.query<Brand, number>({
       query: (id) => `/api/brands/${id}/`,
     }),
-    getCategoryById: builder.query<ApiCategory, number>({
+    getCategoryById: builder.query<Category, number>({
       query: (id) => `/api/categories/categories/${id}/`,
     }),
-    getSubcategoryById: builder.query<ApiSubcategory, number>({
+    getSubcategoryById: builder.query<Subcategory, number>({
       query: (id) => `/api/categories/subcategories/${id}/`,
     }),
   }),

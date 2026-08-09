@@ -41,10 +41,7 @@ const getProductCategoryPath = (product: CatalogProduct): string => {
   return `/catalog/men/${product.id}`;
 };
 
-export default function CatalogProductCard({
-  product,
-  onAddToCart,
-}: CatalogProductCardProps) {
+export default function CatalogProductCard({ product, onAddToCart }: CatalogProductCardProps) {
   const { t } = useTranslation();
 
   const cardHref = getProductCategoryPath(product);

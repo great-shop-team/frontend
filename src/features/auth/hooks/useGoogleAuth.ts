@@ -38,4 +38,3 @@ export function useGoogleAuth() {
 
   return { signInWithGoogle, isLoading };
 }
-

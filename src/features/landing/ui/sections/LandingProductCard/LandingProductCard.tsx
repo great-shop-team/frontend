@@ -28,10 +28,7 @@ export default function LandingProductCard({
   return (
     <article className="group flex w-full flex-col gap-[19px]">
       <div className="relative flex aspect-413/493 w-full items-center justify-center overflow-hidden bg-[#fafafa]">
-        <Link
-          href={href}
-          className="relative aspect-258/387 h-[78%] shrink-0 overflow-hidden"
-        >
+        <Link href={href} className="relative aspect-258/387 h-[78%] shrink-0 overflow-hidden">
           <Image
             src={image.src}
             alt={image.alt}

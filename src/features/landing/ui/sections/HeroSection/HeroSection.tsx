@@ -116,9 +116,7 @@ export default function HeroSection() {
               aria-selected={isActive}
               aria-label={hero.goToSlide.replace('{n}', String(index + 1))}
               className={`cursor-pointer rounded-full border-none transition-all duration-300 ${
-                isActive
-                  ? 'h-2.5 w-2.5 bg-white'
-                  : 'h-2 w-2 bg-white/45 hover:bg-white/70'
+                isActive ? 'h-2.5 w-2.5 bg-white' : 'h-2 w-2 bg-white/45 hover:bg-white/70'
               }`}
               onClick={() => goTo(index)}
             />

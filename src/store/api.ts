@@ -100,7 +100,6 @@ export const baseQueryWithReauth: BaseQueryFn<
   FetchBaseQueryError,
   ReauthExtraOptions
 > = async (args, api, extraOptions = {}) => {
-  const url = typeof args === 'string' ? args : args.url;
   const isRefreshRequest = typeof args === 'object' && args.url === REFRESH_URL;
 
   if (tokenRefreshPromise && !isRefreshRequest) {

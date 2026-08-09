@@ -41,7 +41,11 @@ export default function ShopBySection() {
                 className="size-4"
                 aria-hidden
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.75 19.5 8.25 12l7.5-7.5"
+                />
               </svg>
             </button>
             <button
