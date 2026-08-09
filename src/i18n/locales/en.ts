@@ -493,6 +493,29 @@ const en = {
     RepeatNewPassword: 'Repeat new password',
     SaveChanges: 'Save changes',
   },
+
+  address: {
+    address: 'Address',
+    default: 'Default',
+    edit: 'Edit',
+    delete: 'Delete',
+    setDefault: 'Set default',
+    addNew: 'Add new address',
+    editAddress: 'Edit address',
+    streetAndHouseNumber: 'Street and house number',
+    floor: 'Floor (optional)',
+    firstName: 'First name',
+    lastName: 'Last name',
+    streetAddress: 'Street address',
+    apartment: 'Apartment/flat',
+    optional: 'Optional',
+    city: 'City',
+    postcode: 'Postcode',
+    country: 'Country',
+    phone: 'Phone',
+    cancel: 'Cancel',
+    saveChanges: 'Save changes',
+  },
 };
 
 export default en;

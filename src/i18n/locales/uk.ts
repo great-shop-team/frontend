@@ -500,6 +500,28 @@ const uk: Dictionary = {
     RepeatNewPassword: 'Повторіть новий пароль',
     SaveChanges: 'Зберегти зміни',
   },
+  address: {
+    address: 'Адреса',
+    default: 'За замовчуванням',
+    edit: 'Редагувати',
+    delete: 'Видалити',
+    setDefault: 'Встановити за замовчуванням',
+    addNew: 'Додати нову адресу',
+    editAddress: 'Редагувати адресу',
+    streetAndHouseNumber: 'Вулиця та номер будинку',
+    floor: "Поверх (необов'язково)",
+    firstName: "Ім'я",
+    lastName: 'Прізвище',
+    streetAddress: 'Вулиця та номер будинку',
+    apartment: 'Квартира',
+    optional: "Необов'язково",
+    city: 'Місто',
+    postcode: 'Поштовий індекс',
+    country: 'Країна',
+    phone: 'Телефон',
+    cancel: 'Скасувати',
+    saveChanges: 'Зберегти зміни',
+  },
 };
 
 export default uk;
