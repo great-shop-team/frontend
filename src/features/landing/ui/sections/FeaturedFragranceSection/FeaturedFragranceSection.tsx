@@ -22,7 +22,7 @@ export default function FeaturedFragranceSection() {
           />
           <Link
             href={featuredFragrance.product.href}
-            className="relative order-first block aspect-3/4 overflow-hidden bg-[#f5f5f5] md:order-0 md:aspect-auto md:min-h-[520px]"
+            className="relative order-first block aspect-3/4 overflow-hidden bg-[#f5f5f5] md:order-0 md:aspect-auto md:min-h-130"
           >
             <Image
               src={featuredFragrance.editorial.src}
