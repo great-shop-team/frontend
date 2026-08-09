@@ -220,3 +220,64 @@ export interface ProductCardData {
   link: ProductLink;
   botonImages: RelatedProductCard[];
 }
+
+export interface ApiProduct {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+  brand: number;
+  subcategory: number;
+  is_active: boolean;
+  is_hidden: boolean;
+}
+
+export interface ApiProductVariant {
+  id: number;
+  product: number;
+  size: string;
+  color: string;
+  sku: string;
+  stock: number;
+  gender: string;
+  is_active: boolean;
+}
+
+export interface ApiProductImage {
+  id: number;
+  product_variant: number;
+  image: string;
+  is_main: boolean;
+  sort_order: number;
+}
+
+export interface ApiBrand {
+  id: number;
+  slug: string;
+  name: string;
+  created_at: string;
+  updated_at: string;
+  is_active: boolean;
+  is_hidden: boolean;
+}
+
+export interface ApiCategory {
+  id: number;
+  slug: string;
+  name: string;
+  created_at: string;
+  updated_at: string;
+  is_active: boolean;
+  is_hidden: boolean;
+}
+
+export interface ApiSubcategory {
+  id: number;
+  slug: string;
+  name: string;
+  created_at: string;
+  updated_at: string;
+  is_active: boolean;
+  is_hidden: boolean;
+  category: number;
+}
