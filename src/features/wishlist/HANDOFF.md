@@ -31,11 +31,11 @@
 
 ### 2. Поведение
 
-| Состояние | Что происходит |
-|-----------|----------------|
-| Не авторизован | По клику на сердечко открывается модалка «Потрібен вхід» |
-| Авторизован | Товар добавляется / удаляется из Redux |
-| Товар уже в избранном | Сердечко залито (`fill="currentColor"`) |
+| Состояние             | Что происходит                                           |
+| --------------------- | -------------------------------------------------------- |
+| Не авторизован        | По клику на сердечко открывается модалка «Потрібен вхід» |
+| Авторизован           | Товар добавляется / удаляется из Redux                   |
+| Товар уже в избранном | Сердечко залито (`fill="currentColor"`)                  |
 
 Кнопки в модалке:
 
@@ -46,12 +46,12 @@
 
 Файл: `src/widgets/WishList/WishList.tsx`
 
-| Состояние | Поведение |
-|-----------|-----------|
-| Не авторизован | Клик открывает модалку входа |
-| Авторизован | Ссылка ведёт на `/profile` |
-| Счётчик | Badge с количеством товаров (макс. `9+`) |
-| После logout | Счётчик скрыт, избранное очищено |
+| Состояние      | Поведение                                |
+| -------------- | ---------------------------------------- |
+| Не авторизован | Клик открывает модалку входа             |
+| Авторизован    | Ссылка ведёт на `/profile`               |
+| Счётчик        | Badge с количеством товаров (макс. `9+`) |
+| После logout   | Счётчик скрыт, избранное очищено         |
 
 ### 4. Хранение данных
 
@@ -117,11 +117,7 @@ requireAuth(() => {
 ### Redux actions
 
 ```ts
-import {
-  addToWishlist,
-  removeFromWishlist,
-  clearWishlist,
-} from '@/store/slices/wishlistSlice';
+import { addToWishlist, removeFromWishlist, clearWishlist } from '@/store/slices/wishlistSlice';
 
 dispatch(addToWishlist({ productId: 'w-cloth-001' }));
 dispatch(removeFromWishlist('w-cloth-001'));
@@ -140,13 +136,13 @@ const items = useSelector((state: RootState) => state.wishlist.items);
 
 Ключи в `src/i18n/locales/en.ts` и `uk.ts`, секция `wishlist`:
 
-| Ключ | Назначение |
-|------|------------|
-| `loginRequiredTitle` | Заголовок модалки |
-| `loginRequiredText` | Текст модалки |
-| `loginButton` | Кнопка входа |
-| `registerButton` | Кнопка регистрации |
-| `closeModal` | aria-label закрытия |
+| Ключ                 | Назначение          |
+| -------------------- | ------------------- |
+| `loginRequiredTitle` | Заголовок модалки   |
+| `loginRequiredText`  | Текст модалки       |
+| `loginButton`        | Кнопка входа        |
+| `registerButton`     | Кнопка регистрации  |
+| `closeModal`         | aria-label закрытия |
 
 Использование: `t.wishlist.loginRequiredTitle`
 
@@ -213,10 +209,10 @@ if (product) {
 
 ## Связанные файлы вне `wishlist/`
 
-| Файл | Роль |
-|------|------|
-| `src/app/providers.tsx` | Подключение `WishlistAuthProvider` |
-| `src/store/store.ts` | Persist wishlist |
-| `src/store/types.ts` | Тип `WishlistItem` |
+| Файл                                       | Роль                                  |
+| ------------------------------------------ | ------------------------------------- |
+| `src/app/providers.tsx`                    | Подключение `WishlistAuthProvider`    |
+| `src/store/store.ts`                       | Persist wishlist                      |
+| `src/store/types.ts`                       | Тип `WishlistItem`                    |
 | `src/features/orders/ui/AccountHeader.tsx` | Ссылка на `/wishlist` (пока заглушка) |
-| `src/app/(public)/favorites/page.tsx` | Редирект на `/wishlist` |
+| `src/app/(public)/favorites/page.tsx`      | Редирект на `/wishlist`               |

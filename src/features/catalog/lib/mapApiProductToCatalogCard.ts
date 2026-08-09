@@ -48,7 +48,9 @@ export function mapApiProductToCatalogCard({
   images,
   currencies,
 }: MapApiProductArgs): CatalogProduct {
-  const productVariants = variants.filter((variant) => variant.product === product.id && variant.is_active);
+  const productVariants = variants.filter(
+    (variant) => variant.product === product.id && variant.is_active,
+  );
   const variantIds = new Set(productVariants.map((variant) => variant.id));
 
   const productImages = images
@@ -66,9 +68,7 @@ export function mapApiProductToCatalogCard({
   const lowestPrice = priceAmounts.sort((a, b) => a.amount - b.amount)[0];
   const subcategory = subcategoryById.get(product.subcategory);
   const brand = brandById.get(product.brand);
-  const imageSrc = productImages[0]?.image
-    ? toImageUrl(productImages[0].image)
-    : PLACEHOLDER_IMAGE;
+  const imageSrc = productImages[0]?.image ? toImageUrl(productImages[0].image) : PLACEHOLDER_IMAGE;
 
   const uniqueSizes = [
     ...new Set(
@@ -88,7 +88,9 @@ export function mapApiProductToCatalogCard({
   ];
 
   const inStock =
-    productVariants.length === 0 ? product.is_active : productVariants.some((variant) => variant.stock > 0);
+    productVariants.length === 0
+      ? product.is_active
+      : productVariants.some((variant) => variant.stock > 0);
 
   return {
     id: String(product.id),

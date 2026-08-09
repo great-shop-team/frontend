@@ -23,7 +23,7 @@ import {
   useGetProductVariantsQuery,
   useGetSizesQuery,
 } from '@/store/endpoints/catalogMetaEndpoints';
-import { useGetProductsQuery } from '@/store/endpoints/productsEndpoints';
+import { useGetProductsRawQuery } from '@/store/endpoints/productsEndpoints';
 import type { Brand, CatalogColor, CatalogSize, Subcategory } from '@/store/types';
 
 function sortProducts(products: CatalogProduct[], sort: CatalogSortOption | undefined) {
@@ -94,7 +94,7 @@ function matchesRouteCategory(
 export function useCatalogListing(category: CatalogCategory, filters: CatalogListingFilters = {}) {
   const { locale } = useTranslation();
 
-  const productsQuery = useGetProductsQuery();
+  const productsQuery = useGetProductsRawQuery();
   const brandsQuery = useGetBrandsQuery();
   const categoriesQuery = useGetCategoriesQuery();
   const subcategoriesQuery = useGetSubcategoriesQuery();
