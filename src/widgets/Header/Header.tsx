@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 import LanguageSwitcher from '@/widgets/LanguageSwitcher/LanguageSwitcher';
@@ -12,13 +12,21 @@ import WishList from '@/widgets/WishList/WishList';
 import ShoppingBag from '@/widgets/ShoppingBag/ShoppingBag';
 import { headerBarTextClass } from '@/widgets/Header/headerActionClasses';
 import { hasBannerHeader } from '@/widgets/Header/headerBannerRoutes';
+import MobileNav from '@/widgets/Header/MobileNav';
+import { useTranslation } from '@/i18n/useTranslation';
 
 const scrollThreshold = 24;
 
 export default function Header() {
   const pathname = usePathname();
+  const { t } = useTranslation();
   const bannerHeader = hasBannerHeader(pathname);
   const [scrollY, setScrollY] = useState(0);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+
+  const closeMobileNav = useCallback(() => {
+    setIsMobileNavOpen(false);
+  }, []);
 
   useEffect(() => {
     if (!bannerHeader) {
@@ -38,7 +46,7 @@ export default function Header() {
     };
   }, [bannerHeader, pathname]);
 
-  const isTransparent = bannerHeader && scrollY <= scrollThreshold;
+  const isTransparent = bannerHeader && scrollY <= scrollThreshold && !isMobileNavOpen;
 
   return (
     <header
@@ -49,24 +57,67 @@ export default function Header() {
       }`}
     >
       <div
-        className={` mx-auto box-border flex h-(--site-header-height) w-full max-w-(--layout-max-width) items-center justify-between px-(--header-padding-x) py-(--header-padding-y) ${headerBarTextClass}`}
+        className={`mx-auto box-border flex h-[var(--site-header-height)] w-full max-w-[var(--layout-max-width)] items-center justify-between px-[var(--header-padding-x)] py-[var(--header-padding-y)] ${headerBarTextClass}`}
       >
-        <div className="flex min-w-0 items-center gap-24">
+        <div className="flex min-w-0 items-center gap-3 lg:gap-24">
+          <button
+            type="button"
+            className="inline-flex size-10 shrink-0 cursor-pointer items-center justify-center border-none bg-transparent p-0 text-inherit lg:hidden"
+            aria-label={isMobileNavOpen ? t.nav.closeMenu : t.nav.openMenu}
+            aria-expanded={isMobileNavOpen}
+            aria-controls="mobile-nav"
+            onClick={() => setIsMobileNavOpen((prev) => !prev)}
+          >
+            {isMobileNavOpen ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+                aria-hidden
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+                aria-hidden
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                />
+              </svg>
+            )}
+          </button>
+
           <Logo />
-          <Navigation />
+          <div className="hidden lg:block">
+            <Navigation />
+          </div>
         </div>
 
         <div className="flex shrink-0 items-center">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1 sm:gap-3 lg:gap-4">
             <Search />
-            <Suspense fallback={null}>
-              <MyAccount isHeaderTransparent={isTransparent} />
-            </Suspense>
+            <div className="hidden sm:block">
+              <Suspense fallback={null}>
+                <MyAccount isHeaderTransparent={isTransparent} />
+              </Suspense>
+            </div>
             <WishList />
             <ShoppingBag />
           </div>
 
-          <div className="ml-8 flex items-center gap-8">
+          <div className="ml-8 hidden items-center gap-8 lg:flex">
             <div
               aria-hidden
               className={`h-10 w-px shrink-0 ${isTransparent ? 'bg-white/80' : 'bg-gray/40'}`}
@@ -75,6 +126,8 @@ export default function Header() {
           </div>
         </div>
       </div>
+
+      <MobileNav isOpen={isMobileNavOpen} onClose={closeMobileNav} />
     </header>
   );
 }

@@ -3,10 +3,7 @@
 import { useCallback } from 'react';
 import Image from 'next/image';
 
-import {
-  buildGoogleAuthUrl,
-  saveGoogleOAuthPending,
-} from '@/features/auth/lib/googleOAuth';
+import { buildGoogleAuthUrl, saveGoogleOAuthPending } from '@/features/auth/lib/googleOAuth';
 import { useTranslation } from '@/i18n/useTranslation';
 
 import googleLogo from '../../../../../public/icons/GoogleLogo.svg';

@@ -17,7 +17,7 @@ import {
   useGetCategoryByIdQuery,
   useGetSubcategoryByIdQuery,
 } from '@/store/endpoints/categoriesEndpoints';
-import type { ApiProductImage, ApiProductVariant } from '@/store/types';
+import type { ProductImageRecord, ProductVariant } from '@/store/types';
 
 const PRODUCT_IMAGE_PRESETS: Partial<Record<string, string[]>> = {
   'm-cloth-004': [
@@ -40,8 +40,8 @@ const DEFAULT_FALLBACK_IMAGE = '/images/product1.png';
 const buildShowcaseImages = (params: {
   title: string;
   productSlugOrId: string;
-  variants: ApiProductVariant[];
-  images: ApiProductImage[];
+  variants: ProductVariant[];
+  images: ProductImageRecord[];
 }) => {
   const { title, productSlugOrId, variants, images } = params;
 
@@ -67,9 +67,7 @@ const buildShowcaseImages = (params: {
 
   const uniqueColors = Array.from(
     new Set(
-      variants
-        .map((variant) => variant.color)
-        .filter((value): value is string => typeof value === 'string' && value.trim().length > 0),
+      variants.map((variant) => String(variant.color)).filter((value) => value.trim().length > 0),
     ),
   );
 
@@ -145,8 +143,8 @@ export default function Product() {
 
   const sizes = useMemo(() => {
     const values = productVariants
-      .map((variant) => variant.size)
-      .filter((value): value is string => typeof value === 'string' && value.trim().length > 0);
+      .map((variant) => String(variant.size))
+      .filter((v) => v.trim().length > 0);
     return Array.from(new Set(values));
   }, [productVariants]);
 

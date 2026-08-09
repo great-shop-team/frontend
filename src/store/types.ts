@@ -178,6 +178,60 @@ export interface WishlistItem {
   productId: string;
 }
 
+/** Raw product from GET /api/products/ */
+export interface ApiProduct {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+  brand: number;
+  subcategory: number;
+  is_active: boolean;
+  is_hidden: boolean;
+}
+
+export interface CatalogColor {
+  id: number;
+  name: string;
+  hex_code: string;
+  is_active: boolean;
+}
+
+export interface CatalogSize {
+  id: number;
+  name: string;
+  size_type: string;
+  sort_order: number;
+}
+
+export type ProductVariantGender = 'male' | 'female' | 'unisex';
+
+export interface ProductVariant {
+  id: number;
+  product: number;
+  size: number;
+  color: number;
+  sku: string;
+  stock: number;
+  gender: ProductVariantGender;
+  is_active: boolean;
+}
+
+export interface ProductImageRecord {
+  id: number;
+  product_variant: number;
+  image: string;
+  is_main: boolean;
+  sort_order: number;
+}
+
+export interface CurrencyAmount {
+  id: number;
+  product_variant: number;
+  currency_code: string;
+  amount: string;
+}
+
 export interface ProductImage {
   src: string;
   alt: string;
@@ -219,65 +273,4 @@ export interface ProductCardData {
   };
   link: ProductLink;
   botonImages: RelatedProductCard[];
-}
-
-export interface ApiProduct {
-  id: number;
-  name: string;
-  slug: string;
-  description: string;
-  brand: number;
-  subcategory: number;
-  is_active: boolean;
-  is_hidden: boolean;
-}
-
-export interface ApiProductVariant {
-  id: number;
-  product: number;
-  size: string;
-  color: string;
-  sku: string;
-  stock: number;
-  gender: string;
-  is_active: boolean;
-}
-
-export interface ApiProductImage {
-  id: number;
-  product_variant: number;
-  image: string;
-  is_main: boolean;
-  sort_order: number;
-}
-
-export interface ApiBrand {
-  id: number;
-  slug: string;
-  name: string;
-  created_at: string;
-  updated_at: string;
-  is_active: boolean;
-  is_hidden: boolean;
-}
-
-export interface ApiCategory {
-  id: number;
-  slug: string;
-  name: string;
-  created_at: string;
-  updated_at: string;
-  is_active: boolean;
-  is_hidden: boolean;
-}
-
-export interface ApiSubcategory {
-  id: number;
-  slug: string;
-  name: string;
-  created_at: string;
-  updated_at: string;
-  is_active: boolean;
-  is_hidden: boolean;
-  category: number;
 }

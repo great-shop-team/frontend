@@ -1,19 +1,27 @@
-import CategoryBannersSection from '../sections/CategoryBannersSection/CategoryBannersSection';
-import FragrancesSection from '../sections/FragrancesSection/FragrancesSection';
+import BenefitsSection from '../sections/BenefitsSection/BenefitsSection';
+import BestSellersSection from '../sections/BestSellersSection/BestSellersSection';
+import CampaignBannerSection from '../sections/CampaignBannerSection/CampaignBannerSection';
+import EyewearSection from '../sections/EyewearSection/EyewearSection';
+import FeaturedFramesSection from '../sections/FeaturedFramesSection/FeaturedFramesSection';
 import HeroSection from '../sections/HeroSection/HeroSection';
-import LifestyleSection from '../sections/LifestyleSection/LifestyleSection';
-import PromoSection from '../sections/PromoSection/PromoSection';
-import RecentlyReleasedSection from '../sections/RecentlyReleasedSection/RecentlyReleasedSection';
+import PressMediaSection from '../sections/PressMediaSection/PressMediaSection';
+import PromoDuoSection from '../sections/PromoDuoSection/PromoDuoSection';
+import ShopBySection from '../sections/ShopBySection/ShopBySection';
+import WearlySection from '../sections/WearlySection/WearlySection';
 
 export default function LandingPage() {
   return (
-    <div className="mb-30">
+    <div className="pb-10">
       <HeroSection />
-      <RecentlyReleasedSection />
-      <CategoryBannersSection />
-      <PromoSection />
-      <FragrancesSection />
-      <LifestyleSection />
+      <BestSellersSection />
+      <ShopBySection />
+      <FeaturedFramesSection />
+      <WearlySection />
+      <PromoDuoSection />
+      <BenefitsSection />
+      <CampaignBannerSection />
+      <EyewearSection />
+      <PressMediaSection />
     </div>
   );
 }

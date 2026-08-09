@@ -10,6 +10,9 @@ const uk: Dictionary = {
     brandsMenuAriaLabel: 'Навігація брендів',
     viewAllBrands: 'Всі бренди',
     showLess: 'Показати менше',
+    openMenu: 'Відкрити меню',
+    closeMenu: 'Закрити меню',
+    menu: 'Меню',
     shopMenuAriaLabel: 'Навігація магазину',
     shopMenu: {
       shop: 'Магазин',
@@ -48,6 +51,25 @@ const uk: Dictionary = {
     bannerAriaLabel: 'Банер каталогу',
     bannerImageAlt: 'Банер каталогу',
     bannerPlaceholder: 'Заглушка банера',
+    clearFilters: 'Очистити все',
+    applyFilters: 'Показати результати',
+    closeFilters: 'Закрити фільтри',
+    empty: 'Товарів не знайдено',
+    loadError: 'Не вдалося завантажити товари. Спробуйте ще раз.',
+    filtersEmpty: 'Фільтри з’являться, коли з’являться дані каталогу.',
+    sortOptions: {
+      featured: 'Рекомендовані',
+      priceAsc: 'Ціна: від низької',
+      priceDesc: 'Ціна: від високої',
+      nameAsc: 'Назва: А–Я',
+      nameDesc: 'Назва: Я–А',
+    },
+    filterGroups: {
+      subcategory: 'Категорія',
+      brand: 'Бренд',
+      color: 'Колір',
+      size: 'Розмір',
+    },
     categories: {
       men: {
         navLabel: 'Чоловікам',
@@ -76,21 +98,61 @@ const uk: Dictionary = {
     },
   },
   landing: {
-    recentlyReleased: 'Новинки',
+    recentlyReleased: 'Нещодавно випущене',
     viewAllProducts: 'Переглянути всі товари',
     viewAll: 'Дивитись усі',
+    shopAll: 'Увесь магазин',
     shopNow: 'Купити зараз',
-    showMore: 'Детальніше',
+    showMore: 'Показати більше',
     addToCart: 'Додати в кошик',
     addToWishlist: 'Додати в обране',
     add: 'Додати',
     selectSize: 'Оберіть розмір',
+    bestSellers: 'Магазин / Бестселери',
+    shopBy: 'Новинки / Категорії',
+    shopByCategory: 'Категорії',
+    prev: 'Назад',
+    next: 'Далі',
+    streetStyle: 'Стріт-стайл',
+    pressMedia: 'СЛІДКУЙТЕ ЗА НАМИ',
+    pressHandle: '@wearlystore',
+    wearly: '#WEARLY',
+    benefits: {
+      worldwideShipping: 'Доставка по світу',
+      freeReturns: 'Безкоштовне повернення',
+      secureCheckout: 'Безпечна оплата',
+      liveStyleAdvice: 'Живі поради зі стилю',
+    },
     hero: {
       imageAlt: 'Модна урбаністична зйомка',
       title: 'Міський пульс',
       description:
         'Пориньте у світ, де мода поєднується з ритмом міста. Наша нова колекція поєднує енергію стрітвір з витонченими силуетами.',
-      cta: 'Нова колекція',
+      cta: 'Дослідити',
+      slidesAriaLabel: 'Карусель героя',
+      goToSlide: 'Перейти до слайду {n}',
+      slides: {
+        lessNoise: {
+          title: 'Менше шуму\nБільше комфорту',
+          description: 'Речі для сміливих — сезон за сезоном',
+        },
+        builtDifferent: {
+          title: 'Зроблені інакше\nНосяться краще',
+          description: 'Створені для довговічності. Продумані для будь-якого місця.',
+        },
+        quietConfidence: {
+          title: 'Тиха\nвпевненість',
+          description: 'Знайдіть легкість усередині інтенсивності.',
+        },
+        madeForMovement: {
+          title: 'Створені\nдля руху',
+          description: 'Грація в кожному кроці, комфорт у кожному крої.',
+        },
+        lessTrend: {
+          title: 'Менше тренду\nБільше тебе',
+          description: 'Вічний стиль, створений саме для тебе.',
+        },
+      },
     },
     promo: {
       imageAlt: 'Аромат Tom Ford Lost Cherry',
@@ -107,21 +169,100 @@ const uk: Dictionary = {
       cta: 'Дослідити кампанію',
     },
     clothing: {
-      essentialTee: {
+      'w-cloth-001': {
         title: 'Базова оверсайз футболка',
         imageAlt: 'Базова оверсайз футболка',
         price: '$100',
       },
-      roseTee: {
+      'w-cloth-002': {
         title: 'Рожева оверсайз футболка',
         imageAlt: 'Рожева оверсайз футболка',
         price: '$100',
       },
-      heritageTee: {
+      'w-cloth-004': {
         title: 'Футболка Heritage Graphic',
         imageAlt: 'Футболка Heritage Graphic',
         price: '$100',
       },
+    },
+    shopByItems: {
+      women: { label: 'Жінки', imageAlt: 'Жіночий каталог' },
+      men: { label: 'Чоловіки', imageAlt: 'Чоловічий каталог' },
+      perfumes: { label: 'Парфуми', imageAlt: 'Каталог ароматів' },
+      accessories: { label: 'Аксесуари', imageAlt: 'Каталог аксесуарів' },
+    },
+    featuredFrames: {
+      lookEditorial: {
+        title: 'Базові речі, створені для міста',
+        imageAlt: 'Міський tailored-образ',
+      },
+      lookProduct: {
+        title: 'Жилет Heritage Crop',
+        imageAlt: 'Жилет Heritage Crop Vest',
+        price: '$300',
+      },
+      scentProduct: {
+        title: 'Oud Sambac',
+        subtitle: 'Oud Sambac eau de parfum',
+        imageAlt: 'Oud Sambac eau de parfum',
+        price: '$130',
+      },
+      scentEditorial: {
+        title: 'Аромат, створений для міста',
+        imageAlt: 'Стилізована зйомка Oud Sambac',
+      },
+    },
+    featuredLook: {
+      editorialAlt: 'Редакційна зйомка образу',
+      product: {
+        title: 'Чорний рубчиковий топ',
+        imageAlt: 'Чорний рубчиковий укорочений топ',
+        price: '$20',
+      },
+    },
+    featuredFragrance: {
+      editorialAlt: 'Редакційна зйомка аромату Lost Cherry',
+      product: {
+        title: 'Lost Cherry Eau de Parfum',
+        imageAlt: 'Lost Cherry Eau de Parfum',
+        price: '$350',
+      },
+    },
+    streetStyleItems: {
+      streetOne: { imageAlt: 'Стріт-стайл фото один' },
+      streetTwo: { imageAlt: 'Стріт-стайл фото два' },
+      streetThree: { imageAlt: 'Стріт-стайл фото три' },
+    },
+    wearlyItems: {
+      container1: { imageAlt: '#WEARLY фото один' },
+      container2: { imageAlt: '#WEARLY фото два' },
+      container3: { imageAlt: '#WEARLY фото три' },
+      container4: { imageAlt: '#WEARLY фото чотири' },
+    },
+    promoDuo: {
+      nike: { label: 'Nike', imageAlt: 'Кампанія Nike' },
+      ysl: { label: 'Yves Saint Laurent', imageAlt: 'Аромат Yves Saint Laurent' },
+    },
+    campaign: {
+      imageAlt: 'Кампанія сонцезахисних окулярів',
+      title: 'КОЛЕКЦІЯ ОКУЛЯРІВ',
+      subtitle: 'Oliver Peoples',
+      cta: 'Відкрити',
+    },
+    eyewear: {
+      title: 'Бачити інакше',
+      editorialAlt: 'Модель у окулярах Tortoise Aviator',
+      product: {
+        title: 'Окуляри Tortoise Aviator',
+        imageAlt: 'Окуляри Tortoise Aviator на дерев’яній підставці',
+        price: '$150',
+      },
+    },
+    pressItems: {
+      pressOne: { imageAlt: 'Прес-фото один' },
+      pressTwo: { imageAlt: 'Прес-фото два' },
+      pressThree: { imageAlt: 'Прес-фото три' },
+      pressFour: { imageAlt: 'Прес-фото чотири' },
     },
     fragrances: {
       tobaccoVanille: {

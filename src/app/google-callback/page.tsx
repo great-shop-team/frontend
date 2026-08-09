@@ -29,7 +29,8 @@ export default function GoogleCallbackPage() {
 
     const run = async () => {
       const pending = readGoogleOAuthPending();
-      const returnTo = pending?.returnTo && pending.returnTo.startsWith('/') ? pending.returnTo : '/';
+      const returnTo =
+        pending?.returnTo && pending.returnTo.startsWith('/') ? pending.returnTo : '/';
       const acceptTerms = pending?.acceptTerms ?? true;
 
       const hash = window.location.hash.startsWith('#')

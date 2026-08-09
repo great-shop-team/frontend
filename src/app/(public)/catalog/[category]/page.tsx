@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
@@ -11,7 +12,6 @@ import { defaultLocale } from '@/i18n/config';
 
 type CategoryPageProps = {
   params: Promise<{ category: string }>;
-  searchParams: Promise<{ subcategory?: string; type?: string }>;
 };
 
 export function generateStaticParams() {
@@ -32,13 +32,16 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   };
 }
 
-export default async function CategoryCatalogPage({ params, searchParams }: CategoryPageProps) {
+export default async function CategoryCatalogPage({ params }: CategoryPageProps) {
   const { category } = await params;
-  const { subcategory, type } = await searchParams;
 
   if (!isCatalogCategory(category)) {
     notFound();
   }
 
-  return <CatalogPage category={category} filters={{ subcategory, type }} />;
+  return (
+    <Suspense fallback={null}>
+      <CatalogPage category={category} />
+    </Suspense>
+  );
 }
