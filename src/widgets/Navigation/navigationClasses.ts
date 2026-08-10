@@ -4,7 +4,7 @@ export const headerNav = {
   linkInactive: 'border-b-0 hover:border-b hover:border-current',
   linkActive: 'border-b border-current',
   megaMenuTrigger: 'relative',
-  megaMenuWrap: 'fixed right-0 left-0 top-[calc(var(--site-header-height)-24px)] z-100 pt-6',
+  megaMenuWrap: 'fixed right-0 left-0 top-[calc(var(--site-header-height)-24px)] z-100 pt-15',
   megaMenuPanel: 'border-t border-black/5 bg-white text-dark shadow-[0_12px_32px_rgb(0_0_0/8%)]',
   megaMenuInner:
     'mx-auto box-border w-full max-w-(--layout-max-width) px-(--header-padding-x) py-10',
