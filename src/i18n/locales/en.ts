@@ -166,6 +166,10 @@ const en = {
         'Discover the precision behind every texture and gold-tone accent in our High Summer collection.',
       cta: 'Explore The Campaign',
     },
+    topBanner: {
+      text: 'New here? Sign up and get $15 off your first order',
+      close: 'Close banner',
+    },
     clothing: {
       'w-cloth-001': {
         title: 'Essential Oversized T-shirt',
