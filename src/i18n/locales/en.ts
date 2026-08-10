@@ -166,6 +166,10 @@ const en = {
         'Discover the precision behind every texture and gold-tone accent in our High Summer collection.',
       cta: 'Explore The Campaign',
     },
+    topBanner: {
+      text: 'New here? Sign up and get $15 off your first order',
+      close: 'Close banner',
+    },
     clothing: {
       'w-cloth-001': {
         title: 'Essential Oversized T-shirt',
@@ -675,6 +679,29 @@ const en = {
     ConfirmNewPassword: 'Confirm new password',
     RepeatNewPassword: 'Repeat new password',
     SaveChanges: 'Save changes',
+  },
+
+  address: {
+    address: 'Address',
+    default: 'Default',
+    edit: 'Edit',
+    delete: 'Delete',
+    setDefault: 'Set default',
+    addNew: 'Add new address',
+    editAddress: 'Edit address',
+    streetAndHouseNumber: 'Street and house number',
+    floor: 'Floor (optional)',
+    firstName: 'First name',
+    lastName: 'Last name',
+    streetAddress: 'Street address',
+    apartment: 'Apartment/flat',
+    optional: 'Optional',
+    city: 'City',
+    postcode: 'Postcode',
+    country: 'Country',
+    phone: 'Phone',
+    cancel: 'Cancel',
+    saveChanges: 'Save changes',
   },
 };
 

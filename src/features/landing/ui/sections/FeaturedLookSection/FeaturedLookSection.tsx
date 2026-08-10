@@ -23,6 +23,7 @@ export default function FeaturedLookSection() {
               alt={featuredLook.editorial.alt}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
+              quality={80}
               className="object-cover"
             />
           </Link>

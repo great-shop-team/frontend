@@ -20,6 +20,7 @@ import { useTranslation } from '@/i18n/useTranslation';
 import { selectCurrentUser } from '@/store/slices/userSlice';
 
 import styles from './Profile.module.scss';
+import AddressesList from '@/features/profile/ui/ProfileForm/AddressesList/AddressesList';
 
 type MenuId = 'profile' | 'bonuses' | 'orders' | 'addresses' | 'notifications' | 'out';
 
@@ -33,6 +34,7 @@ const ProfileForm = () => {
   const tabMenuContent: Record<string, ReactNode> = {
     profile: <ProfileFormList />,
     orders: <OrderFormList />,
+    addresses: <AddressesList />,
   };
 
   const [activeTab, setActiveTab] = useState<MenuId>('profile');

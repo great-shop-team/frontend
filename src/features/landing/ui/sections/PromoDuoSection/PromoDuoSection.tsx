@@ -22,7 +22,8 @@ export default function PromoDuoSection() {
               src={item.image.src}
               alt={item.image.alt}
               fill
-              sizes="(max-width: 768px) 100vw, 630px"
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 630px"
+              quality={80}
               className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
             />
             <div className="absolute inset-x-0 bottom-0 z-1 flex flex-col items-start gap-4 p-6 md:p-8">

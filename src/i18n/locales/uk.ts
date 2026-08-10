@@ -168,6 +168,10 @@ const uk: Dictionary = {
         'Відкрийте для себе точність кожної текстури та золотистого акценту в нашій колекції High Summer.',
       cta: 'Дослідити кампанію',
     },
+    topBanner: {
+      text: 'Новачок тут? Зареєструйтесь та отримайте знижку 15 доларів на перше замовлення',
+      close: 'Закрити банер',
+    },
     clothing: {
       'w-cloth-001': {
         title: 'Базова оверсайз футболка',
@@ -682,6 +686,28 @@ const uk: Dictionary = {
     ConfirmNewPassword: 'Підтвердіть новий пароль',
     RepeatNewPassword: 'Повторіть новий пароль',
     SaveChanges: 'Зберегти зміни',
+  },
+  address: {
+    address: 'Адреса',
+    default: 'За замовчуванням',
+    edit: 'Редагувати',
+    delete: 'Видалити',
+    setDefault: 'Встановити за замовчуванням',
+    addNew: 'Додати нову адресу',
+    editAddress: 'Редагувати адресу',
+    streetAndHouseNumber: 'Вулиця та номер будинку',
+    floor: "Поверх (необов'язково)",
+    firstName: "Ім'я",
+    lastName: 'Прізвище',
+    streetAddress: 'Вулиця та номер будинку',
+    apartment: 'Квартира',
+    optional: "Необов'язково",
+    city: 'Місто',
+    postcode: 'Поштовий індекс',
+    country: 'Країна',
+    phone: 'Телефон',
+    cancel: 'Скасувати',
+    saveChanges: 'Зберегти зміни',
   },
 };
 

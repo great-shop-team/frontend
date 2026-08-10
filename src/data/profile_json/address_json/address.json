@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "active": true,
+    "active_delivery": "Delivery",
+    "name": "John Smith",
+    "street": "14 Kensington Gardens Square",
+    "city": "London, W2 4BQ",
+    "county": "United Kingdom",
+    "phone": "+380743043455"
+  },
+  {
+    "id": 2,
+    "active": false,
+    "active_delivery": "Building",
+    "name": "Jack Smith",
+    "street": "14 Kensington Gardens Square",
+    "city": "New York, W2 4BQ",
+    "county": "United Kingdom",
+    "phone": "+380743043455"
+  }
+]
