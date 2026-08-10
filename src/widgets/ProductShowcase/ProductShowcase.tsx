@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import StarRating from '@/widgets/StarRating/StarRating';
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from '@/i18n/useTranslation';
 
 interface ProductShowcaseProps {
   brand: string;
@@ -38,33 +39,6 @@ interface ProductShowcaseProps {
   }[];
 }
 
-const INFO_TABS = [
-  {
-    id: 'materials',
-    label: 'Materials and design details',
-    content:
-      'Premium fabrics, clean construction and a relaxed silhouette designed for everyday wear.',
-  },
-  {
-    id: 'measurements',
-    label: 'Measurements',
-    content:
-      'Designed with an oversized fit. Choose your usual size for the intended shape or size down for a cleaner outline.',
-  },
-  {
-    id: 'packaging',
-    label: 'Packaging',
-    content:
-      'Your order is packed in a protective branded package to keep the garment in perfect condition during delivery.',
-  },
-  {
-    id: 'shipping',
-    label: 'Shipping and returns',
-    content:
-      'Fast worldwide delivery and a simple return flow. Final shipping timing depends on your region and selected method.',
-  },
-];
-
 const SIDEBAR_ANIMATION_DURATION_MS = 300;
 const IMAGE_MODAL_ANIMATION_DURATION_MS = 360;
 
@@ -79,6 +53,18 @@ export default function ProductShowcase({
   size,
   breadcrumbs,
 }: ProductShowcaseProps) {
+  const { t } = useTranslation();
+
+  const infoTabs = useMemo(
+    () => [
+      { id: 'materials', ...t.product.infoTabs.materials },
+      { id: 'measurements', ...t.product.infoTabs.measurements },
+      { id: 'packaging', ...t.product.infoTabs.packaging },
+      { id: 'shipping', ...t.product.infoTabs.shipping },
+    ],
+    [t],
+  );
+
   const [currentSize, setCurrentSize] = useState<number>();
   const [currentColor, setCurrentColor] = useState<number>();
   const [isSidebarRendered, setIsSidebarRendered] = useState(false);
@@ -233,7 +219,7 @@ export default function ProductShowcase({
   return (
     <section className="mb-24 pt-10.5">
       <nav
-        aria-label="Breadcrumb"
+        aria-label={t.product.aria.breadcrumb}
         className="mb-10 flex flex-wrap items-center gap-2 text-[16px] leading-[1.2] text-black/70"
       >
         {breadcrumbs.map((item, index) => (
@@ -268,7 +254,7 @@ export default function ProductShowcase({
               type="button"
               className="absolute right-4 bottom-4 inline-flex h-12 w-12 items-center justify-center rounded-full border border-black bg-white-fa transition-transform duration-200 hover:scale-105"
               onClick={openImageModal}
-              aria-label="Open image gallery"
+              aria-label={t.product.aria.openGallery}
             >
               <Image src="/icons/plus-sign-in-a-circle.svg" alt="" width={28} height={28} />
             </button>
@@ -328,7 +314,8 @@ export default function ProductShowcase({
           </div>
 
           <p className="mb-4 font-sans text-[16px] leading-[1.2] text-black/70">
-            Product-code:{code}
+            {t.product.productCode}
+            {code}
           </p>
 
           <div className="mb-5">
@@ -352,7 +339,7 @@ export default function ProductShowcase({
 
           {images.colors.length > 0 ? (
             <>
-              <p className="mb-3 font-sans text-[16px] leading-[1.2] text-black">Color</p>
+              <p className="mb-3 font-sans text-[16px] leading-[1.2] text-black">{t.product.color}</p>
               <div className="mb-8 flex flex-wrap gap-4">
                 {images.colors.map((item, key) => (
                   <button
@@ -381,18 +368,18 @@ export default function ProductShowcase({
               type="button"
               className="inline-flex h-12 min-w-35 items-center justify-center rounded-[10px] border border-black bg-black px-6 font-sans text-[16px] font-medium text-white-fa transition-opacity duration-200 hover:opacity-90"
             >
-              Buy now
+              {t.product.buyNow}
             </button>
             <button
               type="button"
               className="inline-flex h-12 min-w-35 items-center justify-center rounded-[10px] border border-black px-6 font-sans text-[16px] font-normal text-black transition-colors duration-200 hover:bg-black hover:text-white-fa"
             >
-              Add to cart
+              {t.product.addToCart}
             </button>
           </div>
 
           <div className="flex flex-col border-t border-black/10">
-            {INFO_TABS.map((tab) => (
+            {infoTabs.map((tab) => (
               <button
                 type="button"
                 key={tab.id}
@@ -424,7 +411,7 @@ export default function ProductShowcase({
             <div className="mb-8 flex items-start justify-between gap-4 border-b border-black/10 pb-5">
               <div>
                 <p className="mb-2 font-heading text-[24px] leading-[1.2] font-light text-black">
-                  Info
+                  {t.product.info}
                 </p>
                 <p className="mb-0 font-sans text-[12px] leading-[1.4] text-black/60">{title}</p>
               </div>
@@ -432,7 +419,7 @@ export default function ProductShowcase({
                 type="button"
                 className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-black bg-white transition-transform duration-200 hover:scale-105"
                 onClick={handleCloseSidebar}
-                aria-label="Close info"
+                aria-label={t.product.aria.closeInfo}
               >
                 <span className="relative block h-5 w-5">
                   <span className="absolute top-1/2 left-0 h-px w-5 -translate-y-1/2 rotate-45 bg-black" />
@@ -442,7 +429,7 @@ export default function ProductShowcase({
             </div>
 
             <div className="flex flex-col">
-              {INFO_TABS.map((tab) => (
+              {infoTabs.map((tab) => (
                 <div key={tab.id} className="border-b border-black/10 py-5">
                   <button
                     type="button"
@@ -505,7 +492,7 @@ export default function ProductShowcase({
                   event.stopPropagation();
                   closeImageModal();
                 }}
-                aria-label="Close image gallery"
+                aria-label={t.product.aria.closeGallery}
               >
                 <span className="relative block h-5 w-5">
                   <span className="absolute top-1/2 left-0 h-px w-5 -translate-y-1/2 rotate-45 bg-black" />
@@ -535,7 +522,7 @@ export default function ProductShowcase({
                       <span className="pointer-events-none absolute right-8 bottom-8 inline-flex h-12 w-12 items-center justify-center">
                         <Image
                           src="/icons/video-start-arrow.svg"
-                          alt="Play preview"
+                          alt={t.product.aria.playPreview}
                           width={48}
                           height={49}
                         />
@@ -547,7 +534,7 @@ export default function ProductShowcase({
                         className="inline-flex h-11 w-11 items-center justify-center disabled:cursor-default disabled:opacity-40"
                         onClick={handleShowPreviousImage}
                         disabled={!hasMultiplePreviewImages}
-                        aria-label="Previous image"
+                        aria-label={t.product.aria.previousImage}
                       >
                         <Image src="/icons/arrow-left.svg" alt="" width={44} height={44} />
                       </button>
@@ -557,7 +544,7 @@ export default function ProductShowcase({
                         className="inline-flex h-11 w-11 items-center justify-center disabled:cursor-default disabled:opacity-40"
                         onClick={handleShowNextImage}
                         disabled={!hasMultiplePreviewImages}
-                        aria-label="Next image"
+                        aria-label={t.product.aria.nextImage}
                       >
                         <Image src="/icons/arrow-right.svg" alt="" width={44} height={44} />
                       </button>

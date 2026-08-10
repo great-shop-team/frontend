@@ -1,14 +1,6 @@
 import { api } from '../api';
 import { normalizeProduct } from '../api/mappers/products.mapper';
-import type {
-  Brand,
-  Category,
-  ApiProduct,
-  ProductImageRecord,
-  ProductVariant,
-  Subcategory,
-  ProductCardData,
-} from '../types';
+import type { ApiProduct, ProductImageRecord, ProductVariant, ProductCardData } from '../types';
 
 export const productsEndpoints = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -110,17 +102,7 @@ export const productsEndpoints = api.injectEndpoints({
       query: () => '/api/product-images/',
       providesTags: ['Product'],
     }),
-    getBrandById: builder.query<Brand, number>({
-      query: (id) => `/api/brands/${id}/`,
-    }),
-    getCategoryById: builder.query<Category, number>({
-      query: (id) => `/api/categories/categories/${id}/`,
-    }),
-    getSubcategoryById: builder.query<Subcategory, number>({
-      query: (id) => `/api/categories/subcategories/${id}/`,
-    }),
   }),
-  overrideExisting: process.env.NODE_ENV !== 'production',
 });
 
 export const {
@@ -132,7 +114,4 @@ export const {
   useGetProductDetailsBySlugOrIdQuery,
   useGetProductVariantsQuery,
   useGetProductImagesQuery,
-  useGetBrandByIdQuery,
-  useGetCategoryByIdQuery,
-  useGetSubcategoryByIdQuery,
 } = productsEndpoints;

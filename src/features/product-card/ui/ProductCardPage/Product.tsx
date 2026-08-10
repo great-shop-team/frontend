@@ -2,7 +2,8 @@
 
 import { useMemo } from 'react';
 import ProductShowcase from '@/widgets/ProductShowcase/ProductShowcase';
-import { useTranslation } from '@/i18n/useTranslation';
+import ProductReviews from '@/widgets/ProductReviews/ProductReviews';
+import { formatMessage, useTranslation } from '@/i18n/useTranslation';
 import { useParams, usePathname } from 'next/navigation';
 import type { CatalogProduct } from '@/features/catalog/model/catalogProduct';
 import ClothingProductCard from '@/features/catalog/ui/CatalogProductCard/CatalogProductCard';
@@ -42,8 +43,14 @@ const buildShowcaseImages = (params: {
   productSlugOrId: string;
   variants: ProductVariant[];
   images: ProductImageRecord[];
+  imageAlt: {
+    front: string;
+    back: string;
+    gallery: string;
+    color: string;
+  };
 }) => {
-  const { title, productSlugOrId, variants, images } = params;
+  const { title, productSlugOrId, variants, images, imageAlt } = params;
 
   // Presets (legacy/local mock) – keep as a fallback for known ids so the page is not blank.
   const presetImages = PRODUCT_IMAGE_PRESETS[productSlugOrId];
@@ -73,16 +80,22 @@ const buildShowcaseImages = (params: {
 
   return {
     main: {
-      front: { src: frontImage, alt: `${title} front` },
-      back: { src: backImage, alt: `${title} back` },
+      front: {
+        src: frontImage,
+        alt: formatMessage(imageAlt.front, { title }),
+      },
+      back: {
+        src: backImage,
+        alt: formatMessage(imageAlt.back, { title }),
+      },
     },
     gallery: galleryImages.map((image, index) => ({
       src: image,
-      alt: `${title} gallery ${index + 1}`,
+      alt: formatMessage(imageAlt.gallery, { title, n: index + 1 }),
     })),
     colors: uniqueColors.map((color) => ({
       src: frontImage,
-      alt: `${title} ${color}`,
+      alt: formatMessage(imageAlt.color, { title, color }),
     })),
   };
 };
@@ -138,8 +151,9 @@ export default function Product() {
       productSlugOrId: slugOrId,
       variants: productVariants,
       images: productImages,
+      imageAlt: t.product.imageAlt,
     });
-  }, [product, productImages, productVariants, slugOrId]);
+  }, [product, productImages, productVariants, slugOrId, t]);
 
   const sizes = useMemo(() => {
     const values = productVariants
@@ -187,12 +201,12 @@ export default function Product() {
     const subcategoryLabel = formatMetaLabel(subcategory?.name || '');
 
     return [
-      { href: '/', label: 'Home' },
+      { href: '/', label: t.common.home },
       { href: `/catalog/${routeCategory}`, label: categoryLabel },
       ...(subcategoryLabel ? [{ label: subcategoryLabel }] : []),
       { label: product.name, current: true },
     ];
-  }, [category?.name, pathname, product, subcategory?.name]);
+  }, [category?.name, pathname, product, subcategory?.name, t.common.home]);
 
   if (isProductLoading || isProductFetching) {
     return <div>{t.common.loading}</div>;
@@ -222,6 +236,8 @@ export default function Product() {
           label: product.name,
         }}
       />
+
+      <ProductReviews />
 
       <div className="m-[2%]">
         <h2 className="m-[2%] text-[36px] font-normal">{t.product.youMayAlsoLike}</h2>
