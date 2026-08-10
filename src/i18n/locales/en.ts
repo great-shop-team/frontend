@@ -433,6 +433,7 @@ const en = {
     loading: 'Loading...',
     error: 'Error',
     back: 'Back',
+    home: 'Home',
     language: 'Language',
     ukrainian: 'Ukrainian',
     english: 'English',
@@ -620,10 +621,51 @@ const en = {
     color: 'Color',
     buyNow: 'Buy now',
     addToCart: 'Add to cart',
-    materials: 'Materials and design details >',
-    measurements: 'Measurements >',
-    packaging: 'Packaging>',
-    shippingReturns: 'Shipping and returns>',
+    info: 'Info',
+    infoTabs: {
+      materials: {
+        label: 'Materials and design details',
+        content:
+          'Premium fabrics, clean construction and a relaxed silhouette designed for everyday wear.',
+      },
+      measurements: {
+        label: 'Measurements',
+        content:
+          'Designed with an oversized fit. Choose your usual size for the intended shape or size down for a cleaner outline.',
+      },
+      packaging: {
+        label: 'Packaging',
+        content:
+          'Your order is packed in a protective branded package to keep the garment in perfect condition during delivery.',
+      },
+      shipping: {
+        label: 'Shipping and returns',
+        content:
+          'Fast worldwide delivery and a simple return flow. Final shipping timing depends on your region and selected method.',
+      },
+    },
+    reviews: {
+      ariaLabel: 'Customer reviews',
+      title: 'Customers reviews ({count})',
+      writeReview: 'Write a review',
+      viewMore: 'View more',
+      ratingDistributionAlt: 'Rating distribution',
+    },
+    aria: {
+      breadcrumb: 'Breadcrumb',
+      openGallery: 'Open image gallery',
+      closeInfo: 'Close info',
+      closeGallery: 'Close image gallery',
+      previousImage: 'Previous image',
+      nextImage: 'Next image',
+      playPreview: 'Play preview',
+    },
+    imageAlt: {
+      front: '{title} front',
+      back: '{title} back',
+      gallery: '{title} gallery {n}',
+      color: '{title} {color}',
+    },
   },
   changePassword: {
     currentPassword: 'Current password',
