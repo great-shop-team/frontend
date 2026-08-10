@@ -85,6 +85,7 @@ export default function ShopBySection() {
                 alt={item.image.alt}
                 fill
                 sizes="(max-width: 768px) 80vw, 400px"
+                quality={80}
                 className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.03]"
               />
               <span className="absolute right-5 bottom-5 left-5 z-1 inline-flex h-11 items-center justify-center rounded-[10px] border-2 border-[#fafafa] bg-transparent px-[38px] py-3 font-(family-name:--font-unbounded) text-base font-normal text-[#fafafa]">

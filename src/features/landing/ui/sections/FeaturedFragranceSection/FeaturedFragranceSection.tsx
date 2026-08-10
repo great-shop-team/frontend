@@ -29,6 +29,7 @@ export default function FeaturedFragranceSection() {
               alt={featuredFragrance.editorial.alt}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
+              quality={80}
               className="object-cover"
             />
           </Link>

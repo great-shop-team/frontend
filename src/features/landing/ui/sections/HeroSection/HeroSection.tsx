@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useLandingData } from '@/features/landing/lib/useLandingData';
-import { landingSection } from '../landingSectionClasses';
 
 export default function HeroSection() {
   const { hero } = useLandingData();

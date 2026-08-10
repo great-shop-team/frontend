@@ -23,6 +23,7 @@ export default function Header() {
   const bannerHeader = hasBannerHeader(pathname);
   const [scrollY, setScrollY] = useState(0);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const [isLandingBannerVisible, setIsLandingBannerVisible] = useState(true);
 
   const closeMobileNav = useCallback(() => {
     setIsMobileNavOpen(false);
@@ -46,6 +47,7 @@ export default function Header() {
     };
   }, [bannerHeader, pathname]);
 
+  const isLanding = pathname === '/';
   const isTransparent = bannerHeader && scrollY <= scrollThreshold && !isMobileNavOpen;
 
   return (
@@ -56,6 +58,33 @@ export default function Header() {
           : 'bg-white text-dark shadow-[inset_0_-6px_20px_-8px_rgb(0_0_0/9%)]'
       }`}
     >
+      {isLanding && isLandingBannerVisible ? (
+        <div className="bg-white text-black">
+          <div className="relative mx-auto h-10 px-[var(--header-padding-x)]">
+            <div className="absolute inset-0 flex items-center justify-center text-center text-sm font-medium tracking-tight">
+              {t.landing.topBanner.text}
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsLandingBannerVisible(false)}
+              className="absolute right-4 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center text-black transition-colors hover:text-black"
+              aria-label={t.landing.topBanner.close}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                className="h-4 w-4"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 6l12 12M18 6 6 18" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      ) : null}
+
       <div
         className={`mx-auto box-border flex h-[var(--site-header-height)] w-full max-w-[var(--layout-max-width)] items-center justify-between px-[var(--header-padding-x)] py-[var(--header-padding-y)] ${headerBarTextClass}`}
       >
