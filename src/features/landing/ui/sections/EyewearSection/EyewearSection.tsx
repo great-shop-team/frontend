@@ -32,7 +32,8 @@ export default function EyewearSection() {
             src={eyewear.editorial.src}
             alt={eyewear.editorial.alt}
             fill
-            sizes="630px"
+            sizes="(max-width: 768px) 100vw, 630px"
+            quality={80}
             className="object-cover object-top"
           />
           <p className="absolute top-6 left-6 m-0 whitespace-nowrap font-(family-name:--font-unbounded) text-base font-normal text-black">

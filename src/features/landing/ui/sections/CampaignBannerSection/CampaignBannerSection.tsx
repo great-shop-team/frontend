@@ -17,7 +17,9 @@ export default function CampaignBannerSection() {
             src={campaign.image.src}
             alt={campaign.image.alt}
             fill
-            sizes="100vw"
+            sizes="(max-width: 768px) 100vw, 1440px"
+            quality={80}
+            priority
             className="z-0 object-cover object-[center_20%]"
           />
           <div className="layout-gutter absolute inset-0 z-10 flex flex-col justify-end pb-16 md:pb-20">

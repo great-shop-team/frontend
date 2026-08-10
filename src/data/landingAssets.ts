@@ -49,7 +49,7 @@ export const landingShopByItems = [
 
 export const landingFeaturedFrames = {
   lookEditorial: {
-    src: '/images/Landing/Frame1.png',
+    src: '/images/Landing/Frame1@2x.png',
     href: '/catalog/women',
   },
   lookProduct: {
@@ -63,13 +63,13 @@ export const landingFeaturedFrames = {
     image: { src: '/images/Landing/Frame3.png' },
   },
   scentEditorial: {
-    src: '/images/Landing/Frame4.png',
+    src: '/images/Landing/Frame4@2x.png',
     href: '/catalog/accessories?subcategory=fragrances',
   },
 } as const;
 
 export const landingFeaturedLook = {
-  editorial: { src: '/images/Landing/Frame1.png' },
+  editorial: { src: '/images/Landing/Frame1@2x.png' },
   product: {
     id: 'w-cloth-007',
     href: '/catalog/women/w-cloth-007',
@@ -78,7 +78,7 @@ export const landingFeaturedLook = {
 } as const;
 
 export const landingFeaturedFragrance = {
-  editorial: { src: '/images/Landing/Frame4.png' },
+  editorial: { src: '/images/Landing/Frame4@2x.png' },
   product: {
     id: 'a-frag-002',
     href: '/catalog/fragrances/a-frag-002',
@@ -90,22 +90,22 @@ export const landingWearlyItems = [
   {
     id: 'container1',
     href: '/catalog/women',
-    image: { src: '/images/Landing/Container1.png' },
+    image: { src: '/images/Landing/Container1@2x.png' },
   },
   {
     id: 'container2',
     href: '/catalog/men',
-    image: { src: '/images/Landing/Container2.png' },
+    image: { src: '/images/Landing\/Container2@2x.png' },
   },
   {
     id: 'container3',
     href: '/catalog/women',
-    image: { src: '/images/Landing/Container3.png' },
+    image: { src: '/images/Landing\/Container3@2x.png' },
   },
   {
     id: 'container4',
     href: '/catalog/accessories',
-    image: { src: '/images/Landing/Container4.png' },
+    image: { src: '/images/Landing\/Container4@2x.png' },
   },
 ] as const;
 
@@ -113,7 +113,7 @@ export const landingStreetStyleItems = [
   {
     id: 'streetOne',
     href: '/catalog/women',
-    image: { src: '/images/Landing/Frame1.png' },
+    image: { src: '/images/Landing/Frame1@2x.png' },
   },
   {
     id: 'streetTwo',
@@ -131,23 +131,23 @@ export const landingPromoDuoItems = [
   {
     id: 'nike',
     href: '/brands',
-    image: { src: '/images/Landing/LinkCardLarge.png' },
+    image: { src: '/images/Landing/LinkCardLarge@2x.png' },
   },
   {
     id: 'ysl',
     href: '/catalog/accessories?subcategory=fragrances',
-    image: { src: '/images/Landing/LinkCardLarge2.png' },
+    image: { src: '/images/Landing/LinkCardLarge2@2x.png' },
   },
 ] as const;
 
 export const landingCampaignImage = {
-  src: '/images/Landing/Frame5.png',
+  src: '/images/Landing/Frame5@2x.png',
   href: '/catalog/accessories?subcategory=eyewear',
 } as const;
 
 export const landingEyewear = {
   editorial: {
-    src: '/images/Landing/Frame6.png',
+    src: '/images/Landing/Frame6@2x.png',
     href: '/catalog/accessories/a-eye-001',
   },
   product: {
@@ -209,11 +209,11 @@ export const landingCategoryItems = [
   {
     id: 'oversizedTailoring',
     href: '/catalog',
-    image: { src: '/images/Landing/Frame1.png' },
-    thumb: { src: '/images/Landing/Frame4.png' },
+    image: { src: '/images/Landing/Frame1@2x.png' },
+    thumb: { src: '/images/Landing/Frame4@2x.png' },
   },
 ] as const;
 
 export const landingLifestyleImage = {
-  src: '/images/Landing/Frame5.png',
+  src: '/images/Landing/Frame5@2x.png',
 } as const;

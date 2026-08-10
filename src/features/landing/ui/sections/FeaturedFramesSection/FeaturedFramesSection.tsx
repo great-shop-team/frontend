@@ -23,7 +23,8 @@ export default function FeaturedFramesSection() {
               src={lookEditorial.image.src}
               alt={lookEditorial.image.alt}
               fill
-              sizes="630px"
+              sizes="(max-width: 768px) 100vw, 630px"
+              quality={80}
               className="object-cover object-top"
             />
             <p className="absolute top-6 left-6 m-0 whitespace-nowrap font-(family-name:--font-unbounded) text-base font-normal text-white">
@@ -63,7 +64,8 @@ export default function FeaturedFramesSection() {
               src={scentEditorial.image.src}
               alt={scentEditorial.image.alt}
               fill
-              sizes="630px"
+              sizes="(max-width: 768px) 100vw, 630px"
+              quality={80}
               className="object-cover"
             />
             <p className="absolute top-6 left-6 m-0 whitespace-nowrap font-(family-name:--font-unbounded) text-base font-normal text-white">
