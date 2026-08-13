@@ -21,6 +21,7 @@ import { selectCurrentUser } from '@/store/slices/userSlice';
 
 import styles from './Profile.module.scss';
 import AddressesList from '@/features/profile/ui/ProfileForm/AddressesList/AddressesList';
+import MyPromocodes from '@/features/profile/ui/ProfileForm/ProfileFormList/MyPromocodes/MyPromocodes';
 
 type MenuId = 'profile' | 'bonuses' | 'orders' | 'addresses' | 'notifications' | 'out';
 
@@ -35,6 +36,7 @@ const ProfileForm = () => {
     profile: <ProfileFormList />,
     orders: <OrderFormList />,
     addresses: <AddressesList />,
+
   };
 
   const [activeTab, setActiveTab] = useState<MenuId>('profile');
