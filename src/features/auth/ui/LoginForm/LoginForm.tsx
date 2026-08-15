@@ -140,24 +140,26 @@ export default function LoginForm({
 
           <div className={loginForm.optionalRow}>
             <label className={loginForm.checkboxWrap}>
-              <input
-                type="checkbox"
-                checked={isChecked}
-                onChange={(e) => setIsChecked(e.target.checked)}
-                className={loginForm.checkboxInput}
-              />
+              <span className="relative inline-flex h-5 w-5 items-center justify-center max-md:h-6 max-md:w-6">
+                <input
+                  type="checkbox"
+                  checked={isChecked}
+                  onChange={(e) => setIsChecked(e.target.checked)}
+                  className={loginForm.checkboxInput}
+                />
 
-              <span className={loginForm.checkboxIcon} aria-hidden>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-3.5 w-3.5"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={3}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                </svg>
+                <span className={loginForm.checkboxIcon} aria-hidden>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-3.5 w-3.5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={3}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                </span>
               </span>
 
               <span className={loginForm.checkboxLabel}>{t.auth.login.rememberMe}</span>

@@ -17,18 +17,16 @@ export const authForm = {
     'mb-4 box-border w-full max-w-full rounded-md border border-success-border bg-success-bg px-3 py-2 text-center text-sm break-words text-success',
   errorText: 'm-0 text-sm leading-5 text-error',
   successText: 'm-0 text-sm leading-5 text-success',
-  footer:
-    'mt-4 w-full text-right text-sm font-normal text-dark max-md:mt-6 max-md:text-center',
+  footer: 'mt-4 w-full text-right text-sm font-normal text-dark max-md:mt-6 max-md:text-center',
   footerLinkBtn:
     'cursor-pointer border-0 bg-transparent p-0 font-semibold text-dark hover:underline',
   checkbox:
     'peer h-5 w-5 shrink-0 cursor-pointer appearance-none rounded-md border border-slate-300 bg-white transition-all checked:border-dark checked:bg-dark max-md:h-6 max-md:w-6',
   checkboxIcon:
-    'pointer-events-none absolute top-1/2 left-1 -translate-y-1/2 text-white opacity-0 peer-checked:opacity-100 max-md:left-1.5',
+    'pointer-events-none absolute inset-0 flex items-center justify-center text-white opacity-0 peer-checked:opacity-100',
   checkboxLabel: 'text-sm text-dark select-none',
   socialRow: 'flex items-center justify-center gap-6 py-1 max-md:gap-8 max-md:py-2',
-  socialBtn:
-    'flex h-10 w-10 items-center justify-center max-md:h-11 max-md:w-11',
+  socialBtn: 'flex h-10 w-10 items-center justify-center max-md:h-11 max-md:w-11',
   socialIcon: 'h-6 w-6',
   codeInput:
     'h-12 w-12 shrink-0 rounded-[10px] border border-dark bg-white text-center text-base font-medium text-dark outline-none focus:border-dark max-md:h-11 max-md:min-w-0 max-md:flex-1 max-md:max-w-11',
@@ -41,8 +39,7 @@ export const authPanel = {
   back: 'mb-8 flex h-11 w-11 cursor-pointer items-center justify-center self-start border-0 bg-transparent p-0 text-[36px] leading-none font-normal text-gray max-md:absolute max-md:top-2 max-md:left-2 max-md:z-20 max-md:mb-0',
   title: authForm.title,
   subtitle: authForm.subtitle,
-  subtitleLinkEmail:
-    'm-0 mb-8 text-sm leading-snug font-normal text-gray max-md:mb-5 max-md:pr-2',
+  subtitleLinkEmail: 'm-0 mb-8 text-sm leading-snug font-normal text-gray max-md:mb-5 max-md:pr-2',
   emailHighlight: 'font-medium text-dark',
   form: authForm.form,
   errorText: authForm.errorText,
@@ -55,11 +52,9 @@ export const authPanel = {
   linkButton: authForm.footerLinkBtn,
   resendTimer:
     'inline-flex items-center gap-1 no-underline [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0',
-  codeRow:
-    'mb-2 flex max-w-full flex-nowrap justify-between gap-3 max-md:gap-1.5',
+  codeRow: 'mb-2 flex max-w-full flex-nowrap justify-between gap-3 max-md:gap-1.5',
   codeInput: authForm.codeInput,
-  illustration:
-    'm-0 mb-6 flex justify-center [&_img]:h-auto [&_img]:max-w-full max-md:mb-4',
+  illustration: 'm-0 mb-6 flex justify-center [&_img]:h-auto [&_img]:max-w-full max-md:mb-4',
 } as const;
 
 export const loginForm = {
