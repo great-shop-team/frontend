@@ -76,25 +76,45 @@ export default function CatalogFilterPanel({
       />
 
       <aside
-        className={`absolute top-0 right-0 flex h-full w-[min(100%,380px)] flex-col bg-white text-dark shadow-[-8px_0_32px_rgb(0_0_0/12%)] transition-transform duration-300 ease-out ${
+        className={`absolute inset-y-0 right-0 flex h-full w-full max-w-full flex-col bg-white text-dark shadow-[-8px_0_32px_rgb(0_0_0/12%)] transition-transform duration-300 ease-out md:w-[min(100%,380px)] ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         aria-label={t.catalog.filter}
       >
-        <div className="flex h-16 shrink-0 items-center justify-between border-b border-black/8 px-5">
-          <h2 className="m-0 font-(family-name:--font-unbounded) text-base font-medium">
-            {t.catalog.filter}
-          </h2>
+        <div className="flex h-14 shrink-0 items-center justify-between gap-3 border-b border-black/8 px-4 md:h-16 md:px-5">
+          <div className="flex min-w-0 items-center gap-2">
+            <button
+              type="button"
+              className="inline-flex size-10 shrink-0 cursor-pointer items-center justify-center border-none bg-transparent text-dark"
+              onClick={onClose}
+              aria-label={t.catalog.closeFilters}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+                aria-hidden
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <h2 className="m-0 font-(family-name:--font-unbounded) text-base font-medium">
+              {t.catalog.filter}
+            </h2>
+          </div>
           <button
             type="button"
-            className="cursor-pointer border-none bg-transparent text-sm text-dark/70 underline"
+            className="min-h-11 cursor-pointer border-none bg-transparent px-1 text-sm text-dark/70 underline"
             onClick={clearAll}
           >
             {t.catalog.clearFilters}
           </button>
         </div>
 
-        <div className="flex-1 space-y-8 overflow-y-auto px-5 py-6">
+        <div className="min-h-0 flex-1 space-y-8 overflow-y-auto overscroll-contain px-4 py-5 md:px-5 md:py-6">
           {subcategories.length > 0 ? (
             <section>
               <h3 className="mb-3 text-xs font-semibold tracking-[0.12em] text-gray uppercase">
@@ -107,7 +127,7 @@ export default function CatalogFilterPanel({
                     <li key={item.id}>
                       <button
                         type="button"
-                        className={`cursor-pointer border-none bg-transparent px-0 text-left text-sm ${
+                        className={`min-h-11 cursor-pointer border-none bg-transparent px-0 text-left text-sm ${
                           active ? 'font-medium text-dark' : 'text-dark/70'
                         }`}
                         onClick={() =>
@@ -139,7 +159,7 @@ export default function CatalogFilterPanel({
                   const checked = selectedBrands.includes(value);
                   return (
                     <li key={brand.id}>
-                      <label className="flex cursor-pointer items-center gap-2 text-sm">
+                      <label className="flex min-h-11 cursor-pointer items-center gap-2 text-sm">
                         <input
                           type="checkbox"
                           checked={checked}
@@ -175,7 +195,7 @@ export default function CatalogFilterPanel({
                       <button
                         type="button"
                         title={color.name}
-                        className={`size-8 cursor-pointer rounded-full border-2 ${
+                        className={`size-10 cursor-pointer rounded-full border-2 md:size-8 ${
                           checked ? 'border-dark' : 'border-black/15'
                         }`}
                         style={{ backgroundColor: color.hex_code }}
@@ -240,7 +260,7 @@ export default function CatalogFilterPanel({
           ) : null}
         </div>
 
-        <div className="shrink-0 border-t border-black/8 p-5">
+        <div className="shrink-0 border-t border-black/8 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] md:p-5">
           <button type="button" className="btn-primary w-full max-w-none" onClick={onClose}>
             {t.catalog.applyFilters}
           </button>

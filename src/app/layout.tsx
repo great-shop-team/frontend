@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { PT_Sans_Caption, Unbounded } from 'next/font/google';
 
 import '@/styles/global.css';
@@ -9,6 +9,14 @@ export const metadata: Metadata = {
     template: 'WEARLY',
   },
   description: 'WEARLY — online clothing store',
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: 'cover',
+  interactiveWidget: 'resizes-content',
 };
 
 import Header from '@/widgets/Header/Header';

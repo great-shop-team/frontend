@@ -5,6 +5,12 @@ const brandsEndpoints = api.injectEndpoints({
   endpoints: (builder) => ({
     getBrands: builder.query<Brand[], void>({
       query: () => '/api/brands/',
+      transformResponse: (response: unknown) =>
+        Array.isArray(response)
+          ? response
+          : Array.isArray((response as { results?: unknown }).results)
+            ? ((response as { results: Brand[] }).results)
+            : [],
     }),
     getBrandById: builder.query<Brand, number>({
       query: (id) => `/api/brands/${id}/`,

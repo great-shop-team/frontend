@@ -170,7 +170,7 @@ export default function LoginForm({
 
           {errorMessage && <div className={loginForm.errorMessage}>{errorMessage}</div>}
 
-          <button type="submit" disabled={!isChecked || isLoading} className={loginForm.loginBtn}>
+          <button type="submit" disabled={isLoading} className={loginForm.loginBtn}>
             {isLoading ? t.common.loading : t.auth.login.submit}
           </button>
 

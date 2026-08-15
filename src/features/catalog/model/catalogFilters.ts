@@ -1,6 +1,7 @@
 export type CatalogSortOption = 'featured' | 'price_asc' | 'price_desc' | 'name_asc' | 'name_desc';
 
 export type CatalogListingFilters = {
+  q?: string;
   subcategory?: string;
   type?: string;
   brand?: string[];

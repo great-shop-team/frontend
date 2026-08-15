@@ -136,6 +136,7 @@ export default function PasswordResetConfirmForm({
                 }}
                 type="text"
                 inputMode="numeric"
+                autoComplete={index === 0 ? 'one-time-code' : 'off'}
                 maxLength={1}
                 value={digit}
                 className={authPanel.codeInput}
@@ -162,6 +163,7 @@ export default function PasswordResetConfirmForm({
           }}
           error={errors.password}
           togglePassword
+          autoComplete="new-password"
         />
 
         <AuthInput
@@ -177,6 +179,7 @@ export default function PasswordResetConfirmForm({
           }}
           error={errors.confirmPassword}
           togglePassword
+          autoComplete="new-password"
         />
 
         <button type="submit" className={authPanel.submitBtn} disabled={isLoading}>

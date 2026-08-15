@@ -28,7 +28,7 @@ export default function WearlySection() {
           <div className="flex items-center gap-2">
             <button
               type="button"
-              className="flex size-9 cursor-pointer items-center justify-center rounded-full border border-black/15 bg-white text-dark transition-colors hover:bg-[#f5f5f5]"
+              className={landingSection.carouselBtn}
               aria-label={labels.prev}
               onClick={() => scrollByCard(-1)}
             >
@@ -50,7 +50,7 @@ export default function WearlySection() {
             </button>
             <button
               type="button"
-              className="flex size-9 cursor-pointer items-center justify-center rounded-full border border-black/15 bg-white text-dark transition-colors hover:bg-[#f5f5f5]"
+              className={landingSection.carouselBtn}
               aria-label={labels.next}
               onClick={() => scrollByCard(1)}
             >
@@ -71,20 +71,20 @@ export default function WearlySection() {
 
         <div
           ref={scrollerRef}
-          className="flex gap-8 overflow-x-auto scroll-smooth pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex gap-4 overflow-x-auto scroll-smooth pb-1 [-ms-overflow-style:none] [scrollbar-width:none] md:gap-8 [&::-webkit-scrollbar]:hidden"
         >
           {wearly.map((item) => (
             <Link
               key={item.id}
               href={item.href}
               data-wearly-card
-              className="group relative aspect-413/603 w-[min(100%,413px)] shrink-0 overflow-hidden bg-[#f5f5f5]"
+              className="group relative aspect-413/603 w-[min(78%,320px)] shrink-0 overflow-hidden bg-[#f5f5f5] md:w-[min(100%,413px)]"
             >
               <Image
                 src={item.image.src}
                 alt={item.image.alt}
                 fill
-                sizes="413px"
+                sizes="(max-width: 768px) 80vw, 413px"
                 className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.03]"
               />
             </Link>

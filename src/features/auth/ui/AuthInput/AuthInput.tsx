@@ -18,6 +18,7 @@ interface AuthInputProps {
   error?: string;
   hint?: string;
   togglePassword?: boolean;
+  autoComplete?: string;
 }
 
 export default function AuthInput({
@@ -31,6 +32,7 @@ export default function AuthInput({
   error,
   hint,
   togglePassword = false,
+  autoComplete,
 }: AuthInputProps) {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
@@ -39,6 +41,9 @@ export default function AuthInput({
 
   const reactId = useId();
   const inputId = id ?? `auth-input-${reactId}`;
+  const resolvedAutoComplete =
+    autoComplete ??
+    (type === 'email' ? 'email' : type === 'password' ? 'current-password' : undefined);
 
   return (
     <div className="flex flex-col gap-2">
@@ -57,7 +62,11 @@ export default function AuthInput({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className="box-border w-full rounded-[10px] border-none bg-transparent px-4 py-4 pr-12 text-sm text-dark outline-none focus:shadow-none focus-visible:shadow-none placeholder:text-gray"
+          autoComplete={resolvedAutoComplete}
+          autoCapitalize={type === 'email' ? 'none' : undefined}
+          autoCorrect={type === 'email' ? 'off' : undefined}
+          spellCheck={type === 'email' || type === 'password' ? false : undefined}
+          className="box-border w-full rounded-[10px] border-none bg-transparent px-4 py-4 pr-12 text-base text-dark outline-none focus:shadow-none focus-visible:shadow-none placeholder:text-gray max-md:py-3.5"
           aria-invalid={Boolean(error)}
           aria-describedby={error ? `${inputId}-error` : undefined}
         />
@@ -65,7 +74,7 @@ export default function AuthInput({
           <button
             type="button"
             onClick={() => setShowPassword((current) => !current)}
-            className="absolute top-1/2 right-3 flex -translate-y-1/2 cursor-pointer items-center justify-center border-none bg-transparent text-gray"
+            className="absolute top-1/2 right-2 flex h-11 w-11 -translate-y-1/2 cursor-pointer items-center justify-center border-none bg-transparent text-gray"
             aria-label={showPassword ? t.common.hidePassword : t.common.showPassword}
           >
             {showPassword ? (
