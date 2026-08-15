@@ -685,6 +685,9 @@ const en = {
     RepeatNewPassword: 'Repeat new password',
     SaveChanges: 'Save changes',
   },
+  promoCode: {
+    MyPrCodes: 'My promo codes',
+  },
 
   address: {
     address: 'Address',

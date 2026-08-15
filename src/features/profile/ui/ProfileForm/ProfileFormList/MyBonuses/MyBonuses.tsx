@@ -1,5 +1,4 @@
 'use client';
-
 import { useTranslation } from '@/i18n/useTranslation';
 
 const MyBonuses = () => {

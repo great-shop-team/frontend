@@ -1,0 +1,17 @@
+[
+  {
+    "nameBonus": "SPRING25",
+    "dayBonus": "Spring collection",
+    "active": true
+  },
+  {
+    "nameBonus": "MOMDAY356",
+    "dayBonus": "Mother Day",
+    "active": true
+  },
+  {
+    "nameBonus": "BDAY34",
+    "dayBonus": "Birthday gift",
+    "active": false
+  }
+]

@@ -692,6 +692,9 @@ const uk: Dictionary = {
     RepeatNewPassword: 'Повторіть новий пароль',
     SaveChanges: 'Зберегти зміни',
   },
+  promoCode: {
+    MyPrCodes: 'Мої промокоди',
+  },
   address: {
     address: 'Адреса',
     default: 'За замовчуванням',
