@@ -187,9 +187,9 @@ export default function RegisterForm({ onLogin, onRegistered, onSuccess }: Regis
             </div>
           )}
           <div className="mt-2 inline-flex max-w-full flex-col gap-2 box-border [&_label]:max-w-full [&_label]:wrap-break-word">
-            <div className="flex items-start gap-3 max-md:gap-2.5">
-              <label className="mt-0.5 flex min-h-11 min-w-11 cursor-pointer items-center justify-center">
-                <span className="relative inline-flex">
+            <div className="flex items-center gap-3 max-md:gap-2.5">
+              <label className="flex h-5 w-5 min-w-11 cursor-pointer items-center justify-center max-md:h-6 max-md:w-6">
+                <span className="relative inline-flex h-5 w-5 items-center justify-center max-md:h-6 max-md:w-6">
                   <input
                     type="checkbox"
                     checked={isChecked}
@@ -220,9 +220,15 @@ export default function RegisterForm({ onLogin, onRegistered, onSuccess }: Regis
                 </span>
               </label>
 
-              <label htmlFor="terms" className="cursor-pointer py-2 text-sm leading-snug select-none text-dark">
-                {t.auth.register.agreeTerms}{' '}
-                <Link href="/terms" className="font-semibold hover:text-gray-600 transition-colors">
+              <label
+                htmlFor="terms"
+                className="flex cursor-pointer items-center gap-1 text-sm leading-none select-none text-dark"
+              >
+                <span className="leading-none">{t.auth.register.agreeTerms}</span>
+                <Link
+                  href="/terms"
+                  className="leading-none font-semibold hover:text-gray-600 transition-colors"
+                >
                   {t.auth.register.termsLink}
                 </Link>
               </label>
