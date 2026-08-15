@@ -5,6 +5,10 @@ const uk: Dictionary = {
     catalog: 'Каталог',
     sales: 'Знижки',
     search: 'Пошук',
+    searchPlaceholder: 'Пошук товарів',
+    searchSubmit: 'Знайти',
+    closeSearch: 'Закрити пошук',
+    searchNoResults: 'Нічого не знайдено',
     brands: 'Бренди',
     shop: 'Магазин',
     brandsMenuAriaLabel: 'Навігація брендів',
@@ -170,6 +174,7 @@ const uk: Dictionary = {
     },
     topBanner: {
       text: 'Новачок тут? Зареєструйтесь та отримайте знижку 15 доларів на перше замовлення',
+      textMobile: 'Новачок? Зареєструйтесь і отримайте $15 на перше замовлення',
       close: 'Закрити банер',
     },
     clothing: {

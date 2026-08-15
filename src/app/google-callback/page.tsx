@@ -70,7 +70,7 @@ export default function GoogleCallbackPage() {
   }, [router, signInWithGoogle, t.auth.errors.googleSignInFailed, t.common.loading]);
 
   return (
-    <div className="flex h-screen w-screen items-center justify-center bg-white text-sm text-gray-500">
+    <div className="flex h-dvh w-full items-center justify-center bg-white px-5 text-center text-base text-gray-500">
       {status}
     </div>
   );

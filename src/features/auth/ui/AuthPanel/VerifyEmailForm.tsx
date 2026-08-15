@@ -160,6 +160,7 @@ export default function VerifyEmailForm({ email, onBack, onVerified }: VerifyEma
               }}
               type="text"
               inputMode="numeric"
+              autoComplete={index === 0 ? 'one-time-code' : 'off'}
               maxLength={1}
               value={digit}
               className={authPanel.codeInput}

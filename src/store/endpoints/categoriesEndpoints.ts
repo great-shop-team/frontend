@@ -13,6 +13,12 @@ const categoriesEndpoints = api.injectEndpoints({
     // Категорії
     getCategories: builder.query<Category[], void>({
       query: () => '/api/categories/categories/',
+      transformResponse: (response: unknown) =>
+        Array.isArray(response)
+          ? response
+          : Array.isArray((response as { results?: unknown }).results)
+            ? ((response as { results: Category[] }).results)
+            : [],
     }),
     getCategoryById: builder.query<Category, number>({
       query: (id) => `/api/categories/categories/${id}/`,
@@ -41,6 +47,12 @@ const categoriesEndpoints = api.injectEndpoints({
     // Підкатегорії
     getSubcategories: builder.query<Subcategory[], void>({
       query: () => '/api/categories/subcategories/',
+      transformResponse: (response: unknown) =>
+        Array.isArray(response)
+          ? response
+          : Array.isArray((response as { results?: unknown }).results)
+            ? ((response as { results: Subcategory[] }).results)
+            : [],
     }),
     getSubcategoryById: builder.query<Subcategory, number>({
       query: (id) => `/api/categories/subcategories/${id}/`,

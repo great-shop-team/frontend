@@ -36,6 +36,7 @@ export default function CatalogPage({ category }: CatalogPageProps) {
   const filters = useMemo<CatalogListingFilters>(() => {
     const sortParam = searchParams.get('sort');
     return {
+      q: searchParams.get('q')?.trim() || undefined,
       subcategory: searchParams.get('subcategory') ?? undefined,
       type: searchParams.get('type') ?? undefined,
       brand: parseCsvParam(searchParams.get('brand')),
@@ -49,6 +50,7 @@ export default function CatalogPage({ category }: CatalogPageProps) {
 
   const filterKey = [
     category,
+    filters.q,
     filters.subcategory,
     filters.type,
     (filters.brand ?? []).join(','),
@@ -86,7 +88,7 @@ export default function CatalogPage({ category }: CatalogPageProps) {
     (filters.subcategory ? 1 : 0);
 
   return (
-    <div className="mb-20">
+    <div className="mb-12 md:mb-20">
       <CatalogBanner category={category} />
 
       <div id="catalog-products" className={catalogPage.content}>

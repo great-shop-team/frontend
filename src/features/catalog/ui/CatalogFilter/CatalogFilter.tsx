@@ -12,7 +12,7 @@ export default function CatalogFilter({ onClick, activeCount = 0 }: CatalogFilte
   const { t } = useTranslation();
 
   return (
-    <button type="button" className={catalogToolbar.control} onClick={onClick}>
+    <button type="button" className={`${catalogToolbar.control} shrink-0`} onClick={onClick}>
       {t.catalog.filter}
       {activeCount > 0 ? (
         <span className="ml-1 inline-flex min-w-5 items-center justify-center rounded-full bg-dark px-1.5 text-xs text-white">

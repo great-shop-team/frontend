@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useCallback, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 import LanguageSwitcher from '@/widgets/LanguageSwitcher/LanguageSwitcher';
@@ -14,6 +14,7 @@ import { headerBarTextClass } from '@/widgets/Header/headerActionClasses';
 import { hasBannerHeader } from '@/widgets/Header/headerBannerRoutes';
 import MobileNav from '@/widgets/Header/MobileNav';
 import { useTranslation } from '@/i18n/useTranslation';
+import { useAuthOverlay } from '@/features/auth/context/AuthOverlayContext';
 
 const scrollThreshold = 24;
 
@@ -24,6 +25,8 @@ export default function Header() {
   const [scrollY, setScrollY] = useState(0);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [isLandingBannerVisible, setIsLandingBannerVisible] = useState(true);
+  const headerRef = useRef<HTMLElement>(null);
+  const { closeAuth, isOpen: isAuthOpen } = useAuthOverlay();
 
   const closeMobileNav = useCallback(() => {
     setIsMobileNavOpen(false);
@@ -48,26 +51,48 @@ export default function Header() {
   }, [bannerHeader, pathname]);
 
   const isLanding = pathname === '/';
-  const isTransparent = bannerHeader && scrollY <= scrollThreshold && !isMobileNavOpen;
+  const showLandingBanner = isLanding && isLandingBannerVisible && !isAuthOpen;
+  const isTransparent =
+    bannerHeader && scrollY <= scrollThreshold && !isMobileNavOpen && !isAuthOpen;
+
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return undefined;
+
+    const syncOffset = () => {
+      document.documentElement.style.setProperty('--site-header-offset', `${el.offsetHeight}px`);
+    };
+
+    syncOffset();
+    const observer = new ResizeObserver(syncOffset);
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+      document.documentElement.style.removeProperty('--site-header-offset');
+    };
+  }, [showLandingBanner, isAuthOpen, isMobileNavOpen]);
 
   return (
     <header
+      ref={headerRef}
       className={`fixed top-0 right-0 left-0 z-100 w-full transition-[background-color,color,box-shadow] duration-300 ease-in-out ${
         isTransparent
           ? 'bg-transparent text-white [&_.header-logo]:brightness-0 [&_.header-logo]:invert'
           : 'bg-white text-dark shadow-[inset_0_-6px_20px_-8px_rgb(0_0_0/9%)]'
       }`}
     >
-      {isLanding && isLandingBannerVisible ? (
+      {showLandingBanner ? (
         <div className="bg-white text-black">
-          <div className="relative mx-auto h-10 px-[var(--header-padding-x)]">
-            <div className="absolute inset-0 flex items-center justify-center text-center text-sm font-medium tracking-tight">
-              {t.landing.topBanner.text}
-            </div>
+          <div className="relative mx-auto flex min-h-10 items-center justify-center py-2 pl-3 pr-11 md:h-10 md:py-0 md:pl-[var(--header-padding-x)] md:pr-14">
+            <p className="m-0 max-w-full text-center text-[12px] leading-snug font-medium tracking-tight md:text-sm">
+              <span className="md:hidden">{t.landing.topBanner.textMobile}</span>
+              <span className="hidden md:inline">{t.landing.topBanner.text}</span>
+            </p>
             <button
               type="button"
               onClick={() => setIsLandingBannerVisible(false)}
-              className="absolute right-4 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center text-black transition-colors hover:text-black"
+              className="absolute top-1/2 right-0.5 inline-flex size-10 -translate-y-1/2 items-center justify-center text-black md:right-3 md:size-8"
               aria-label={t.landing.topBanner.close}
             >
               <svg
@@ -88,14 +113,20 @@ export default function Header() {
       <div
         className={`mx-auto box-border flex h-[var(--site-header-height)] w-full max-w-[var(--layout-max-width)] items-center justify-between px-[var(--header-padding-x)] py-[var(--header-padding-y)] ${headerBarTextClass}`}
       >
-        <div className="flex min-w-0 items-center gap-3 lg:gap-24">
+        <div className="flex h-full min-w-0 items-center gap-3 lg:gap-24">
           <button
             type="button"
             className="inline-flex size-10 shrink-0 cursor-pointer items-center justify-center border-none bg-transparent p-0 text-inherit lg:hidden"
             aria-label={isMobileNavOpen ? t.nav.closeMenu : t.nav.openMenu}
             aria-expanded={isMobileNavOpen}
             aria-controls="mobile-nav"
-            onClick={() => setIsMobileNavOpen((prev) => !prev)}
+            onClick={() => {
+              setIsMobileNavOpen((prev) => {
+                const next = !prev;
+                if (next) closeAuth();
+                return next;
+              });
+            }}
           >
             {isMobileNavOpen ? (
               <svg
@@ -129,19 +160,22 @@ export default function Header() {
           </button>
 
           <Logo />
-          <div className="hidden lg:block">
+          <div className="hidden h-full lg:block">
             <Navigation />
           </div>
         </div>
 
         <div className="flex shrink-0 items-center">
-          <div className="flex items-center gap-1 sm:gap-3 lg:gap-4">
-            <Search />
-            <div className="hidden sm:block">
-              <Suspense fallback={null}>
-                <MyAccount isHeaderTransparent={isTransparent} />
-              </Suspense>
-            </div>
+          <div className="flex items-center gap-0.5 sm:gap-3 lg:gap-4">
+            <Search
+              onOpen={() => {
+                closeMobileNav();
+                closeAuth();
+              }}
+            />
+            <Suspense fallback={null}>
+              <MyAccount isHeaderTransparent={isTransparent} />
+            </Suspense>
             <WishList />
             <ShoppingBag />
           </div>

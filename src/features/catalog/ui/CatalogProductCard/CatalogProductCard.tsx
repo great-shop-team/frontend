@@ -53,20 +53,20 @@ export default function CatalogProductCard({ product, onAddToCart }: CatalogProd
 
   return (
     <article className={catalogProductCard.root}>
-      <div className="relative mb-4 flex aspect-413/493 w-full items-center justify-center bg-[#FAFAFA]">
+      <div className="relative mb-3 flex aspect-413/493 w-full items-center justify-center bg-[#FAFAFA] md:mb-4">
         <Link href={cardHref} className="relative flex h-full w-full items-center justify-center">
           <Image
             src={product.image.src}
             alt={product.image.alt}
             fill
-            sizes="(max-width: 768px) 100vw, 258px"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-contain mix-blend-multiply"
           />
         </Link>
 
         <WishlistButton
           productId={product.id}
-          className="absolute top-4 right-4 cursor-pointer border-none bg-transparent p-1 text-dark transition-transform hover:scale-110"
+          className="absolute top-2 right-2 flex min-h-11 min-w-11 cursor-pointer items-center justify-center border-none bg-transparent p-1 text-dark transition-transform hover:scale-110 md:top-4 md:right-4"
         />
 
         <button
@@ -91,23 +91,25 @@ export default function CatalogProductCard({ product, onAddToCart }: CatalogProd
       </div>
 
       <div className={catalogProductCard.meta}>
-        <div className="flex flex-col gap-1">
+        <div className="min-w-0 flex flex-col gap-1">
           <Link href={cardHref} className="hover:underline">
-            <h4>{product.title}</h4>
+            <h4 className="m-0 text-sm leading-snug break-words md:text-base">{product.title}</h4>
           </Link>
         </div>
-        <span className="font-medium whitespace-nowrap">{product.price}</span>
+        <span className="shrink-0 text-sm font-medium whitespace-nowrap md:text-base">
+          {product.price}
+        </span>
       </div>
 
       {hasSizes && (
-        <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label={t.catalog.addToCart}>
+        <div className="mt-2 flex flex-wrap gap-1.5 md:mt-3 md:gap-2" role="group" aria-label={t.catalog.addToCart}>
           {product.sizes!.map((size) => {
             const isSelected = selectedSize === size;
             return (
               <button
                 key={size}
                 type="button"
-                className={`cursor-pointer rounded-[10px] border px-4 py-3 text-sm transition-all duration-200 ${
+                className={`min-h-9 cursor-pointer rounded-[8px] border px-2.5 py-1.5 text-xs transition-all duration-200 md:rounded-[10px] md:px-4 md:py-3 md:text-sm ${
                   isSelected
                     ? 'border-black bg-black text-white'
                     : 'border-neutral-300 bg-transparent text-neutral-800 hover:border-black'

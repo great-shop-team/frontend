@@ -57,6 +57,7 @@ export default function GetVerifiedForm({ onBack, onGetCode, onLogin }: GetVerif
           alt={t.auth.getVerified.imageAlt}
           width={180}
           height={180}
+          className="h-auto w-[180px] max-md:w-[120px]"
           priority
         />
       </div>

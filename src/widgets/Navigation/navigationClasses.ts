@@ -1,10 +1,10 @@
 export const headerNav = {
-  list: 'flex items-center gap-10',
+  list: 'flex h-full items-center gap-10',
   link: 'inline-flex items-center pb-0.5 transition-[border-color] duration-300 ease-in-out',
   linkInactive: 'border-b-0 hover:border-b hover:border-current',
   linkActive: 'border-b border-current',
-  megaMenuTrigger: 'relative',
-  megaMenuWrap: 'fixed right-0 left-0 top-[calc(var(--site-header-height)-24px)] z-100 pt-15',
+  megaMenuTrigger: 'relative flex h-full items-center',
+  megaMenuWrap: 'fixed inset-x-0 top-[var(--site-header-offset)] z-90',
   megaMenuPanel: 'border-t border-black/5 bg-white text-dark shadow-[0_12px_32px_rgb(0_0_0/8%)]',
   megaMenuInner:
     'mx-auto box-border w-full max-w-(--layout-max-width) px-(--header-padding-x) py-10',

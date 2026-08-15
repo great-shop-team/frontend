@@ -19,22 +19,23 @@ export default function ShopMegaMenu() {
   const { data: categories } = useGetCategoriesQuery();
   const { data: subcategories } = useGetSubcategoriesQuery();
 
-  const categoryLinks =
-    categories
-      ?.filter((category) => category.is_active && !category.is_hidden)
-      .slice(0, 10)
-      .map((category) => ({
-        key: String(category.id ?? category.slug),
-        label: category.name,
-        href: `/catalog/${category.slug}`,
-      })) ?? [];
+  const categoriesList = Array.isArray(categories) ? categories : [];
+  const subcategoriesList = Array.isArray(subcategories) ? subcategories : [];
 
-  const categorySlugById = new Map(
-    (categories ?? []).map((category) => [category.id, category.slug]),
+  const categoryLinks = categoriesList
+    .filter((category) => category.is_active && !category.is_hidden)
+    .slice(0, 10)
+    .map((category) => ({
+      key: String(category.id ?? category.slug),
+      label: category.name,
+      href: `/catalog/${category.slug}`,
+    }));
+
+  const categorySlugById = new Map(categoriesList.map((category) => [category.id, category.slug]));
+
+  const filteredSubcategories = subcategoriesList.filter(
+    (subcategory) => subcategory.is_active && !subcategory.is_hidden,
   );
-
-  const filteredSubcategories =
-    subcategories?.filter((subcategory) => subcategory.is_active && !subcategory.is_hidden) ?? [];
 
   const displayedSubcategories = filteredSubcategories.slice(0, 10);
 

@@ -19,7 +19,7 @@ type FooterColumn = {
 };
 
 const linkClass =
-  'cursor-pointer text-base leading-normal font-normal text-white no-underline transition-opacity duration-200 hover:opacity-75';
+  'cursor-pointer text-sm leading-normal font-normal text-white no-underline transition-opacity duration-200 hover:opacity-75 md:text-base';
 
 function FooterLink({
   href,
@@ -99,10 +99,10 @@ export default function Footer() {
   );
 
   const links = (
-    <div className="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-4">
+    <div className="grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-4 md:gap-x-8 md:gap-y-6">
       {footerColumns.map((column) => (
         <div key={column.title} className="flex flex-col gap-4">
-          <h2 className="m-0 font-(family-name:--font-unbounded) text-xl leading-tight font-bold text-white">
+          <h2 className="m-0 font-(family-name:--font-unbounded) text-lg leading-tight font-bold text-white md:text-xl">
             {column.title}
           </h2>
           <ul className="m-0 flex list-none flex-col gap-3 p-0">
@@ -130,17 +130,17 @@ export default function Footer() {
   );
 
   return (
-    <footer className="bg-[#121212] py-12 pb-10 font-(family-name:--font-pt-sans-caption) text-white">
+    <footer className="bg-[#121212] py-10 pb-[max(2.5rem,env(safe-area-inset-bottom))] font-(family-name:--font-pt-sans-caption) text-white md:py-12 md:pb-10">
       <div className="layout-container mx-auto box-border w-full max-w-[1440px]">
         <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[420px_minmax(0,1fr)] lg:grid-rows-[1fr_auto_auto] lg:items-stretch lg:gap-x-24 lg:gap-y-0">
           <div className="order-1 flex flex-col gap-4 lg:col-start-1 lg:row-start-1 lg:min-h-full lg:gap-0">
-            <Link href="/" className="mb-0 inline-flex lg:mb-20" aria-label="WEARLY — home">
+            <Link href="/" className="mb-0 inline-flex max-w-full lg:mb-20" aria-label="WEARLY — home">
               <img
                 src="/icons/WEARLY.svg"
                 alt="WEARLY Logo"
                 width={270}
                 height={50}
-                className="block h-auto w-[270px]"
+                className="block h-auto w-[min(100%,200px)] md:w-[270px]"
               />
             </Link>
             <h2 className="m-0 hidden font-(family-name:--font-unbounded) text-2xl leading-tight font-bold tracking-tight whitespace-nowrap lg:block">
@@ -156,7 +156,7 @@ export default function Footer() {
 
           <div className="order-3 flex flex-col gap-4 lg:col-span-2 lg:row-start-2 lg:grid lg:grid-cols-[420px_minmax(0,1fr)] lg:items-end lg:gap-x-24 lg:gap-y-0">
             <div className="flex flex-col gap-4 lg:gap-0">
-              <h2 className="m-0 font-(family-name:--font-unbounded) text-2xl leading-tight font-bold tracking-tight lg:hidden">
+              <h2 className="m-0 font-(family-name:--font-unbounded) text-xl leading-tight font-bold tracking-tight lg:hidden">
                 {t.footer.newsletterTitle}
               </h2>
               <NewsletterForm />

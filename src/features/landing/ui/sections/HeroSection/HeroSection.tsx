@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useLandingData } from '@/features/landing/lib/useLandingData';
+import { landingSection } from '../landingSectionClasses';
 
 export default function HeroSection() {
   const { hero } = useLandingData();
@@ -68,17 +69,8 @@ export default function HeroSection() {
 
   return (
     <section
-      className="relative overflow-hidden bg-black transition-[height] duration-300 mb-16 md:mb-20 lg:mb-[100px]"
-      style={{
-        height: 'var(--hero-view-height)',
-        width: '100vw',
-        maxWidth: '100vw',
-        position: 'relative',
-        left: '50%',
-        marginLeft: '-50vw',
-        marginRight: '-50vw',
-        overflowX: 'hidden',
-      }}
+      className={`${landingSection.breakout} relative mb-12 overflow-hidden bg-black transition-[height] duration-300 md:mb-20 lg:mb-[100px]`}
+      style={{ height: 'var(--hero-view-height)' }}
       aria-roledescription="carousel"
       aria-label={hero.slidesAriaLabel}
     >
@@ -105,16 +97,19 @@ export default function HeroSection() {
               onEnded={isActive ? handleVideoEnded : undefined}
             />
             <div
-              className="absolute inset-0 bg-linear-to-r from-black/45 via-black/20 to-transparent"
+              className="absolute inset-0 bg-linear-to-t from-black/60 via-black/25 to-black/10 md:bg-linear-to-r md:from-black/45 md:via-black/20 md:to-transparent"
               aria-hidden
             />
 
-            <div className="mx-auto box-border relative z-1 flex h-full w-full max-w-[var(--layout-max-width)] items-center pt-[var(--site-header-height)] pb-20 px-[var(--header-padding-x)]">
-              <div className="flex w-full max-w-[421px] flex-col gap-8 -translate-y-[calc(var(--site-header-height)/2)]">
+            <div className="relative z-1 mx-auto box-border flex h-full w-full max-w-[var(--layout-max-width)] items-end px-[var(--header-padding-x)] pt-[var(--site-header-offset)] pb-24 md:items-center md:pb-20">
+              <div className="flex w-full max-w-[421px] flex-col gap-5 md:gap-8 md:-translate-y-[calc(var(--site-header-height)/2)]">
                 <div className="flex flex-col gap-3">
-                  <h1 className="m-0 font-(family-name:--font-unbounded) text-[clamp(1.875rem,3.6vw,3rem)] leading-[1.15] font-semibold tracking-tight text-white">
+                  <h1 className="m-0 font-(family-name:--font-unbounded) text-[clamp(1.625rem,7vw,3rem)] leading-[1.15] font-semibold tracking-tight text-white">
                     {slide.title.split('\n').map((line, lineIndex) => (
-                      <span key={`${slide.id}-${lineIndex}`} className="block whitespace-nowrap">
+                      <span
+                        key={`${slide.id}-${lineIndex}`}
+                        className="block max-md:whitespace-normal md:whitespace-nowrap"
+                      >
                         {line}
                       </span>
                     ))}
@@ -136,7 +131,7 @@ export default function HeroSection() {
       })}
 
       <div
-        className="absolute bottom-5 left-1/2 z-2 flex -translate-x-1/2 items-center gap-2.5"
+        className="absolute bottom-[max(1.25rem,env(safe-area-inset-bottom))] left-1/2 z-2 flex -translate-x-1/2 items-center gap-2.5"
         role="tablist"
         aria-label={hero.slidesAriaLabel}
       >

@@ -29,11 +29,11 @@ export default function BenefitsSection() {
 
   return (
     <section className={landingSection.section}>
-      <div className="mx-auto flex w-full max-w-[584px] flex-wrap items-center justify-center gap-5">
+      <div className="mx-auto grid w-full max-w-[584px] grid-cols-2 gap-x-4 gap-y-6 sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-5">
         {benefits.map((item) => (
           <div key={item.id} className="flex min-w-0 flex-col items-center gap-2">
             <Image src={item.icon} alt="" width={28} height={28} aria-hidden />
-            <p className="m-0 text-center font-(family-name:--font-pt-sans-caption) text-xs font-normal text-dark whitespace-nowrap">
+            <p className="m-0 max-w-[140px] text-center font-(family-name:--font-pt-sans-caption) text-xs font-normal text-dark sm:max-w-none">
               {t.landing.benefits[item.id]}
             </p>
           </div>

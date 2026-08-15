@@ -20,7 +20,7 @@ export default function Navigation() {
   const isSalesActive = isActivePath(pathname, '/sales');
 
   return (
-    <nav aria-label="Main">
+    <nav aria-label="Main" className="h-full">
       <ul className={headerNav.list}>
         <li>
           <Link

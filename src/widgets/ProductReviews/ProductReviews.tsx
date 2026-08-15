@@ -106,7 +106,7 @@ function ReviewSummary() {
 
         <button
           type="button"
-          className="inline-flex h-11.25 w-47.25 items-center justify-center rounded-lg border border-black bg-white-fa px-5 font-heading text-[14px] font-normal text-[#4d4d4d] transition-colors duration-200 hover:bg-[#f0f0f0]"
+          className="inline-flex h-11.25 w-full max-w-47.25 items-center justify-center rounded-lg border border-black bg-white-fa px-5 font-heading text-[14px] font-normal text-[#4d4d4d] transition-colors duration-200 hover:bg-[#f0f0f0]"
         >
           {t.product.reviews.writeReview}
         </button>
@@ -129,8 +129,8 @@ function ReviewItem({
   date: string;
 }) {
   return (
-    <article className="flex w-full gap-6">
-      <div className="flex h-15 w-15 shrink-0 items-center justify-center rounded-[30px] bg-[#d9d9d9] font-heading text-[16px] leading-none font-light text-black">
+    <article className="flex w-full gap-3 md:gap-6">
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#d9d9d9] font-heading text-sm leading-none font-light text-black md:h-15 md:w-15 md:rounded-[30px] md:text-[16px]">
         {initials}
       </div>
 
@@ -177,7 +177,7 @@ export default function ProductReviews() {
   const { t } = useTranslation();
 
   return (
-    <section className="mb-24" aria-label={t.product.reviews.ariaLabel}>
+    <section className="mb-16 md:mb-24" aria-label={t.product.reviews.ariaLabel}>
       <div className="flex flex-col gap-10 xl:flex-row xl:items-start xl:gap-54.25">
         <ReviewSummary />
         <ReviewList />
