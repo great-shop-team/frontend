@@ -1,6 +1,6 @@
 import { api } from '../api';
 import { normalizeProduct } from '../api/mappers/products.mapper';
-import type { ApiProduct, ProductImageRecord, ProductVariant, ProductCardData } from '../types';
+import type { ApiProduct, ProductCardData } from '../types';
 
 export const productsEndpoints = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -94,14 +94,6 @@ export const productsEndpoints = api.injectEndpoints({
         { type: 'Product', id: `product-details-${slugOrId}` },
       ],
     }),
-    getProductVariants: builder.query<ProductVariant[], void>({
-      query: () => '/api/product-variants/',
-      providesTags: ['Product'],
-    }),
-    getProductImages: builder.query<ProductImageRecord[], void>({
-      query: () => '/api/product-images/',
-      providesTags: ['Product'],
-    }),
   }),
 });
 
@@ -112,6 +104,4 @@ export const {
   useGetProductsRawQuery,
   useGetProductBySlugQuery,
   useGetProductDetailsBySlugOrIdQuery,
-  useGetProductVariantsQuery,
-  useGetProductImagesQuery,
 } = productsEndpoints;

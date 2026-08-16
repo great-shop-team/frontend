@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { PT_Sans_Caption, Unbounded } from 'next/font/google';
 
 import '@/styles/global.css';
+import AppShell from './AppShell';
+import Providers from './providers';
 
 export const metadata: Metadata = {
   title: {
@@ -10,11 +12,6 @@ export const metadata: Metadata = {
   },
   description: 'WEARLY — online clothing store',
 };
-
-import Header from '@/widgets/Header/Header';
-import Footer from '@/widgets/Footer/Footer';
-import MainContent from '@/widgets/MainContent/MainContent';
-import Providers from './providers';
 
 const ptSansCaption = PT_Sans_Caption({
   subsets: ['latin', 'latin-ext'],
@@ -40,13 +37,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-screen flex-col">
         <Providers>
-          <Header />
-          <div className="layout-container flex flex-1 flex-col">
-            <div className="flex-1">
-              <MainContent>{children}</MainContent>
-            </div>
-          </div>
-          <Footer />
+          <AppShell>{children}</AppShell>
         </Providers>
       </body>
     </html>

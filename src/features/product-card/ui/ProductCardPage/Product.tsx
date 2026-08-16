@@ -8,9 +8,11 @@ import { useParams, usePathname } from 'next/navigation';
 import type { CatalogProduct } from '@/features/catalog/model/catalogProduct';
 import ClothingProductCard from '@/features/catalog/ui/CatalogProductCard/CatalogProductCard';
 import {
-  useGetProductDetailsBySlugOrIdQuery,
   useGetProductImagesQuery,
   useGetProductVariantsQuery,
+} from '@/store/endpoints/catalogMetaEndpoints';
+import {
+  useGetProductDetailsBySlugOrIdQuery,
   useGetProductsRawQuery,
 } from '@/store/endpoints/productsEndpoints';
 import { useGetBrandByIdQuery } from '@/store/endpoints/brandsEndpoints';
