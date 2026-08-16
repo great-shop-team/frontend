@@ -12,7 +12,7 @@ export default function BestSellersSection() {
   return (
     <section id="recently-released" className={landingSection.section}>
       <div className={`${landingSection.sectionContent} flex flex-col gap-8`}>
-        <div className="flex items-baseline justify-between gap-4">
+        <div className="flex items-baseline justify-between gap-3">
           <h2 className={landingSection.sectionTitle}>{labels.recentlyReleased}</h2>
           <Link href="/catalog" className={landingSection.viewAll}>
             {labels.shopAll}

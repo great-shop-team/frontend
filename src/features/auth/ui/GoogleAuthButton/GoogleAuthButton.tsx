@@ -55,7 +55,7 @@ export default function GoogleAuthButton({
       type="button"
       onClick={handleClick}
       disabled={disabled}
-      className={`flex h-10 w-10 cursor-pointer items-center justify-center disabled:cursor-not-allowed disabled:opacity-50 ${className ?? ''}`}
+      className={`flex cursor-pointer items-center justify-center disabled:cursor-not-allowed disabled:opacity-50 ${className ?? 'h-10 w-10'}`}
       aria-label="Google"
     >
       <Image src={googleLogo} alt="Google" className={iconClassName ?? 'h-6 w-6'} />

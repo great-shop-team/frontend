@@ -28,7 +28,7 @@ export default function ShopBySection() {
           <div className="flex items-center gap-2">
             <button
               type="button"
-              className="flex size-9 cursor-pointer items-center justify-center rounded-full border border-black/15 bg-white text-dark transition-colors hover:bg-[#f5f5f5]"
+              className={landingSection.carouselBtn}
               aria-label={labels.prev}
               onClick={() => scrollByCard(-1)}
             >
@@ -50,7 +50,7 @@ export default function ShopBySection() {
             </button>
             <button
               type="button"
-              className="flex size-9 cursor-pointer items-center justify-center rounded-full border border-black/15 bg-white text-dark transition-colors hover:bg-[#f5f5f5]"
+              className={landingSection.carouselBtn}
               aria-label={labels.next}
               onClick={() => scrollByCard(1)}
             >
@@ -71,14 +71,14 @@ export default function ShopBySection() {
 
         <div
           ref={scrollerRef}
-          className="flex gap-5 overflow-x-auto scroll-smooth pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex gap-4 overflow-x-auto scroll-smooth pb-1 [-ms-overflow-style:none] [scrollbar-width:none] md:gap-5 [&::-webkit-scrollbar]:hidden"
         >
           {shopBy.map((item) => (
             <Link
               key={item.id}
               href={item.href}
               data-category-card
-              className="group relative aspect-413/603 w-[min(100%,380px)] shrink-0 overflow-hidden bg-[#f5f5f5] md:w-[calc((100%-40px)/3)]"
+              className="group relative aspect-413/603 w-[min(78%,320px)] shrink-0 overflow-hidden bg-[#f5f5f5] md:w-[calc((100%-40px)/3)]"
             >
               <Image
                 src={item.image.src}
@@ -88,7 +88,7 @@ export default function ShopBySection() {
                 quality={80}
                 className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.03]"
               />
-              <span className="absolute right-5 bottom-5 left-5 z-1 inline-flex h-11 items-center justify-center rounded-[10px] border-2 border-[#fafafa] bg-transparent px-[38px] py-3 font-(family-name:--font-unbounded) text-base font-normal text-[#fafafa]">
+              <span className="absolute right-4 bottom-4 left-4 z-1 inline-flex h-11 items-center justify-center rounded-[10px] border-2 border-[#fafafa] bg-transparent px-4 font-(family-name:--font-unbounded) text-sm font-normal text-[#fafafa] md:right-5 md:bottom-5 md:left-5 md:px-[38px] md:text-base">
                 {item.label}
               </span>
             </Link>

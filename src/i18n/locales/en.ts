@@ -3,6 +3,10 @@ const en = {
     catalog: 'Catalog',
     sales: 'Sales',
     search: 'Search',
+    searchPlaceholder: 'Search products',
+    searchSubmit: 'Search',
+    closeSearch: 'Close search',
+    searchNoResults: 'No matches',
     brands: 'Brands',
     shop: 'Shop',
     brandsMenuAriaLabel: 'Brands navigation',
@@ -168,6 +172,7 @@ const en = {
     },
     topBanner: {
       text: 'New here? Sign up and get $15 off your first order',
+      textMobile: 'New here? Sign up and get $15 off your first order',
       close: 'Close banner',
     },
     clothing: {
@@ -679,6 +684,9 @@ const en = {
     ConfirmNewPassword: 'Confirm new password',
     RepeatNewPassword: 'Repeat new password',
     SaveChanges: 'Save changes',
+  },
+  promoCode: {
+    MyPrCodes: 'My promo codes',
   },
 
   address: {

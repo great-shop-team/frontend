@@ -20,13 +20,13 @@ export default function PressMediaSection() {
             href="https://www.instagram.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="m-0 font-(family-name:--font-unbounded) text-[25px] font-medium text-dark no-underline transition-opacity hover:opacity-70"
+            className="m-0 font-(family-name:--font-unbounded) text-[20px] font-medium text-dark no-underline transition-opacity hover:opacity-70 md:text-[25px]"
           >
             {labels.pressHandle}
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5">
           {press.map((item) => (
             <Link
               key={item.id}

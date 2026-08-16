@@ -12,8 +12,8 @@ export default function EyewearSection() {
 
   return (
     <section className={landingSection.section}>
-      <div className="mx-auto flex w-full max-w-[1270px] flex-col items-center gap-8 bg-[#fafafa] md:h-[850px] md:flex-row md:items-center md:justify-between">
-        <div className="w-full max-w-[413px] shrink-0 px-4 md:w-[413px] md:px-0">
+      <div className="mx-auto flex w-full max-w-[1270px] flex-col items-center gap-6 bg-[#fafafa] md:h-[850px] md:flex-row md:items-center md:justify-between md:gap-8">
+        <div className="w-full max-w-[413px] shrink-0 md:w-[413px] md:px-0">
           <LandingProductCard
             id={eyewear.product.id}
             href={eyewear.product.href}
@@ -36,9 +36,7 @@ export default function EyewearSection() {
             quality={80}
             className="object-cover object-top"
           />
-          <p className="absolute top-6 left-6 m-0 whitespace-nowrap font-(family-name:--font-unbounded) text-base font-normal text-black">
-            {eyewear.title}
-          </p>
+          <p className={`${landingSection.editorialTitle} text-black`}>{eyewear.title}</p>
         </Link>
       </div>
     </section>

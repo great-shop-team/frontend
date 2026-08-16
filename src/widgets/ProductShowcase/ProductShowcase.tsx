@@ -217,10 +217,10 @@ export default function ProductShowcase({
   }, [hasMultiplePreviewImages, isImageModalRendered, previewImages.length]);
 
   return (
-    <section className="mb-24 pt-10.5">
+    <section className="mb-16 pt-4 md:mb-24 md:pt-10.5">
       <nav
         aria-label={t.product.aria.breadcrumb}
-        className="mb-10 flex flex-wrap items-center gap-2 text-[16px] leading-[1.2] text-black/70"
+        className="mb-6 flex flex-wrap items-center gap-1.5 text-sm leading-[1.2] text-black/70 md:mb-10 md:gap-2 md:text-[16px]"
       >
         {breadcrumbs.map((item, index) => (
           <div key={`${item.label}-${index}`} className="flex items-center gap-2">
@@ -237,22 +237,22 @@ export default function ProductShowcase({
         ))}
       </nav>
 
-      <div className="flex flex-col gap-12 xl:flex-row xl:gap-16">
+      <div className="flex flex-col gap-8 xl:flex-row xl:gap-16">
         <div className="w-full max-w-157.5 shrink-0">
-          <div className="relative flex min-h-105 items-center justify-center overflow-hidden bg-[#f3f3f3] p-6 sm:min-h-132.75">
+          <div className="relative flex min-h-80 items-center justify-center overflow-hidden bg-[#f3f3f3] p-4 sm:min-h-105 sm:p-6 md:min-h-132.75">
             {activePreviewImage ? (
               <Image
                 src={activePreviewImage.src}
                 alt={activePreviewImage.alt}
                 width={310}
                 height={531}
-                className="h-auto max-h-132.75 w-auto object-contain"
+                className="h-auto max-h-100 w-auto object-contain sm:max-h-132.75"
               />
             ) : null}
 
             <button
               type="button"
-              className="absolute right-4 bottom-4 inline-flex h-12 w-12 items-center justify-center rounded-full border border-black bg-white-fa transition-transform duration-200 hover:scale-105"
+              className="absolute right-3 bottom-3 inline-flex h-11 w-11 items-center justify-center rounded-full border border-black bg-white-fa transition-transform duration-200 hover:scale-105 md:right-4 md:bottom-4 md:h-12 md:w-12"
               onClick={openImageModal}
               aria-label={t.product.aria.openGallery}
             >
@@ -260,12 +260,12 @@ export default function ProductShowcase({
             </button>
           </div>
 
-          <div className="mt-2.5 flex flex-wrap gap-4">
+          <div className="mt-2.5 flex gap-3 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] md:flex-wrap md:gap-4 [&::-webkit-scrollbar]:hidden">
             {galleryPreviewImages.map((item, index) => (
               <button
                 type="button"
                 key={`${item.src}-${index}`}
-                className="flex h-52 w-36.25 cursor-pointer items-center justify-center overflow-hidden bg-[#f3f3f3] p-4 transition-transform duration-300 hover:-translate-y-0.5"
+                className="flex h-36 w-24 shrink-0 cursor-pointer items-center justify-center overflow-hidden bg-[#f3f3f3] p-2 transition-transform duration-300 hover:-translate-y-0.5 md:h-52 md:w-36.25 md:p-4"
                 onClick={() =>
                   setActivePreviewIndex(
                     Math.max(
@@ -291,12 +291,14 @@ export default function ProductShowcase({
 
         <div className="w-full flex-1 xl:max-w-130 xl:pt-1">
           <p className="mb-2 font-sans text-[16px] font-normal text-black">{brand}</p>
-          <div className="mb-6 flex items-start justify-between gap-6">
-            <div>
-              <h1 className="mb-0 max-w-[320px] text-[24px] leading-[1.2] font-bold">{title}</h1>
+          <div className="mb-4 flex items-start justify-between gap-3 md:mb-6 md:gap-6">
+            <div className="min-w-0">
+              <h1 className="mb-0 text-[22px] leading-[1.2] font-bold md:max-w-[320px] md:text-[24px]">
+                {title}
+              </h1>
             </div>
             <div
-              className="min-w-18 pt-1 text-right text-[24px] leading-[120%] font-light text-black whitespace-nowrap"
+              className="shrink-0 pt-1 text-right text-[20px] leading-[120%] font-light text-black whitespace-nowrap md:min-w-18 md:text-[24px]"
               style={{ fontFamily: 'var(--second-family)' }}
             >
               {'\u00A0'}
@@ -328,7 +330,7 @@ export default function ProductShowcase({
                 type="button"
                 key={key}
                 onClick={() => setCurrentSize(key)}
-                className={`inline-flex h-8 min-w-10 items-center justify-center rounded-[10px] border border-black px-3 font-sans text-[14px] leading-none transition-colors duration-200 ${
+                className={`inline-flex h-10 min-w-10 items-center justify-center rounded-[10px] border border-black px-3 font-sans text-[14px] leading-none transition-colors duration-200 ${
                   key === currentSize ? 'bg-black text-white-fa' : 'bg-white text-black'
                 }`}
               >
@@ -355,7 +357,7 @@ export default function ProductShowcase({
                       alt={item.alt}
                       width={112}
                       height={124}
-                      className="h-31 w-28 object-contain bg-[#f3f3f3]"
+                      className="h-24 w-20 object-contain bg-[#f3f3f3] md:h-31 md:w-28"
                     />
                   </button>
                 ))}
@@ -363,16 +365,16 @@ export default function ProductShowcase({
             </>
           ) : null}
 
-          <div className="mb-8 flex flex-wrap gap-4">
+          <div className="mb-6 flex w-full flex-col gap-3 sm:mb-8 sm:flex-row sm:flex-wrap sm:gap-4">
             <button
               type="button"
-              className="inline-flex h-12 min-w-35 items-center justify-center rounded-[10px] border border-black bg-black px-6 font-sans text-[16px] font-medium text-white-fa transition-opacity duration-200 hover:opacity-90"
+              className="inline-flex h-12 w-full items-center justify-center rounded-[10px] border border-black bg-black px-6 font-sans text-[16px] font-medium text-white-fa transition-opacity duration-200 hover:opacity-90 sm:w-auto sm:min-w-35"
             >
               {t.product.buyNow}
             </button>
             <button
               type="button"
-              className="inline-flex h-12 min-w-35 items-center justify-center rounded-[10px] border border-black px-6 font-sans text-[16px] font-normal text-black transition-colors duration-200 hover:bg-black hover:text-white-fa"
+              className="inline-flex h-12 w-full items-center justify-center rounded-[10px] border border-black px-6 font-sans text-[16px] font-normal text-black transition-colors duration-200 hover:bg-black hover:text-white-fa sm:w-auto sm:min-w-35"
             >
               {t.product.addToCart}
             </button>
@@ -404,7 +406,7 @@ export default function ProductShowcase({
           />
 
           <div
-            className={`fixed top-0 right-0 z-111 flex h-screen w-full max-w-135 flex-col bg-white px-8 py-7 shadow-[-4px_0_24px_rgb(0_0_0/10%)] transition-transform duration-300 ease-out sm:px-10 ${
+            className={`fixed inset-y-0 right-0 z-111 flex h-dvh w-full max-w-full flex-col bg-white px-5 py-6 shadow-[-4px_0_24px_rgb(0_0_0/10%)] transition-transform duration-300 ease-out sm:max-w-135 sm:px-10 sm:py-7 ${
               isSidebarVisible ? 'translate-x-0' : 'translate-x-full'
             }`}
           >
@@ -428,6 +430,7 @@ export default function ProductShowcase({
               </button>
             </div>
 
+            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-[max(1rem,env(safe-area-inset-bottom))]">
             <div className="flex flex-col">
               {infoTabs.map((tab) => (
                 <div key={tab.id} className="border-b border-black/10 py-5">
@@ -470,6 +473,7 @@ export default function ProductShowcase({
                 </div>
               ))}
             </div>
+            </div>
           </div>
         </>
       )}
@@ -482,10 +486,10 @@ export default function ProductShowcase({
           onClick={closeImageModal}
         >
           <div className="relative z-1 h-full overflow-y-auto">
-            <div className="flex min-h-screen items-start justify-center px-6 pt-28.5 pb-10 xl:px-20">
+            <div className="flex min-h-screen items-start justify-center px-4 pt-20 pb-10 md:px-6 md:pt-28.5 xl:px-20">
               <button
                 type="button"
-                className={`fixed top-7 right-7 z-2 inline-flex h-11 w-11 items-center justify-center rounded-full border border-black bg-white-fa transition-[transform,opacity] duration-360 ease-out hover:scale-105 ${
+                className={`fixed top-4 right-4 z-2 inline-flex h-11 w-11 items-center justify-center rounded-full border border-black bg-white-fa transition-[transform,opacity] duration-360 ease-out hover:scale-105 md:top-7 md:right-7 ${
                   isImageModalVisible ? 'translate-y-0 opacity-100' : '-translate-y-3 opacity-0'
                 }`}
                 onClick={(event) => {
@@ -510,7 +514,7 @@ export default function ProductShowcase({
               >
                 <div className="flex w-full flex-col gap-8 xl:flex-row xl:items-start xl:gap-18.5">
                   <div className="flex w-full flex-1 flex-col items-center">
-                    <div className="relative flex h-204.75 w-211.5 max-w-full items-center justify-center bg-white-fa px-8 py-10">
+                    <div className="relative flex min-h-80 w-full max-w-full items-center justify-center bg-white-fa px-4 py-6 md:h-204.75 md:w-211.5 md:px-8 md:py-10">
                       <Image
                         src={previewImages[selectedImageIndex].src}
                         alt={previewImages[selectedImageIndex].alt}
@@ -556,7 +560,7 @@ export default function ProductShowcase({
                       isImageModalVisible ? 'translate-x-0 opacity-100' : 'translate-x-4 opacity-0'
                     }`}
                   >
-                    <div className="flex max-h-236 flex-row gap-4 overflow-x-auto xl:flex-col xl:gap-6 xl:overflow-y-auto xl:overflow-x-visible">
+                    <div className="flex max-h-none flex-row gap-3 overflow-x-auto md:max-h-236 md:gap-4 xl:flex-col xl:gap-6 xl:overflow-y-auto xl:overflow-x-visible">
                       {previewImages.map((item, index) => {
                         const isActive = selectedImageIndex === index;
 
@@ -564,7 +568,7 @@ export default function ProductShowcase({
                           <button
                             type="button"
                             key={`${item.src}-${index}`}
-                            className={`relative flex h-54.5 w-49.25 shrink-0 items-center justify-center overflow-hidden bg-white px-4 py-3 transition-opacity duration-200 ${
+                            className={`relative flex h-36 w-24 shrink-0 items-center justify-center overflow-hidden bg-white px-2 py-2 transition-opacity duration-200 md:h-54.5 md:w-49.25 md:px-4 md:py-3 ${
                               isActive ? 'opacity-100' : 'opacity-70'
                             }`}
                             onClick={() => setSelectedImageIndex(index)}

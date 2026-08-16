@@ -14,7 +14,7 @@ export default function FeaturedFramesSection() {
   return (
     <section className={landingSection.section}>
       <div className="mx-auto flex w-full max-w-[1270px] flex-col gap-5">
-        <div className="flex flex-col items-center gap-8 md:h-[850px] md:flex-row md:items-center md:gap-[128px]">
+        <div className="flex flex-col items-center gap-6 md:h-[850px] md:flex-row md:items-center md:gap-[128px]">
           <Link
             href={lookEditorial.href}
             className="relative h-auto w-full max-w-[630px] aspect-630/850 shrink-0 overflow-hidden bg-[#f5f5f5] md:h-[850px] md:w-[630px] md:aspect-auto"
@@ -27,7 +27,7 @@ export default function FeaturedFramesSection() {
               quality={80}
               className="object-cover object-top"
             />
-            <p className="absolute top-6 left-6 m-0 whitespace-nowrap font-(family-name:--font-unbounded) text-base font-normal text-white">
+            <p className={`${landingSection.editorialTitle} text-white`}>
               {lookEditorial.title}
             </p>
           </Link>
@@ -44,7 +44,7 @@ export default function FeaturedFramesSection() {
           </div>
         </div>
 
-        <div className="flex flex-col items-center gap-8 md:h-[850px] md:flex-row md:items-center md:justify-between md:gap-[128px]">
+        <div className="flex flex-col items-center gap-6 md:h-[850px] md:flex-row md:items-center md:justify-between md:gap-[128px]">
           <div className="w-full max-w-[413px] shrink-0 md:w-[413px]">
             <LandingProductCard
               id={scentProduct.id}
@@ -68,7 +68,7 @@ export default function FeaturedFramesSection() {
               quality={80}
               className="object-cover"
             />
-            <p className="absolute top-6 left-6 m-0 whitespace-nowrap font-(family-name:--font-unbounded) text-base font-normal text-white">
+            <p className={`${landingSection.editorialTitle} text-white`}>
               {scentEditorial.title}
             </p>
           </Link>

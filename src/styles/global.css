@@ -49,6 +49,7 @@
   --layout-gutter-desktop: 80px;
 
   --site-header-height: 64px;
+  --site-header-offset: var(--site-header-height);
   --hero-view-height: 100dvh;
   --hero-section-height: calc(var(--hero-view-height) - var(--site-header-height));
   --header-padding-x: 16px;
@@ -159,7 +160,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 306px;
+    width: min(100%, 306px);
     height: 48px;
     padding: 12px 16px;
     font-size: var(--text-base);
@@ -176,17 +177,29 @@
   }
 
   .bit-primary-thin {
-    padding: 10px 16px;
-    font-size: var(--text-base);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    font-size: 13px;
     font-weight: var(--font-weight-light);
     color: var(--color-white);
     cursor: pointer;
     background: var(--color-black);
     border-radius: 10px;
-    width: 170px;
-    height: 48px;
+    width: min(100%, 170px);
+    height: 44px;
     text-align: center;
     text-decoration: none;
+  }
+
+  @media (min-width: 768px) {
+    .bit-primary-thin {
+      padding: 10px 16px;
+      font-size: var(--text-base);
+      height: 48px;
+    }
   }
 
   .btn-outline {
@@ -222,6 +235,7 @@ html,
 body {
   margin: 0;
   padding: 0;
+  overflow-x: clip;
 }
 
 html {
@@ -237,4 +251,9 @@ body.auth-overlay-open {
 #auth-overlay .auth-overlay-panel {
   background-color: #fff;
   contain: paint;
+}
+
+#auth-overlay .auth-overlay-scroll {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }

@@ -18,6 +18,7 @@ interface AuthInputProps {
   error?: string;
   hint?: string;
   togglePassword?: boolean;
+  autoComplete?: string;
 }
 
 export default function AuthInput({
@@ -31,6 +32,7 @@ export default function AuthInput({
   error,
   hint,
   togglePassword = false,
+  autoComplete,
 }: AuthInputProps) {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
@@ -39,6 +41,9 @@ export default function AuthInput({
 
   const reactId = useId();
   const inputId = id ?? `auth-input-${reactId}`;
+  const resolvedAutoComplete =
+    autoComplete ??
+    (type === 'email' ? 'email' : type === 'password' ? 'current-password' : undefined);
 
   return (
     <div className="flex flex-col gap-2">
@@ -57,7 +62,11 @@ export default function AuthInput({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className="box-border w-full rounded-[10px] border-none bg-transparent px-4 py-4 pr-12 text-sm text-dark outline-none focus:shadow-none focus-visible:shadow-none placeholder:text-gray"
+          autoComplete={resolvedAutoComplete}
+          autoCapitalize={type === 'email' ? 'none' : undefined}
+          autoCorrect={type === 'email' ? 'off' : undefined}
+          spellCheck={type === 'email' || type === 'password' ? false : undefined}
+          className="box-border w-full rounded-[10px] border-none bg-transparent px-4 py-4 pr-12 text-base text-dark outline-none focus:shadow-none focus-visible:shadow-none placeholder:text-gray max-md:py-3.5"
           aria-invalid={Boolean(error)}
           aria-describedby={error ? `${inputId}-error` : undefined}
         />
@@ -65,7 +74,7 @@ export default function AuthInput({
           <button
             type="button"
             onClick={() => setShowPassword((current) => !current)}
-            className="absolute top-1/2 right-3 flex -translate-y-1/2 cursor-pointer items-center justify-center border-none bg-transparent text-gray"
+            className="absolute top-1/2 right-2 flex h-11 w-11 -translate-y-1/2 cursor-pointer items-center justify-center border-none bg-transparent text-gray"
             aria-label={showPassword ? t.common.hidePassword : t.common.showPassword}
           >
             {showPassword ? (
@@ -75,10 +84,14 @@ export default function AuthInput({
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth={2}
+                strokeWidth={1.8}
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
-                <path d="M17.94 17.94A10.94 10.94 0 0112 20c-7 0-11-8-11-8a21.64 21.64 0 015.15-6.13" />
-                <path d="M1 1l22 22" />
+                <path d="M3 3l18 18" />
+                <path d="M10.5 10.5A2.5 2.5 0 0 0 13.5 13.5" />
+                <path d="M9.1 5.18A10.8 10.8 0 0 1 12 5c5.4 0 9.79 3.44 11 7-1.08 3.1-3.74 5.71-7.12 6.82" />
+                <path d="M6.12 6.12A16.95 16.95 0 0 0 2 12c1.31 3.31 4.48 6 10 7" />
               </svg>
             ) : (
               <svg
@@ -87,9 +100,11 @@ export default function AuthInput({
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth={2}
+                strokeWidth={1.8}
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z" />
+                <path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6S2 12 2 12Z" />
                 <circle cx="12" cy="12" r="3" />
               </svg>
             )}

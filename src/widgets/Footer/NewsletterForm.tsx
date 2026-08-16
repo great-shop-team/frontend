@@ -49,14 +49,14 @@ export default function NewsletterForm() {
           }}
           placeholder="you@email.com"
           autoComplete="email"
-          className="w-full border-0 bg-transparent pr-10 pb-4 text-sm leading-normal text-white outline-none placeholder:text-white/50"
+          className="w-full border-0 bg-transparent pr-10 pb-4 text-base leading-normal text-white outline-none placeholder:text-white/50"
         />
 
         {showSubmit ? (
           <button
             type="submit"
             aria-label={t.footer.subscribeAria}
-            className="absolute right-0 bottom-1 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-0 bg-transparent text-white transition-colors duration-200 hover:bg-white/10"
+            className="absolute right-0 bottom-1 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border-0 bg-transparent text-white transition-colors duration-200 hover:bg-white/10"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

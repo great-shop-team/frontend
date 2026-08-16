@@ -222,6 +222,15 @@ export function useCatalogListing(category: CatalogCategory, filters: CatalogLis
     const sizeFilters = new Set(filters.size ?? []);
 
     const filtered = source.filter((product) => {
+      if (filters.q) {
+        const needle = filters.q.toLowerCase();
+        const haystack = [product.title, product.description, product.brandName]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase();
+        if (!haystack.includes(needle)) return false;
+      }
+
       if (filters.subcategory && product.subcategory !== filters.subcategory) return false;
       if (filters.type && product.type !== filters.type) return false;
 
@@ -264,6 +273,7 @@ export function useCatalogListing(category: CatalogCategory, filters: CatalogLis
     currenciesQuery.data,
     category,
     locale,
+    filters.q,
     filters.subcategory,
     filters.type,
     filters.brand,

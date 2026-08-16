@@ -241,10 +241,12 @@ export default function Product() {
 
       <ProductReviews />
 
-      <div className="m-[2%]">
-        <h2 className="m-[2%] text-[36px] font-normal">{t.product.youMayAlsoLike}</h2>
+      <div className="mb-16">
+        <h2 className="mb-6 text-[24px] font-normal md:mb-8 md:text-[36px]">
+          {t.product.youMayAlsoLike}
+        </h2>
 
-        <div className="relative flex gap-[2%]">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
           {relatedProducts.map((item, key) => (
             <ClothingProductCard key={key} product={item as CatalogProduct} />
           ))}

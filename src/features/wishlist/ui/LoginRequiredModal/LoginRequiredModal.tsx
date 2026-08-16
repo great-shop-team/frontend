@@ -43,7 +43,7 @@ export default function LoginRequiredModal({
 
   return (
     <div
-      className="fixed inset-0 z-60 flex items-center justify-center bg-black/45 p-4"
+      className="fixed inset-0 z-120 flex items-end justify-center bg-black/45 p-0 max-md:items-end sm:items-center sm:p-4"
       role="presentation"
       onClick={onClose}
     >
@@ -51,12 +51,12 @@ export default function LoginRequiredModal({
         role="dialog"
         aria-modal
         aria-labelledby="login-required-title"
-        className="relative w-full max-w-[560px] rounded-lg bg-white p-6 shadow-xl sm:p-8"
+        className="relative max-h-[90dvh] w-full max-w-[560px] overflow-y-auto rounded-t-2xl bg-white p-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] shadow-xl max-md:w-full sm:rounded-lg sm:p-8"
         onClick={(event) => event.stopPropagation()}
       >
         <button
           type="button"
-          className="absolute top-4 right-4 cursor-pointer border-0 bg-transparent p-1 text-2xl leading-none text-black/70 transition-colors hover:text-black"
+          className="absolute top-3 right-3 flex h-11 w-11 cursor-pointer items-center justify-center border-0 bg-transparent p-0 text-2xl leading-none text-black/70 transition-colors hover:text-black"
           onClick={onClose}
           aria-label={t.wishlist.closeModal}
         >
@@ -65,12 +65,12 @@ export default function LoginRequiredModal({
 
         <h2
           id="login-required-title"
-          className="mb-4 pr-8 text-xl font-bold text-black sm:text-2xl"
+          className="mb-3 pr-10 font-(family-name:--font-unbounded) text-xl font-bold text-black sm:mb-4 sm:text-2xl"
         >
           {t.wishlist.loginRequiredTitle}
         </h2>
 
-        <p className="mb-8 text-base leading-relaxed text-black/80">
+        <p className="mb-6 text-base leading-relaxed text-black/80 sm:mb-8">
           {t.wishlist.loginRequiredText}
         </p>
 

@@ -36,6 +36,7 @@ export default function WelcomeAbroadPanel({ onGetStarted }: WelcomeAbroadPanelP
           alt={t.auth.welcome.imageAlt}
           width={280}
           height={300}
+          className="h-auto w-full max-w-[240px] max-md:max-w-[168px]"
           priority
         />
       </div>

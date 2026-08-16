@@ -61,6 +61,7 @@ export default function ForgotPasswordForm({
           alt={t.auth.forgotPassword.imageAlt}
           width={150}
           height={150}
+          className="h-auto w-[150px] max-md:w-[110px]"
           priority
         />
       </div>

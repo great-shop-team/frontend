@@ -2,14 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Suspense, useEffect, useId, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 
+import { useAuthOverlay } from '@/features/auth/context/AuthOverlayContext';
 import { catalogRoutes } from '@/features/catalog/config/catalogRoutes';
 import { useTranslation } from '@/i18n/useTranslation';
 import { useGetBrandsQuery } from '@/store/endpoints/brandsEndpoints';
 import { isActivePath } from '@/widgets/Header/headerActionClasses';
 import LanguageSwitcher from '@/widgets/LanguageSwitcher/LanguageSwitcher';
-import MyAccount from '@/widgets/MyAccount/MyAccount';
 
 import { shopMenuColumns } from '../Navigation/shopMenuConfig';
 
@@ -25,6 +25,7 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
   const pathname = usePathname();
   const titleId = useId();
   const [openSection, setOpenSection] = useState<AccordionKey>(null);
+  const { isOpen: isAuthOpen } = useAuthOverlay();
   const { data: brands } = useGetBrandsQuery(undefined, { skip: !isOpen });
 
   useEffect(() => {
@@ -33,6 +34,10 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
     // Close drawer on route changes only.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
+
+  useEffect(() => {
+    if (isAuthOpen) onClose();
+  }, [isAuthOpen, onClose]);
 
   useEffect(() => {
     if (!isOpen) return undefined;
@@ -230,13 +235,8 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
           </ul>
         </div>
 
-        <div className="flex shrink-0 items-center justify-between gap-4 border-t border-black/8 px-4 py-4">
+        <div className="flex shrink-0 items-center border-t border-black/8 px-4 py-4">
           <LanguageSwitcher variant="inline" />
-          <div className="sm:hidden">
-            <Suspense fallback={null}>
-              <MyAccount />
-            </Suspense>
-          </div>
         </div>
       </nav>
     </div>

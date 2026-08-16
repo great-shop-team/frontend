@@ -38,7 +38,7 @@ export default function CatalogSort({ value = 'featured', onChange }: CatalogSor
   const currentLabel = options.find((option) => option.value === value)?.label ?? t.catalog.sort;
 
   return (
-    <div ref={rootRef} className="relative">
+    <div ref={rootRef} className="relative min-w-0 max-w-[52%] md:max-w-none">
       <button
         type="button"
         className={catalogToolbar.control}
@@ -46,7 +46,7 @@ export default function CatalogSort({ value = 'featured', onChange }: CatalogSor
         aria-expanded={isOpen}
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        {currentLabel}
+        <span className="min-w-0 truncate">{currentLabel}</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -66,7 +66,7 @@ export default function CatalogSort({ value = 'featured', onChange }: CatalogSor
 
       {isOpen ? (
         <ul
-          className="absolute top-full left-0 z-20 mt-2 min-w-[220px] rounded-sm border border-black/8 bg-white py-1 text-dark shadow-[0_8px_24px_rgb(0_0_0/10%)]"
+          className="absolute top-full left-0 z-20 mt-2 w-[min(calc(100vw-2rem),260px)] min-w-[200px] rounded-sm border border-black/8 bg-white py-1 text-dark shadow-[0_8px_24px_rgb(0_0_0/10%)]"
           role="listbox"
           aria-label={t.catalog.sort}
         >
@@ -74,7 +74,7 @@ export default function CatalogSort({ value = 'featured', onChange }: CatalogSor
             <li key={option.value} role="option" aria-selected={option.value === value}>
               <button
                 type="button"
-                className={`w-full cursor-pointer border-none bg-transparent px-4 py-2.5 text-left text-sm transition-colors hover:bg-black/5 ${
+                className={`w-full min-h-11 cursor-pointer border-none bg-transparent px-4 py-3 text-left text-sm transition-colors hover:bg-black/5 ${
                   option.value === value ? 'bg-black/5 font-medium' : ''
                 }`}
                 onClick={() => {
