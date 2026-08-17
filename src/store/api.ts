@@ -10,12 +10,69 @@ import { isAccessTokenExpired, logTokenExpirations } from '@/features/auth/lib/j
 import type { RootState } from './store';
 
 const REFRESH_URL = '/api/token/refresh/';
+const LOGIN_URL = '/api/login/';
+const UNAUTHORIZED_ROUTE = '/401';
+const INTERNAL_SERVER_ERROR_ROUTE = '/500';
+const UNAUTHORIZED_REDIRECT_EXCLUDED_URLS = [
+  LOGIN_URL,
+  '/api/users/register/',
+  '/api/users/auth/google/',
+  '/api/users/activate/',
+  '/api/users/password-reset/',
+  '/api/users/password-reset-confirm/',
+  '/api/users/resend_activation_code/',
+];
+
+let isRedirectingToUnauthorized = false;
+let isRedirectingToServerError = false;
 
 type ReauthExtraOptions = {
   _retried?: boolean;
 };
 
 let tokenRefreshPromise: Promise<string | null> | null = null;
+
+function getRequestUrl(args: string | FetchArgs) {
+  return typeof args === 'string' ? args : args.url;
+}
+
+function shouldRedirectToUnauthorized(args: string | FetchArgs, isRefreshRequest: boolean) {
+  if (typeof window === 'undefined' || isRefreshRequest) {
+    return false;
+  }
+
+  const requestUrl = getRequestUrl(args);
+
+  return !UNAUTHORIZED_REDIRECT_EXCLUDED_URLS.some((url) => requestUrl.startsWith(url));
+}
+
+function redirectToUnauthorized(api: BaseQueryApi) {
+  api.dispatch({ type: 'user/logout' });
+
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  if (window.location.pathname === UNAUTHORIZED_ROUTE || isRedirectingToUnauthorized) {
+    return;
+  }
+
+  isRedirectingToUnauthorized = true;
+  window.location.replace(UNAUTHORIZED_ROUTE);
+}
+
+function redirectToServerError() {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  if (window.location.pathname === INTERNAL_SERVER_ERROR_ROUTE || isRedirectingToServerError) {
+    return;
+  }
+
+  isRedirectingToServerError = true;
+  window.location.replace(INTERNAL_SERVER_ERROR_ROUTE);
+}
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -136,6 +193,14 @@ export const baseQueryWithReauth: BaseQueryFn<
     if (newToken) {
       result = await baseQuery(args, api, { ...extraOptions, _retried: true });
     }
+  }
+
+  if (result.error?.status === 401 && shouldRedirectToUnauthorized(args, isRefreshRequest)) {
+    redirectToUnauthorized(api);
+  }
+
+  if (result.error?.status === 500) {
+    redirectToServerError();
   }
 
   return result;
