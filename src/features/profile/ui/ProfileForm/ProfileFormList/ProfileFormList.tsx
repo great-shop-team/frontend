@@ -3,11 +3,11 @@
 import { ReactNode, useMemo, useState } from 'react';
 
 import Return from '@/features/profile/ui/ProfileForm/ProfileFormList/Return/Return';
-import MyPromocodes from '@/features/profile/ui/ProfileForm/ProfileFormList/MyPromocodes/MyPromocodes';
+import MyBonuses from '@/features/profile/ui/ProfileForm/ProfileFormList/MyBonuses/MyBonuses';
 import PersonalData from '@/features/profile/ui/ProfileForm/ProfileFormList/PersonalData/PersonalData';
 import MyPurchases from '@/features/profile/ui/ProfileForm/ProfileFormList/MyPurchases/MyPurchases';
 import ChangePassword from '@/features/profile/ui/ProfileForm/ProfileFormList/ChangePassword/ChangePassword';
-import MyBonuses from '@/features/profile/ui/ProfileForm/ProfileFormList/MyBonuses/MyBonuses';
+import MyPromocodes from '@/features/profile/ui/ProfileForm/ProfileFormList/MyPromocodes/MyPromocodes';
 import { useTranslation } from '@/i18n/useTranslation';
 
 type Tab =
