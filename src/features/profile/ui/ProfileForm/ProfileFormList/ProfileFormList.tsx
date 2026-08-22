@@ -39,7 +39,7 @@ const ProfileFormList = () => {
     personalData: <PersonalData />,
     myPurchases: <MyPurchases />,
     changePassword: <ChangePassword />,
-    myBonuses: <MyPromocodes />,
+    myBonuses: <MyBonuses />,
   };
 
   const [activeTab, setActiveTab] = useState<Tab>('personalData');

@@ -197,7 +197,7 @@ Open [http://localhost:3000](http://localhost:3000).
 Create `.env.local` in the project root:
 
 ```env
-NEXT_PUBLIC_API_BASE_URL=https://api-shop-p3de.onrender.com
+NEXT_PUBLIC_API_BASE_URL=https://wearlyshop.onrender.com
 ```
 
 This file is gitignored. Update it when the backend URL changes.

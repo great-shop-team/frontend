@@ -8,7 +8,6 @@ import { useAuth } from '@/features/auth/hooks/useAuth';
 import { useSessionEmail } from '@/features/auth/hooks/useSessionEmail';
 import {
   bell,
-  compited,
   exit,
   location,
   orders,
@@ -21,7 +20,7 @@ import { selectCurrentUser } from '@/store/slices/userSlice';
 
 import styles from './Profile.module.scss';
 import AddressesList from '@/features/profile/ui/ProfileForm/AddressesList/AddressesList';
-import MyPromocodes from '@/features/profile/ui/ProfileForm/ProfileFormList/MyPromocodes/MyPromocodes';
+import MyBonuses from '@/features/profile/ui/ProfileForm/ProfileFormList/MyBonuses/MyBonuses';
 
 type MenuId = 'profile' | 'bonuses' | 'orders' | 'addresses' | 'notifications' | 'out';
 
@@ -36,7 +35,7 @@ const ProfileForm = () => {
     profile: <ProfileFormList />,
     orders: <OrderFormList />,
     addresses: <AddressesList />,
-
+    bonuses: <MyBonuses />,
   };
 
   const [activeTab, setActiveTab] = useState<MenuId>('profile');
@@ -45,7 +44,6 @@ const ProfileForm = () => {
   const listMain = useMemo(
     () => [
       { id: 'profile' as MenuId, name: t.account.profile, icon: user },
-      { id: 'bonuses' as MenuId, name: t.account.bonuses, icon: compited },
       { id: 'orders' as MenuId, name: t.account.myOrders, icon: orders },
       { id: 'addresses' as MenuId, name: t.account.addresses, icon: location },
       { id: 'notifications' as MenuId, name: t.account.notifications, icon: bell },

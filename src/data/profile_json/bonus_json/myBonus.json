@@ -1,0 +1,30 @@
+{
+  "bonus": {
+    "availablePoints": 500,
+    "exchangeRate": {
+      "points": 1,
+      "discount": 0.01
+
+    },
+    "minOrder": {
+      "amount": 50
+    },
+    "expirationMonths": 12
+  },
+  "history": [
+    {
+      "id": 1,
+      "date": "2025-04-14",
+      "description": "Order #WRL-00421",
+      "points": 132,
+      "type": "order"
+    },
+    {
+      "id": 2,
+      "date": "2025-03-02",
+      "description": "Birthday bonus",
+      "points": 300,
+      "type": "birthday"
+    }
+  ]
+}
