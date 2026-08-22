@@ -1,10 +1,10 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import ProductShowcase from '@/widgets/ProductShowcase/ProductShowcase';
 import ProductReviews from '@/widgets/ProductReviews/ProductReviews';
 import { formatMessage, useTranslation } from '@/i18n/useTranslation';
-import { useParams, usePathname } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import type { CatalogProduct } from '@/features/catalog/model/catalogProduct';
 import ClothingProductCard from '@/features/catalog/ui/CatalogProductCard/CatalogProductCard';
 import {
@@ -106,20 +106,32 @@ export default function Product() {
   const { t } = useTranslation();
   const params = useParams();
   const pathname = usePathname();
+  const router = useRouter();
   const slugOrId = params.id as string;
 
   const {
     data: product,
+    error: productError,
+    isError: isProductError,
     isLoading: isProductLoading,
     isFetching: isProductFetching,
+    isUninitialized: isProductUninitialized,
   } = useGetProductDetailsBySlugOrIdQuery(slugOrId, {
     skip: !slugOrId,
   });
   const { data: productsRaw = [] } = useGetProductsRawQuery(undefined, {
     skip: !product,
   });
-  const { data: variantsRaw = [] } = useGetProductVariantsQuery();
-  const { data: imagesRaw = [] } = useGetProductImagesQuery();
+  const {
+    data: variantsRaw = [],
+    isLoading: isVariantsLoading,
+    isFetching: isVariantsFetching,
+  } = useGetProductVariantsQuery();
+  const {
+    data: imagesRaw = [],
+    isLoading: isImagesLoading,
+    isFetching: isImagesFetching,
+  } = useGetProductImagesQuery();
 
   const { data: brand } = useGetBrandByIdQuery(product?.brand ?? 0, {
     skip: !product,
@@ -210,12 +222,51 @@ export default function Product() {
     ];
   }, [category?.name, pathname, product, subcategory?.name, t.common.home]);
 
-  if (isProductLoading || isProductFetching) {
+  const productErrorStatus =
+    productError && typeof productError === 'object' && 'status' in productError
+      ? productError.status
+      : undefined;
+
+  const isPending = !slugOrId || isProductUninitialized || isProductLoading || isProductFetching;
+
+  const shouldRedirectToNotFound =
+    !isPending &&
+    (// бекенд повернув 404
+    (isProductError && productErrorStatus === 404) ||
+      // queryFn повернув null, бо slug не знайдено (це НЕ помилка RTK Query)
+      (!isProductError && product === null));
+
+  const hasTriggeredNotFoundRedirect = useRef(false);
+
+  useEffect(() => {
+    if (!shouldRedirectToNotFound) return;
+    if (hasTriggeredNotFoundRedirect.current) return;
+    hasTriggeredNotFoundRedirect.current = true;
+
+    // Робимо "жорсткий" редирект, щоб гарантовано відкривалась готова сторінка `/404`,
+    // а не залишався порожній стан на URL товару.
+    window.location.replace('/404');
+  }, [shouldRedirectToNotFound]);
+
+  if (isPending) {
     return <div>{t.common.loading}</div>;
   }
 
-  if (!product || !showcaseImages) {
-    return <div>{t.common.notFound}</div>;
+  // Поки йде редирект — нічого не рендеримо, щоб уникнути "миготіння" UI.
+  if (shouldRedirectToNotFound) {
+    return <div>{t.common.loading}</div>;
+  }
+
+  if (isProductError) {
+    return null;
+  }
+
+  const isMetaPending = isVariantsLoading || isVariantsFetching || isImagesLoading || isImagesFetching;
+
+  // Якщо продукт існує, але мета-дані (варіанти/зображення) ще підтягуються — показуємо loading,
+  // а не порожній екран.
+  if (!product || isMetaPending || !showcaseImages) {
+    return <div>{t.common.loading}</div>;
   }
 
   return (
