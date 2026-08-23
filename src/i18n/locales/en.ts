@@ -668,6 +668,8 @@ const en = {
       previousImage: 'Previous image',
       nextImage: 'Next image',
       playPreview: 'Play preview',
+      zoomIn: 'Zoom in image',
+      zoomOut: 'Zoom out image',
     },
     imageAlt: {
       front: '{title} front',
