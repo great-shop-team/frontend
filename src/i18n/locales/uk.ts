@@ -675,6 +675,8 @@ const uk: Dictionary = {
       previousImage: 'Попереднє зображення',
       nextImage: 'Наступне зображення',
       playPreview: 'Відтворити превʼю',
+      zoomIn: 'Збільшити зображення',
+      zoomOut: 'Зменшити зображення',
     },
     imageAlt: {
       front: '{title} — спереду',

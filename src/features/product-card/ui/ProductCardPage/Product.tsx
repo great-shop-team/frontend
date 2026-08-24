@@ -38,7 +38,7 @@ const formatMetaLabel = (value: string) =>
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(' ');
 
-const DEFAULT_FALLBACK_IMAGE = '/images/product1.png';
+const DEFAULT_FALLBACK_IMAGE = '/images/e14.WEBP';
 
 const buildShowcaseImages = (params: {
   title: string;
@@ -230,9 +230,8 @@ export default function Product() {
   const isPending = !slugOrId || isProductUninitialized || isProductLoading || isProductFetching;
 
   const shouldRedirectToNotFound =
-    !isPending &&
-    (// бекенд повернув 404
-    (isProductError && productErrorStatus === 404) ||
+    !isPending && // бекенд повернув 404
+    ((isProductError && productErrorStatus === 404) ||
       // queryFn повернув null, бо slug не знайдено (це НЕ помилка RTK Query)
       (!isProductError && product === null));
 
@@ -261,7 +260,8 @@ export default function Product() {
     return null;
   }
 
-  const isMetaPending = isVariantsLoading || isVariantsFetching || isImagesLoading || isImagesFetching;
+  const isMetaPending =
+    isVariantsLoading || isVariantsFetching || isImagesLoading || isImagesFetching;
 
   // Якщо продукт існує, але мета-дані (варіанти/зображення) ще підтягуються — показуємо loading,
   // а не порожній екран.

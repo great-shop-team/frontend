@@ -5,6 +5,7 @@ import Link from 'next/link';
 import StarRating from '@/widgets/StarRating/StarRating';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from '@/i18n/useTranslation';
+import ProductMainImageZoom from './ProductMainImageZoom';
 
 interface ProductShowcaseProps {
   brand: string;
@@ -239,25 +240,22 @@ export default function ProductShowcase({
 
       <div className="flex flex-col gap-8 xl:flex-row xl:gap-16">
         <div className="w-full max-w-157.5 shrink-0">
-          <div className="relative flex min-h-80 items-center justify-center overflow-hidden bg-[#f3f3f3] p-4 sm:min-h-105 sm:p-6 md:min-h-132.75">
+          <div className="relative flex min-h-80 items-center justify-center overflow-hidden bg-[#f3f3f3] sm:min-h-105 md:min-h-132.75">
             {activePreviewImage ? (
-              <Image
-                src={activePreviewImage.src}
-                alt={activePreviewImage.alt}
-                width={310}
-                height={531}
-                className="h-auto max-h-100 w-auto object-contain sm:max-h-132.75"
-              />
+              <ProductMainImageZoom src={activePreviewImage.src} alt={activePreviewImage.alt}>
+                <button
+                  type="button"
+                  className="absolute right-3 bottom-3 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-black bg-white-fa transition-transform duration-200 hover:scale-105 md:right-4 md:bottom-4 md:h-12 md:w-12"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    openImageModal();
+                  }}
+                  aria-label={t.product.aria.openGallery}
+                >
+                  <Image src="/icons/plus-sign-in-a-circle.svg" alt="" width={28} height={28} />
+                </button>
+              </ProductMainImageZoom>
             ) : null}
-
-            <button
-              type="button"
-              className="absolute right-3 bottom-3 inline-flex h-11 w-11 items-center justify-center rounded-full border border-black bg-white-fa transition-transform duration-200 hover:scale-105 md:right-4 md:bottom-4 md:h-12 md:w-12"
-              onClick={openImageModal}
-              aria-label={t.product.aria.openGallery}
-            >
-              <Image src="/icons/plus-sign-in-a-circle.svg" alt="" width={28} height={28} />
-            </button>
           </div>
 
           <div className="mt-2.5 flex gap-3 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] md:flex-wrap md:gap-4 [&::-webkit-scrollbar]:hidden">
@@ -505,7 +503,7 @@ export default function ProductShowcase({
               </button>
 
               <div
-                className={`w-full max-w-211.5 max-h-[819vh] transition-[transform,opacity] duration-360 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                className={`w-full max-w-[min(90vw,80rem)] transition-[transform,opacity] duration-360 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                   isImageModalVisible
                     ? 'translate-y-0 scale-100 opacity-100'
                     : 'translate-y-6 scale-[0.985] opacity-0'
@@ -514,23 +512,27 @@ export default function ProductShowcase({
               >
                 <div className="flex w-full flex-col gap-8 xl:flex-row xl:items-start xl:gap-18.5">
                   <div className="flex w-full flex-1 flex-col items-center">
-                    <div className="relative flex min-h-80 w-full max-w-full items-center justify-center bg-white-fa px-4 py-6 md:h-204.75 md:w-211.5 md:px-8 md:py-10">
-                      <Image
+                    <div className="relative flex min-h-80 w-full max-w-full items-center justify-center overflow-hidden bg-white-fa h-[min(52rem,calc(100dvh-10rem))] md:w-[min(52.875rem,calc(100vw-8rem))]">
+                      <ProductMainImageZoom
                         src={previewImages[selectedImageIndex].src}
                         alt={previewImages[selectedImageIndex].alt}
-                        width={846}
-                        height={819}
-                        className="h-auto max-h-full w-auto max-w-full object-contain"
-                      />
-
-                      <span className="pointer-events-none absolute right-8 bottom-8 inline-flex h-12 w-12 items-center justify-center">
-                        <Image
-                          src="/icons/video-start-arrow.svg"
-                          alt={t.product.aria.playPreview}
-                          width={48}
-                          height={49}
-                        />
-                      </span>
+                        width={2400}
+                        height={3000}
+                        sizes="100vw"
+                        variant="lightbox"
+                        enableClickToggle
+                        zoomInLabel={t.product.aria.zoomIn}
+                        zoomOutLabel={t.product.aria.zoomOut}
+                      >
+                        <span className="pointer-events-none absolute right-8 bottom-8 z-10 inline-flex h-12 w-12 items-center justify-center">
+                          <Image
+                            src="/icons/video-start-arrow.svg"
+                            alt={t.product.aria.playPreview}
+                            width={48}
+                            height={49}
+                          />
+                        </span>
+                      </ProductMainImageZoom>
                     </div>
                     <div className="mt-5 flex items-center justify-center gap-6">
                       <button
