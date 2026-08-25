@@ -620,6 +620,11 @@ const uk: Dictionary = {
     deleteAccountWarning:
       'Незворотна дія — усі ваші дані буде видалено без можливості відновлення.',
   },
+  orderFormList: {
+    delivery: 'Доставка',
+    arrived: 'Прибув',
+    canceled: 'Скасовано',
+  },
   orders: {
     filtersAria: 'Фільтри статусу замовлень',
     delivery: 'Доставка',
