@@ -17,7 +17,20 @@ interface ProductShowcaseProps {
   };
   code: string;
   rating: number;
-  size: string[];
+  sizes: {
+    id: number;
+    name: string;
+  }[];
+  selectedSizeId?: number;
+  onSelectSize?: (sizeId: number) => void;
+  colors: {
+    id: number;
+    name: string;
+    src: string;
+    alt: string;
+  }[];
+  selectedColorId?: number;
+  onSelectColor?: (colorId: number) => void;
 
   images: {
     main: {
@@ -25,7 +38,6 @@ interface ProductShowcaseProps {
       back: { src: string; alt: string };
     };
     gallery: { src: string; alt: string }[];
-    colors: { src: string; alt: string }[];
   };
 
   link: {
@@ -51,7 +63,12 @@ export default function ProductShowcase({
   code,
   rating,
   images,
-  size,
+  sizes,
+  selectedSizeId,
+  onSelectSize,
+  colors,
+  selectedColorId,
+  onSelectColor,
   breadcrumbs,
 }: ProductShowcaseProps) {
   const { t } = useTranslation();
@@ -66,8 +83,6 @@ export default function ProductShowcase({
     [t],
   );
 
-  const [currentSize, setCurrentSize] = useState<number>();
-  const [currentColor, setCurrentColor] = useState<number>();
   const [isSidebarRendered, setIsSidebarRendered] = useState(false);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [activePreviewIndex, setActivePreviewIndex] = useState(0);
@@ -93,7 +108,18 @@ export default function ProductShowcase({
 
   const hasMultiplePreviewImages = previewImages.length > 1;
 
-  const activePreviewImage = previewImages[activePreviewIndex] ?? previewImages[0];
+  const imageSetKey = `${images.main.front.src}|${images.main.back.src}`;
+  const [activeImageSetKey, setActiveImageSetKey] = useState(imageSetKey);
+  const isNewImageSet = activeImageSetKey !== imageSetKey;
+
+  if (isNewImageSet) {
+    setActiveImageSetKey(imageSetKey);
+    setActivePreviewIndex(0);
+    setSelectedImageIndex(0);
+  }
+
+  const activePreviewImage =
+    previewImages[isNewImageSet ? 0 : activePreviewIndex] ?? previewImages[0];
   const displayCurrency = price.currency === 'USD' ? '$' : price.currency;
 
   const openImageModal = () => {
@@ -323,31 +349,33 @@ export default function ProductShowcase({
           </div>
 
           <div className="mb-3 flex flex-wrap gap-2">
-            {size.map((item, key) => (
+            {sizes.map((item) => (
               <button
                 type="button"
-                key={key}
-                onClick={() => setCurrentSize(key)}
+                key={item.id}
+                onClick={() => onSelectSize?.(item.id)}
                 className={`inline-flex h-10 min-w-10 items-center justify-center rounded-[10px] border border-black px-3 font-sans text-[14px] leading-none transition-colors duration-200 ${
-                  key === currentSize ? 'bg-black text-white-fa' : 'bg-white text-black'
+                  item.id === selectedSizeId ? 'bg-black text-white-fa' : 'bg-white text-black'
                 }`}
               >
-                {item}
+                {item.name}
               </button>
             ))}
           </div>
 
-          {images.colors.length > 0 ? (
+          {colors.length > 0 ? (
             <>
-              <p className="mb-3 font-sans text-[16px] leading-[1.2] text-black">{t.product.color}</p>
+              <p className="mb-3 font-sans text-[16px] leading-[1.2] text-black">
+                {t.product.color}
+              </p>
               <div className="mb-8 flex flex-wrap gap-4">
-                {images.colors.map((item, key) => (
+                {colors.map((item) => (
                   <button
                     type="button"
-                    key={`${item.src}-${key}`}
-                    onClick={() => setCurrentColor(key)}
+                    key={item.id}
+                    onClick={() => onSelectColor?.(item.id)}
                     className={`overflow-hidden border-b pb-1 transition-colors duration-200 ${
-                      key === currentColor ? 'border-black' : 'border-transparent'
+                      item.id === selectedColorId ? 'border-black' : 'border-transparent'
                     }`}
                   >
                     <Image
@@ -429,48 +457,48 @@ export default function ProductShowcase({
             </div>
 
             <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-[max(1rem,env(safe-area-inset-bottom))]">
-            <div className="flex flex-col">
-              {infoTabs.map((tab) => (
-                <div key={tab.id} className="border-b border-black/10 py-5">
-                  <button
-                    type="button"
-                    className="flex w-full items-center justify-between bg-transparent text-left font-sans text-[16px] leading-[1.2] font-normal text-black"
-                    onClick={() => handleToggleTab(tab.id)}
-                    aria-expanded={activeTab === tab.id}
-                  >
-                    {tab.label}
-                    <span
-                      aria-hidden="true"
-                      className="inline-flex h-5 w-5 items-center justify-center"
+              <div className="flex flex-col">
+                {infoTabs.map((tab) => (
+                  <div key={tab.id} className="border-b border-black/10 py-5">
+                    <button
+                      type="button"
+                      className="flex w-full items-center justify-between bg-transparent text-left font-sans text-[16px] leading-[1.2] font-normal text-black"
+                      onClick={() => handleToggleTab(tab.id)}
+                      aria-expanded={activeTab === tab.id}
                     >
+                      {tab.label}
                       <span
-                        className={`h-2.5 w-2.5 border-r border-b border-black transition-transform duration-300 ${
-                          activeTab === tab.id
-                            ? '-translate-y-px rotate-[-135deg]'
-                            : 'translate-y-px rotate-45'
-                        }`}
-                      />
-                    </span>
-                  </button>
-                  <div
-                    aria-hidden={activeTab !== tab.id}
-                    className={`grid transition-[grid-template-rows,opacity] duration-300 ${
-                      activeTab === tab.id
-                        ? 'grid-rows-[1fr] opacity-100'
-                        : 'grid-rows-[0fr] opacity-0'
-                    }`}
-                  >
+                        aria-hidden="true"
+                        className="inline-flex h-5 w-5 items-center justify-center"
+                      >
+                        <span
+                          className={`h-2.5 w-2.5 border-r border-b border-black transition-transform duration-300 ${
+                            activeTab === tab.id
+                              ? '-translate-y-px rotate-[-135deg]'
+                              : 'translate-y-px rotate-45'
+                          }`}
+                        />
+                      </span>
+                    </button>
                     <div
-                      className={`overflow-hidden font-sans text-[14px] leading-[1.6] text-black/70 transition-[transform,margin-top] duration-300 ${
-                        activeTab === tab.id ? 'mt-4 translate-y-0' : '-translate-y-2 mt-0'
+                      aria-hidden={activeTab !== tab.id}
+                      className={`grid transition-[grid-template-rows,opacity] duration-300 ${
+                        activeTab === tab.id
+                          ? 'grid-rows-[1fr] opacity-100'
+                          : 'grid-rows-[0fr] opacity-0'
                       }`}
                     >
-                      <p className="m-0">{tab.content}</p>
+                      <div
+                        className={`overflow-hidden font-sans text-[14px] leading-[1.6] text-black/70 transition-[transform,margin-top] duration-300 ${
+                          activeTab === tab.id ? 'mt-4 translate-y-0' : '-translate-y-2 mt-0'
+                        }`}
+                      >
+                        <p className="m-0">{tab.content}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
             </div>
           </div>
         </>

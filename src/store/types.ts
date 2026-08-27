@@ -213,6 +213,7 @@ export interface ProductVariant {
   color: number;
   sku: string;
   stock: number;
+  price?: string | null;
   gender: ProductVariantGender;
   is_active: boolean;
 }
