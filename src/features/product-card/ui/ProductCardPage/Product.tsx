@@ -1,15 +1,30 @@
 'use client';
 
-import { useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ProductShowcase from '@/widgets/ProductShowcase/ProductShowcase';
 import ProductReviews from '@/widgets/ProductReviews/ProductReviews';
 import { formatMessage, useTranslation } from '@/i18n/useTranslation';
-import { useParams, usePathname, useRouter } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import type { CatalogProduct } from '@/features/catalog/model/catalogProduct';
 import ClothingProductCard from '@/features/catalog/ui/CatalogProductCard/CatalogProductCard';
 import {
+  formatCatalogPrice,
+  pickMainImageUrl,
+  resolveVariantPrice,
+} from '@/features/catalog/lib/resolveVariantOffer';
+import {
+  buildVariantColorOptions,
+  buildVariantSizeOptions,
+  findMatchingVariant,
+  getImagesForVariant,
+} from '@/features/product-card/lib/resolveSelectedVariant';
+import { toImageUrl } from '@/store/api/mappers/products.mapper';
+import {
+  useGetColorsQuery,
+  useGetCurrenciesQuery,
   useGetProductImagesQuery,
   useGetProductVariantsQuery,
+  useGetSizesQuery,
 } from '@/store/endpoints/catalogMetaEndpoints';
 import {
   useGetProductDetailsBySlugOrIdQuery,
@@ -20,16 +35,7 @@ import {
   useGetCategoryByIdQuery,
   useGetSubcategoryByIdQuery,
 } from '@/store/endpoints/categoriesEndpoints';
-import type { ProductImageRecord, ProductVariant } from '@/store/types';
-
-const PRODUCT_IMAGE_PRESETS: Partial<Record<string, string[]>> = {
-  'm-cloth-004': [
-    '/images/frontViewhoodieBrown.png',
-    '/images/backViewhoodieBrown.png',
-    '/images/backViewhoodieBrownBotton.png',
-    '/images/frontViewhoodieBrownColor.png',
-  ],
-};
+import type { ProductImageRecord } from '@/store/types';
 
 const formatMetaLabel = (value: string) =>
   value
@@ -38,47 +44,34 @@ const formatMetaLabel = (value: string) =>
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(' ');
 
-const DEFAULT_FALLBACK_IMAGE = '/images/e14.WEBP';
-
 const buildShowcaseImages = (params: {
   title: string;
-  productSlugOrId: string;
-  variants: ProductVariant[];
   images: ProductImageRecord[];
   imageAlt: {
     front: string;
     back: string;
     gallery: string;
-    color: string;
   };
 }) => {
-  const { title, productSlugOrId, variants, images, imageAlt } = params;
+  const { title, images, imageAlt } = params;
 
-  // Presets (legacy/local mock) – keep as a fallback for known ids so the page is not blank.
-  const presetImages = PRODUCT_IMAGE_PRESETS[productSlugOrId];
+  const allImageUrls = [...images]
+    .sort((a, b) => {
+      const orderA = typeof a.sort_order === 'number' ? a.sort_order : 0;
+      const orderB = typeof b.sort_order === 'number' ? b.sort_order : 0;
+      if (orderA !== orderB) return orderA - orderB;
+      if (a.is_main === b.is_main) return 0;
+      return a.is_main ? -1 : 1;
+    })
+    .map((item) => toImageUrl(item.image))
+    .filter(Boolean);
 
-  const sortedImages = [...images].sort((a, b) => {
-    const orderA = typeof a.sort_order === 'number' ? a.sort_order : 0;
-    const orderB = typeof b.sort_order === 'number' ? b.sort_order : 0;
-    if (orderA !== orderB) return orderA - orderB;
-    if (a.is_main === b.is_main) return 0;
-    return a.is_main ? -1 : 1;
-  });
+  const uniqueImageUrls = allImageUrls.filter((src, index, array) => array.indexOf(src) === index);
 
-  const allImageUrls = [
-    ...(presetImages ?? []),
-    ...sortedImages.map((item) => item.image).filter(Boolean),
-  ].filter(Boolean);
-
-  const frontImage = allImageUrls[0] ?? DEFAULT_FALLBACK_IMAGE;
-  const backImage = allImageUrls[1] ?? frontImage;
-  const galleryImages = allImageUrls.slice(2).length > 0 ? allImageUrls.slice(2) : allImageUrls;
-
-  const uniqueColors = Array.from(
-    new Set(
-      variants.map((variant) => String(variant.color)).filter((value) => value.trim().length > 0),
-    ),
-  );
+  const frontImage = uniqueImageUrls[0] ?? '';
+  const backImage = uniqueImageUrls[1] ?? frontImage;
+  const galleryImages =
+    uniqueImageUrls.slice(2).length > 0 ? uniqueImageUrls.slice(2) : uniqueImageUrls;
 
   return {
     main: {
@@ -95,18 +88,13 @@ const buildShowcaseImages = (params: {
       src: image,
       alt: formatMessage(imageAlt.gallery, { title, n: index + 1 }),
     })),
-    colors: uniqueColors.map((color) => ({
-      src: frontImage,
-      alt: formatMessage(imageAlt.color, { title, color }),
-    })),
   };
 };
 
 export default function Product() {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const params = useParams();
   const pathname = usePathname();
-  const router = useRouter();
   const slugOrId = params.id as string;
 
   const {
@@ -132,6 +120,19 @@ export default function Product() {
     isLoading: isImagesLoading,
     isFetching: isImagesFetching,
   } = useGetProductImagesQuery();
+  const { data: currenciesRaw = [] } = useGetCurrenciesQuery();
+  const {
+    data: sizesRaw = [],
+    isLoading: isSizesLoading,
+    isFetching: isSizesFetching,
+  } = useGetSizesQuery();
+  const {
+    data: colorsRaw = [],
+    isLoading: isColorsLoading,
+    isFetching: isColorsFetching,
+  } = useGetColorsQuery();
+
+  const [selectedVariantId, setSelectedVariantId] = useState<number | null>(null);
 
   const { data: brand } = useGetBrandByIdQuery(product?.brand ?? 0, {
     skip: !product,
@@ -145,36 +146,95 @@ export default function Product() {
 
   const productVariants = useMemo(() => {
     if (!product) return [];
-    return variantsRaw.filter((variant) => variant.product === product.id);
+    return variantsRaw.filter(
+      (variant) => Number(variant.product) === Number(product.id) && variant.is_active !== false,
+    );
   }, [product, variantsRaw]);
 
   const productVariantIds = useMemo(
-    () => new Set(productVariants.map((variant) => variant.id)),
+    () => new Set(productVariants.map((variant) => Number(variant.id))),
     [productVariants],
   );
 
   const productImages = useMemo(() => {
     if (!product) return [];
-    return imagesRaw.filter((image) => productVariantIds.has(image.product_variant));
+    return imagesRaw.filter((image) => productVariantIds.has(Number(image.product_variant)));
   }, [imagesRaw, product, productVariantIds]);
+
+  const selectedVariant = useMemo(() => {
+    if (selectedVariantId != null) {
+      const current = productVariants.find((variant) => Number(variant.id) === selectedVariantId);
+      if (current) return current;
+    }
+    return findMatchingVariant({ variants: productVariants });
+  }, [productVariants, selectedVariantId]);
+
+  const selectedVariantImages = useMemo(
+    () =>
+      getImagesForVariant(productImages, selectedVariant ? Number(selectedVariant.id) : undefined),
+    [productImages, selectedVariant],
+  );
 
   const showcaseImages = useMemo(() => {
     if (!product) return null;
     return buildShowcaseImages({
       title: product.name,
-      productSlugOrId: slugOrId,
-      variants: productVariants,
-      images: productImages,
+      images: selectedVariantImages,
       imageAlt: t.product.imageAlt,
     });
-  }, [product, productImages, productVariants, slugOrId, t]);
+  }, [product, selectedVariantImages, t]);
 
-  const sizes = useMemo(() => {
-    const values = productVariants
-      .map((variant) => String(variant.size))
-      .filter((v) => v.trim().length > 0);
-    return Array.from(new Set(values));
-  }, [productVariants]);
+  const offerPrice = useMemo(
+    () =>
+      resolveVariantPrice({
+        variants: selectedVariant ? [selectedVariant] : [],
+        currencies: currenciesRaw,
+      }),
+    [currenciesRaw, selectedVariant],
+  );
+
+  const sizeOptions = useMemo(
+    () => buildVariantSizeOptions({ variants: productVariants, sizes: sizesRaw }),
+    [productVariants, sizesRaw],
+  );
+
+  const colorOptions = useMemo(() => {
+    if (!product) return [];
+    return buildVariantColorOptions({
+      variants: productVariants,
+      colors: colorsRaw,
+      images: productImages,
+    }).map((option) => ({
+      ...option,
+      alt: formatMessage(t.product.imageAlt.color, { title: product.name, color: option.name }),
+    }));
+  }, [colorsRaw, product, productImages, productVariants, t]);
+
+  const handleSelectSize = useCallback(
+    (sizeId: number) => {
+      const nextVariant = findMatchingVariant({
+        variants: productVariants,
+        sizeId,
+        colorId: selectedVariant ? Number(selectedVariant.color) : undefined,
+        prefer: 'size',
+      });
+      if (nextVariant) setSelectedVariantId(Number(nextVariant.id));
+    },
+    [productVariants, selectedVariant],
+  );
+
+  const handleSelectColor = useCallback(
+    (colorId: number) => {
+      const nextVariant = findMatchingVariant({
+        variants: productVariants,
+        sizeId: selectedVariant ? Number(selectedVariant.size) : undefined,
+        colorId,
+        prefer: 'color',
+      });
+      if (nextVariant) setSelectedVariantId(Number(nextVariant.id));
+    },
+    [productVariants, selectedVariant],
+  );
 
   const relatedProducts = useMemo(() => {
     if (!product) return [];
@@ -188,21 +248,36 @@ export default function Product() {
         !sameSubcategoryProducts.some((candidate) => candidate.id === item.id),
     );
 
-    return [...sameSubcategoryProducts, ...fallbackProducts].slice(0, 3).map(
-      (item): CatalogProduct => ({
-        id: String(item.id),
-        title: item.name,
-        price: '—',
-        image: {
-          src: DEFAULT_FALLBACK_IMAGE,
-          alt: item.name,
-        },
-        href: pathname ? `${pathname.split('/').slice(0, 3).join('/')}/${item.slug}` : '',
-        slug: item.slug,
-        description: item.description ?? '',
-      }),
-    );
-  }, [pathname, product, productsRaw]);
+    return [...sameSubcategoryProducts, ...fallbackProducts]
+      .slice(0, 3)
+      .map((item): CatalogProduct => {
+        const itemVariants = variantsRaw.filter(
+          (variant) => Number(variant.product) === Number(item.id) && variant.is_active,
+        );
+        const itemVariantIds = new Set(itemVariants.map((variant) => Number(variant.id)));
+        const itemImages = imagesRaw.filter((image) =>
+          itemVariantIds.has(Number(image.product_variant)),
+        );
+        const itemPrice = resolveVariantPrice({
+          variants: itemVariants,
+          currencies: currenciesRaw,
+        });
+
+        return {
+          id: String(item.id),
+          title: item.name,
+          price: itemPrice ? formatCatalogPrice(itemPrice.amount, itemPrice.currency, locale) : '—',
+          image: {
+            src: pickMainImageUrl(itemImages) ?? '',
+            alt: item.name,
+          },
+          href: pathname ? `${pathname.split('/').slice(0, 3).join('/')}/${item.id}` : '',
+          slug: item.slug,
+          description: item.description ?? '',
+        };
+      })
+      .filter((item) => item.image.src);
+  }, [currenciesRaw, imagesRaw, locale, pathname, product, productsRaw, variantsRaw]);
 
   const breadcrumbs = useMemo(() => {
     if (!product || !pathname) {
@@ -261,7 +336,14 @@ export default function Product() {
   }
 
   const isMetaPending =
-    isVariantsLoading || isVariantsFetching || isImagesLoading || isImagesFetching;
+    isVariantsLoading ||
+    isVariantsFetching ||
+    isImagesLoading ||
+    isImagesFetching ||
+    isSizesLoading ||
+    isSizesFetching ||
+    isColorsLoading ||
+    isColorsFetching;
 
   // Якщо продукт існує, але мета-дані (варіанти/зображення) ще підтягуються — показуємо loading,
   // а не порожній екран.
@@ -276,11 +358,16 @@ export default function Product() {
         title={product.name}
         description={product.description ? [product.description] : []}
         price={{
-          current: 0,
-          currency: 'USD',
+          current: offerPrice?.amount ?? 0,
+          currency: offerPrice?.currency ?? 'USD',
         }}
-        code={productVariants[0]?.sku || String(product.id)}
-        size={sizes}
+        code={selectedVariant?.sku || String(product.id)}
+        sizes={sizeOptions}
+        selectedSizeId={selectedVariant ? Number(selectedVariant.size) : undefined}
+        onSelectSize={handleSelectSize}
+        colors={colorOptions}
+        selectedColorId={selectedVariant ? Number(selectedVariant.color) : undefined}
+        onSelectColor={handleSelectColor}
         rating={5}
         images={showcaseImages}
         breadcrumbs={breadcrumbs}
