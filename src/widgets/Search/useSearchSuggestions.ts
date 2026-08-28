@@ -3,6 +3,7 @@
 import { useMemo } from 'react';
 
 import { getCatalogProducts } from '@/features/catalog/lib/catalogProductsData';
+import { buildProductHref } from '@/features/catalog/lib/buildProductHref';
 import { CATALOG_CATEGORY_SLUGS } from '@/features/catalog/model/catalogCategory';
 import type { Locale } from '@/i18n/config';
 import { useGetBrandsQuery } from '@/store/endpoints/brandsEndpoints';
@@ -68,7 +69,7 @@ export function useSearchSuggestions(query: string, locale: Locale, enabled: boo
         id: String(product.id),
         title: product.name,
         brandName: brandById.get(product.brand)?.name,
-        href: `/catalog/women/${product.id}`,
+        href: buildProductHref('women', product),
       }));
     }
 

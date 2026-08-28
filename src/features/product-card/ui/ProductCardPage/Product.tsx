@@ -4,9 +4,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ProductShowcase from '@/widgets/ProductShowcase/ProductShowcase';
 import ProductReviews from '@/widgets/ProductReviews/ProductReviews';
 import { formatMessage, useTranslation } from '@/i18n/useTranslation';
-import { useParams, usePathname } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import type { CatalogProduct } from '@/features/catalog/model/catalogProduct';
 import ClothingProductCard from '@/features/catalog/ui/CatalogProductCard/CatalogProductCard';
+import { buildProductHref } from '@/features/catalog/lib/buildProductHref';
 import {
   formatCatalogPrice,
   pickMainImageUrl,
@@ -95,7 +96,8 @@ export default function Product() {
   const { t, locale } = useTranslation();
   const params = useParams();
   const pathname = usePathname();
-  const slugOrId = params.id as string;
+  const router = useRouter();
+  const slugOrId = (params.id ?? params.slug) as string;
 
   const {
     data: product,
@@ -271,7 +273,7 @@ export default function Product() {
             src: pickMainImageUrl(itemImages) ?? '',
             alt: item.name,
           },
-          href: pathname ? `${pathname.split('/').slice(0, 3).join('/')}/${item.id}` : '',
+          href: pathname ? buildProductHref(pathname.split('/')[2] ?? 'catalog', item) : '',
           slug: item.slug,
           description: item.description ?? '',
         };
@@ -311,6 +313,18 @@ export default function Product() {
       (!isProductError && product === null));
 
   const hasTriggeredNotFoundRedirect = useRef(false);
+
+  useEffect(() => {
+    if (!product?.slug || !pathname || !slugOrId) return;
+    if (slugOrId === product.slug) return;
+
+    const segments = pathname.split('/');
+    const lastIndex = segments.length - 1;
+    if (!segments[lastIndex]) return;
+
+    segments[lastIndex] = product.slug;
+    router.replace(segments.join('/'));
+  }, [pathname, product, router, slugOrId]);
 
   useEffect(() => {
     if (!shouldRedirectToNotFound) return;
@@ -372,7 +386,7 @@ export default function Product() {
         images={showcaseImages}
         breadcrumbs={breadcrumbs}
         link={{
-          href: `/catalog/${pathname?.split('/')[2] ?? 'catalog'}/${slugOrId}`,
+          href: buildProductHref(pathname?.split('/')[2] ?? 'catalog', product),
           label: product.name,
         }}
       />

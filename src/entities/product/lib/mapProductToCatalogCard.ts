@@ -31,6 +31,6 @@ export function mapProductToCatalogCard(product: Product, locale: Locale): Catal
     sizes: product.options.sizes.length > 0 ? product.options.sizes : undefined,
     colors: product.options.colors.length > 0 ? product.options.colors : undefined,
     inStock: product.inStock,
-    href: `/catalog/${product.category.toLowerCase()}/${product.id}`,
+    href: `/catalog/${product.category.toLowerCase()}/${product.slug || product.id}`,
   };
 }

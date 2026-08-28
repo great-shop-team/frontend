@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import WishlistButton from '@/features/wishlist/ui/WishlistButton/WishlistButton';
 import type { CatalogProduct } from '@/features/catalog/model/catalogProduct';
+import { getProductUrlKey } from '@/features/catalog/lib/buildProductHref';
 import { catalogProductCard } from '@/features/catalog/ui/catalogClasses';
 import { useTranslation } from '@/i18n/useTranslation';
 
@@ -27,18 +28,19 @@ const getProductCategoryPath = (product: CatalogProduct): string => {
 
   const normalizedCategory = categoryName.toLowerCase();
   const normalizedSubcategory = (product.subcategory || '').toLowerCase();
+  const productKey = getProductUrlKey(product);
 
   if (normalizedSubcategory === 'fragrances' || normalizedCategory === 'fragrances') {
-    return `/catalog/fragrances/${product.id}`;
+    return `/catalog/fragrances/${productKey}`;
   }
   if (normalizedCategory === 'accessories' || normalizedSubcategory === 'accessories') {
-    return `/catalog/accessories/${product.id}`;
+    return `/catalog/accessories/${productKey}`;
   }
   if (normalizedCategory === 'women' || product.id.startsWith('w-')) {
-    return `/catalog/women/${product.id}`;
+    return `/catalog/women/${productKey}`;
   }
 
-  return `/catalog/men/${product.id}`;
+  return `/catalog/men/${productKey}`;
 };
 
 export default function CatalogProductCard({ product, onAddToCart }: CatalogProductCardProps) {
