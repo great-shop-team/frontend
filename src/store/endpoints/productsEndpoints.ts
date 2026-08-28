@@ -2,6 +2,10 @@ import { api } from '../api';
 import { normalizeProduct } from '../api/mappers/products.mapper';
 import type { ApiProduct, ProductCardData } from '../types';
 
+function isNumericProductId(value: string) {
+  return /^\d+$/.test(value);
+}
+
 export const productsEndpoints = api.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query<ProductCardData[], void>({
@@ -48,7 +52,7 @@ export const productsEndpoints = api.injectEndpoints({
         const numericId = Number(slugOrId);
         const product =
           data.find((item) => item.slug === slugOrId) ??
-          (Number.isFinite(numericId) ? data.find((item) => item.id === numericId) : undefined) ??
+          (isNumericProductId(slugOrId) ? data.find((item) => item.id === numericId) : undefined) ??
           null;
 
         return { data: product };
@@ -59,7 +63,7 @@ export const productsEndpoints = api.injectEndpoints({
       async queryFn(slugOrId, _api, _extraOptions, baseQuery) {
         const numericId = Number(slugOrId);
 
-        if (Number.isFinite(numericId)) {
+        if (isNumericProductId(slugOrId)) {
           const productResult = await baseQuery(`/api/products/${numericId}/`);
 
           if (productResult.error) {
