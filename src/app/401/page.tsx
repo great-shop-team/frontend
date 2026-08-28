@@ -1,6 +1,7 @@
 import ErrorPage from '@/features/error-pages/ui/ErrorPage/ErrorPage';
 
 export default function UnauthorizedPage() {
+  // Вывод ошибки 401
   return (
     <ErrorPage
       errorCode="401"
