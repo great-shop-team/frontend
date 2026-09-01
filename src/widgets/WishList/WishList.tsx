@@ -16,14 +16,14 @@ export default function WishList() {
   const { requireAuth } = useWishlistAuth();
   const { items } = useWishlist();
   const isActive = isActivePath(pathname, '/profile');
-  const count = hasSession ? items.length : 0;
+  const count = items.length;
   const countLabel = count > 9 ? '9+' : String(count);
 
   const heartIcon = (
     <span className="relative inline-flex">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        fill="none"
+        fill={count > 0 ? 'currentColor' : 'none'}
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
@@ -52,7 +52,7 @@ export default function WishList() {
     return (
       <button
         type="button"
-        className={getHeaderActionClass(isActive)}
+        className={getHeaderActionClass(false)}
         aria-label={ariaLabel}
         onClick={() => requireAuth()}
       >

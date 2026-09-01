@@ -37,7 +37,7 @@ export default function AccountHeader({ activeTab, userName = 'John Smith' }: Ac
     {
       id: 'wishlist',
       label: t.account.wishlist,
-      href: '/wishlist',
+      href: '/profile',
       icon: <HiOutlineHeart className="h-6 w-6" />,
     },
     {

@@ -1,7 +1,7 @@
 /** Shared layout & typography for all auth overlay screens */
 export const authForm = {
   panel:
-    'relative z-1 box-border min-h-full w-full max-w-full overflow-x-hidden bg-white px-20 pt-16 pb-8 max-md:px-5 max-md:pt-14 max-md:pb-[max(2rem,env(safe-area-inset-bottom))]',
+    'relative z-1 box-border min-h-full w-full max-w-full overflow-x-hidden bg-white px-12 pt-16 pb-8 max-md:px-3 max-md:pt-14 max-md:pb-[max(2rem,env(safe-area-inset-bottom))]',
   content: 'box-border flex w-full max-w-full flex-col',
   title:
     'm-0 mb-2 pr-10 font-(family-name:--font-unbounded) text-[24px] font-bold leading-tight text-dark max-md:mb-1.5 max-md:text-[22px]',

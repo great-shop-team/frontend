@@ -34,6 +34,12 @@ export const productsEndpoints = api.injectEndpoints({
      */
     getProductsRaw: builder.query<ApiProduct[], void>({
       query: () => '/api/products/',
+      transformResponse: (response: unknown) =>
+        Array.isArray(response)
+          ? response
+          : Array.isArray((response as { results?: unknown }).results)
+            ? (response as { results: ApiProduct[] }).results
+            : [],
       providesTags: ['Product'],
     }),
     /**

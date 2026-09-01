@@ -10,7 +10,7 @@ import { useTranslation } from '@/i18n/useTranslation';
 import { getHeaderActionClass } from '@/widgets/Header/headerActionClasses';
 import { useSearchSuggestions } from '@/widgets/Search/useSearchSuggestions';
 
-const CATALOG_CATEGORY_PATH = /^\/catalog\/(women|men|accessories)/;
+const CATALOG_CATEGORY_PATH = /^\/catalog\/(women|men|accessories|fragrances)/;
 
 type SearchProps = {
   onOpen?: () => void;
@@ -74,7 +74,7 @@ export default function Search({ onOpen }: SearchProps) {
   }, [isOpen, close]);
 
   const catalogHref = (value: string) => {
-    const target = CATALOG_CATEGORY_PATH.test(pathname) ? pathname : catalogRoutes.women;
+    const target = CATALOG_CATEGORY_PATH.test(pathname) ? pathname : catalogRoutes.index;
     return `${target}?q=${encodeURIComponent(value)}`;
   };
 

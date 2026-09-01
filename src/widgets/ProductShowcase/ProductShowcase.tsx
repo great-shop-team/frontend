@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import StarRating from '@/widgets/StarRating/StarRating';
+import WishlistButton from '@/features/wishlist/ui/WishlistButton/WishlistButton';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from '@/i18n/useTranslation';
 import ProductMainImageZoom from './ProductMainImageZoom';
@@ -50,6 +51,7 @@ interface ProductShowcaseProps {
     href?: string;
     current?: boolean;
   }[];
+  productId?: string;
 }
 
 const SIDEBAR_ANIMATION_DURATION_MS = 300;
@@ -70,6 +72,7 @@ export default function ProductShowcase({
   selectedColorId,
   onSelectColor,
   breadcrumbs,
+  productId,
 }: ProductShowcaseProps) {
   const { t } = useTranslation();
 

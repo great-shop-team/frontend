@@ -6,24 +6,6 @@ export const landingHeroSlides = [
   { id: 'lessTrend', video: '/video/v5.mp4', href: '/catalog' },
 ] as const;
 
-export const landingClothingItems = [
-  {
-    id: 'w-cloth-001',
-    href: '/catalog/women/w-cloth-001',
-    image: { src: '/images/Landing/Essential%20Oversized%20T-Shirt.png' },
-  },
-  {
-    id: 'w-cloth-002',
-    href: '/catalog/women/w-cloth-002',
-    image: { src: '/images/Landing/Rose%20Oversized%20T-Shirt.png' },
-  },
-  {
-    id: 'w-cloth-004',
-    href: '/catalog/women/w-cloth-004',
-    image: { src: '/images/Landing/Heritage%20Graphic%20T-Shirt.png' },
-  },
-] as const;
-
 export const landingShopByItems = [
   {
     id: 'women',
@@ -37,7 +19,7 @@ export const landingShopByItems = [
   },
   {
     id: 'perfumes',
-    href: '/catalog/accessories?subcategory=fragrances',
+    href: '/catalog/fragrances',
     image: { src: '/images/Landing/perfumes.png' },
   },
   {
@@ -64,7 +46,7 @@ export const landingFeaturedFrames = {
   },
   scentEditorial: {
     src: '/images/Landing/Frame4@2x.png',
-    href: '/catalog/accessories?subcategory=fragrances',
+    href: '/catalog/fragrances',
   },
 } as const;
 
@@ -135,7 +117,7 @@ export const landingPromoDuoItems = [
   },
   {
     id: 'ysl',
-    href: '/catalog/accessories?subcategory=fragrances',
+    href: '/catalog/fragrances',
     image: { src: '/images/Landing/LinkCardLarge2@2x.png' },
   },
 ] as const;

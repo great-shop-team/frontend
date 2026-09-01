@@ -6,18 +6,13 @@ import { catalogGrid } from '@/features/catalog/ui/catalogClasses';
 
 type CatalogProductGridProps = {
   products: CatalogProduct[];
-  onAddToCart?: (product: CatalogProduct) => void;
 };
 
-export default function CatalogProductGrid({ products, onAddToCart }: CatalogProductGridProps) {
+export default function CatalogProductGrid({ products }: CatalogProductGridProps) {
   return (
     <div className={catalogGrid.root}>
       {products.map((product) => (
-        <CatalogProductCard
-          key={product.id}
-          product={product} // Просто прокидываем объект дальше
-          onAddToCart={onAddToCart ? () => onAddToCart(product) : undefined}
-        />
+        <CatalogProductCard key={product.id} product={product} />
       ))}
     </div>
   );
