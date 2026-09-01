@@ -55,7 +55,7 @@ export default function ErrorPage({ errorCode, title, description }: ErrorPagePr
               width={567}
               height={807}
               priority
-              className="h-auto w-full rotate-180 object-cover"
+              className="h-auto w-full object-cover"
             />
           </div>
         </section>

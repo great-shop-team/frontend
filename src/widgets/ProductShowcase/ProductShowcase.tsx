@@ -6,6 +6,7 @@ import StarRating from '@/widgets/StarRating/StarRating';
 import WishlistButton from '@/features/wishlist/ui/WishlistButton/WishlistButton';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from '@/i18n/useTranslation';
+import ProductMainImageZoom from './ProductMainImageZoom';
 
 interface ProductShowcaseProps {
   brand: string;
@@ -17,7 +18,20 @@ interface ProductShowcaseProps {
   };
   code: string;
   rating: number;
-  size: string[];
+  sizes: {
+    id: number;
+    name: string;
+  }[];
+  selectedSizeId?: number;
+  onSelectSize?: (sizeId: number) => void;
+  colors: {
+    id: number;
+    name: string;
+    src: string;
+    alt: string;
+  }[];
+  selectedColorId?: number;
+  onSelectColor?: (colorId: number) => void;
 
   images: {
     main: {
@@ -25,7 +39,6 @@ interface ProductShowcaseProps {
       back: { src: string; alt: string };
     };
     gallery: { src: string; alt: string }[];
-    colors: { src: string; alt: string }[];
   };
 
   link: {
@@ -52,7 +65,12 @@ export default function ProductShowcase({
   code,
   rating,
   images,
-  size,
+  sizes,
+  selectedSizeId,
+  onSelectSize,
+  colors,
+  selectedColorId,
+  onSelectColor,
   breadcrumbs,
   productId,
 }: ProductShowcaseProps) {
@@ -68,8 +86,6 @@ export default function ProductShowcase({
     [t],
   );
 
-  const [currentSize, setCurrentSize] = useState<number>();
-  const [currentColor, setCurrentColor] = useState<number>();
   const [isSidebarRendered, setIsSidebarRendered] = useState(false);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [activePreviewIndex, setActivePreviewIndex] = useState(0);
@@ -95,7 +111,18 @@ export default function ProductShowcase({
 
   const hasMultiplePreviewImages = previewImages.length > 1;
 
-  const activePreviewImage = previewImages[activePreviewIndex] ?? previewImages[0];
+  const imageSetKey = `${images.main.front.src}|${images.main.back.src}`;
+  const [activeImageSetKey, setActiveImageSetKey] = useState(imageSetKey);
+  const isNewImageSet = activeImageSetKey !== imageSetKey;
+
+  if (isNewImageSet) {
+    setActiveImageSetKey(imageSetKey);
+    setActivePreviewIndex(0);
+    setSelectedImageIndex(0);
+  }
+
+  const activePreviewImage =
+    previewImages[isNewImageSet ? 0 : activePreviewIndex] ?? previewImages[0];
   const displayCurrency = price.currency === 'USD' ? '$' : price.currency;
 
   const openImageModal = () => {
@@ -242,33 +269,22 @@ export default function ProductShowcase({
 
       <div className="flex flex-col gap-8 xl:flex-row xl:gap-16">
         <div className="w-full max-w-157.5 shrink-0">
-          <div className="relative flex min-h-80 items-center justify-center overflow-hidden bg-[#f3f3f3] p-4 sm:min-h-105 sm:p-6 md:min-h-132.75">
+          <div className="relative flex min-h-80 items-center justify-center overflow-hidden bg-[#f3f3f3] sm:min-h-105 md:min-h-132.75">
             {activePreviewImage ? (
-              <Image
-                src={activePreviewImage.src}
-                alt={activePreviewImage.alt}
-                width={310}
-                height={531}
-                className="h-auto max-h-100 w-auto object-contain sm:max-h-132.75"
-              />
+              <ProductMainImageZoom src={activePreviewImage.src} alt={activePreviewImage.alt}>
+                <button
+                  type="button"
+                  className="absolute right-3 bottom-3 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-black bg-white-fa transition-transform duration-200 hover:scale-105 md:right-4 md:bottom-4 md:h-12 md:w-12"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    openImageModal();
+                  }}
+                  aria-label={t.product.aria.openGallery}
+                >
+                  <Image src="/icons/plus-sign-in-a-circle.svg" alt="" width={28} height={28} />
+                </button>
+              </ProductMainImageZoom>
             ) : null}
-
-            {productId ? (
-              <WishlistButton
-                productId={productId}
-                className="absolute top-3 right-3 z-1 flex min-h-11 min-w-11 cursor-pointer items-center justify-center border-none bg-transparent p-1 text-dark transition-transform hover:scale-110 md:top-4 md:right-4"
-                iconClassName="size-6"
-              />
-            ) : null}
-
-            <button
-              type="button"
-              className="absolute right-3 bottom-3 inline-flex h-11 w-11 items-center justify-center rounded-full border border-black bg-white-fa transition-transform duration-200 hover:scale-105 md:right-4 md:bottom-4 md:h-12 md:w-12"
-              onClick={openImageModal}
-              aria-label={t.product.aria.openGallery}
-            >
-              <Image src="/icons/plus-sign-in-a-circle.svg" alt="" width={28} height={28} />
-            </button>
           </div>
 
           <div className="mt-2.5 flex gap-3 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] md:flex-wrap md:gap-4 [&::-webkit-scrollbar]:hidden">
@@ -336,31 +352,33 @@ export default function ProductShowcase({
           </div>
 
           <div className="mb-3 flex flex-wrap gap-2">
-            {size.map((item, key) => (
+            {sizes.map((item) => (
               <button
                 type="button"
-                key={key}
-                onClick={() => setCurrentSize(key)}
+                key={item.id}
+                onClick={() => onSelectSize?.(item.id)}
                 className={`inline-flex h-10 min-w-10 items-center justify-center rounded-[10px] border border-black px-3 font-sans text-[14px] leading-none transition-colors duration-200 ${
-                  key === currentSize ? 'bg-black text-white-fa' : 'bg-white text-black'
+                  item.id === selectedSizeId ? 'bg-black text-white-fa' : 'bg-white text-black'
                 }`}
               >
-                {item}
+                {item.name}
               </button>
             ))}
           </div>
 
-          {images.colors.length > 0 ? (
+          {colors.length > 0 ? (
             <>
-              <p className="mb-3 font-sans text-[16px] leading-[1.2] text-black">{t.product.color}</p>
+              <p className="mb-3 font-sans text-[16px] leading-[1.2] text-black">
+                {t.product.color}
+              </p>
               <div className="mb-8 flex flex-wrap gap-4">
-                {images.colors.map((item, key) => (
+                {colors.map((item) => (
                   <button
                     type="button"
-                    key={`${item.src}-${key}`}
-                    onClick={() => setCurrentColor(key)}
+                    key={item.id}
+                    onClick={() => onSelectColor?.(item.id)}
                     className={`overflow-hidden border-b pb-1 transition-colors duration-200 ${
-                      key === currentColor ? 'border-black' : 'border-transparent'
+                      item.id === selectedColorId ? 'border-black' : 'border-transparent'
                     }`}
                   >
                     <Image
@@ -442,48 +460,48 @@ export default function ProductShowcase({
             </div>
 
             <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-[max(1rem,env(safe-area-inset-bottom))]">
-            <div className="flex flex-col">
-              {infoTabs.map((tab) => (
-                <div key={tab.id} className="border-b border-black/10 py-5">
-                  <button
-                    type="button"
-                    className="flex w-full items-center justify-between bg-transparent text-left font-sans text-[16px] leading-[1.2] font-normal text-black"
-                    onClick={() => handleToggleTab(tab.id)}
-                    aria-expanded={activeTab === tab.id}
-                  >
-                    {tab.label}
-                    <span
-                      aria-hidden="true"
-                      className="inline-flex h-5 w-5 items-center justify-center"
+              <div className="flex flex-col">
+                {infoTabs.map((tab) => (
+                  <div key={tab.id} className="border-b border-black/10 py-5">
+                    <button
+                      type="button"
+                      className="flex w-full items-center justify-between bg-transparent text-left font-sans text-[16px] leading-[1.2] font-normal text-black"
+                      onClick={() => handleToggleTab(tab.id)}
+                      aria-expanded={activeTab === tab.id}
                     >
+                      {tab.label}
                       <span
-                        className={`h-2.5 w-2.5 border-r border-b border-black transition-transform duration-300 ${
-                          activeTab === tab.id
-                            ? '-translate-y-px rotate-[-135deg]'
-                            : 'translate-y-px rotate-45'
-                        }`}
-                      />
-                    </span>
-                  </button>
-                  <div
-                    aria-hidden={activeTab !== tab.id}
-                    className={`grid transition-[grid-template-rows,opacity] duration-300 ${
-                      activeTab === tab.id
-                        ? 'grid-rows-[1fr] opacity-100'
-                        : 'grid-rows-[0fr] opacity-0'
-                    }`}
-                  >
+                        aria-hidden="true"
+                        className="inline-flex h-5 w-5 items-center justify-center"
+                      >
+                        <span
+                          className={`h-2.5 w-2.5 border-r border-b border-black transition-transform duration-300 ${
+                            activeTab === tab.id
+                              ? '-translate-y-px rotate-[-135deg]'
+                              : 'translate-y-px rotate-45'
+                          }`}
+                        />
+                      </span>
+                    </button>
                     <div
-                      className={`overflow-hidden font-sans text-[14px] leading-[1.6] text-black/70 transition-[transform,margin-top] duration-300 ${
-                        activeTab === tab.id ? 'mt-4 translate-y-0' : '-translate-y-2 mt-0'
+                      aria-hidden={activeTab !== tab.id}
+                      className={`grid transition-[grid-template-rows,opacity] duration-300 ${
+                        activeTab === tab.id
+                          ? 'grid-rows-[1fr] opacity-100'
+                          : 'grid-rows-[0fr] opacity-0'
                       }`}
                     >
-                      <p className="m-0">{tab.content}</p>
+                      <div
+                        className={`overflow-hidden font-sans text-[14px] leading-[1.6] text-black/70 transition-[transform,margin-top] duration-300 ${
+                          activeTab === tab.id ? 'mt-4 translate-y-0' : '-translate-y-2 mt-0'
+                        }`}
+                      >
+                        <p className="m-0">{tab.content}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
             </div>
           </div>
         </>
@@ -516,7 +534,7 @@ export default function ProductShowcase({
               </button>
 
               <div
-                className={`w-full max-w-211.5 max-h-[819vh] transition-[transform,opacity] duration-360 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                className={`w-full max-w-[min(90vw,80rem)] transition-[transform,opacity] duration-360 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                   isImageModalVisible
                     ? 'translate-y-0 scale-100 opacity-100'
                     : 'translate-y-6 scale-[0.985] opacity-0'
@@ -525,23 +543,27 @@ export default function ProductShowcase({
               >
                 <div className="flex w-full flex-col gap-8 xl:flex-row xl:items-start xl:gap-18.5">
                   <div className="flex w-full flex-1 flex-col items-center">
-                    <div className="relative flex min-h-80 w-full max-w-full items-center justify-center bg-white-fa px-4 py-6 md:h-204.75 md:w-211.5 md:px-8 md:py-10">
-                      <Image
+                    <div className="relative flex min-h-80 w-full max-w-full items-center justify-center overflow-hidden bg-white-fa h-[min(52rem,calc(100dvh-10rem))] md:w-[min(52.875rem,calc(100vw-8rem))]">
+                      <ProductMainImageZoom
                         src={previewImages[selectedImageIndex].src}
                         alt={previewImages[selectedImageIndex].alt}
-                        width={846}
-                        height={819}
-                        className="h-auto max-h-full w-auto max-w-full object-contain"
-                      />
-
-                      <span className="pointer-events-none absolute right-8 bottom-8 inline-flex h-12 w-12 items-center justify-center">
-                        <Image
-                          src="/icons/video-start-arrow.svg"
-                          alt={t.product.aria.playPreview}
-                          width={48}
-                          height={49}
-                        />
-                      </span>
+                        width={2400}
+                        height={3000}
+                        sizes="100vw"
+                        variant="lightbox"
+                        enableClickToggle
+                        zoomInLabel={t.product.aria.zoomIn}
+                        zoomOutLabel={t.product.aria.zoomOut}
+                      >
+                        <span className="pointer-events-none absolute right-8 bottom-8 z-10 inline-flex h-12 w-12 items-center justify-center">
+                          <Image
+                            src="/icons/video-start-arrow.svg"
+                            alt={t.product.aria.playPreview}
+                            width={48}
+                            height={49}
+                          />
+                        </span>
+                      </ProductMainImageZoom>
                     </div>
                     <div className="mt-5 flex items-center justify-center gap-6">
                       <button

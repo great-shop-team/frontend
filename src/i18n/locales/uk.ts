@@ -634,6 +634,11 @@ const uk: Dictionary = {
     deleteAccountWarning:
       'Незворотна дія — усі ваші дані буде видалено без можливості відновлення.',
   },
+  orderFormList: {
+    delivery: 'Доставка',
+    arrived: 'Прибув',
+    canceled: 'Скасовано',
+  },
   orders: {
     filtersAria: 'Фільтри статусу замовлень',
     delivery: 'Доставка',
@@ -689,6 +694,8 @@ const uk: Dictionary = {
       previousImage: 'Попереднє зображення',
       nextImage: 'Наступне зображення',
       playPreview: 'Відтворити превʼю',
+      zoomIn: 'Збільшити зображення',
+      zoomOut: 'Зменшити зображення',
     },
     imageAlt: {
       front: '{title} — спереду',

@@ -627,9 +627,14 @@ const en = {
     deleteAccountWarning:
       'Permanent action — all your data will be removed and cannot be recovered.',
   },
+  orderFormList: {
+    delivery: 'Delivery',
+    arrived: 'Arrived',
+    canceled: 'Canceled',
+  },
   orders: {
     filtersAria: 'Order status filters',
-    delivery: 'Delivery',
+    delivery: 'delivery',
     arrived: 'Arrived',
     canceled: 'Canceled',
     orderId: 'Order ID: {id}',
@@ -682,6 +687,8 @@ const en = {
       previousImage: 'Previous image',
       nextImage: 'Next image',
       playPreview: 'Play preview',
+      zoomIn: 'Zoom in image',
+      zoomOut: 'Zoom out image',
     },
     imageAlt: {
       front: '{title} front',

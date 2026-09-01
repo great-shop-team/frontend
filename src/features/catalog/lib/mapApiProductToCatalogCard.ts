@@ -4,6 +4,7 @@ import {
   type CatalogListingSlug,
 } from '@/features/catalog/model/catalogCategory';
 import type { CatalogProduct } from '@/features/catalog/model/catalogProduct';
+import { buildProductHref } from '@/features/catalog/lib/buildProductHref';
 import { toImageUrl } from '@/store/api/mappers/products.mapper';
 import type {
   ApiProduct,
@@ -113,7 +114,7 @@ export function mapApiProductToCatalogCard({
     sizes: uniqueSizes.length > 0 ? uniqueSizes : undefined,
     colors: uniqueColors.length > 0 ? uniqueColors : undefined,
     inStock,
-    href: `/catalog/${category}/${product.id}`,
+    href: buildProductHref(category, product),
     brandId: product.brand,
     brandName: brand?.name,
     subcategoryId: product.subcategory,
