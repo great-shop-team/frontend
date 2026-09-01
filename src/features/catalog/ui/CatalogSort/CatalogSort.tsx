@@ -31,8 +31,8 @@ export default function CatalogSort({ value = 'featured', onChange }: CatalogSor
     { value: 'featured', label: t.catalog.sortOptions.featured },
     { value: 'price_asc', label: t.catalog.sortOptions.priceAsc },
     { value: 'price_desc', label: t.catalog.sortOptions.priceDesc },
-    { value: 'name_asc', label: t.catalog.sortOptions.nameAsc },
-    { value: 'name_desc', label: t.catalog.sortOptions.nameDesc },
+    { value: 'newest', label: t.catalog.sortOptions.newest },
+    { value: 'bestsellers', label: t.catalog.sortOptions.bestsellers },
   ];
 
   const currentLabel = options.find((option) => option.value === value)?.label ?? t.catalog.sort;

@@ -1,14 +1,14 @@
 import { mapProductToCatalogCard, parseProducts } from '@/entities/product';
 import type { Locale } from '@/i18n/config';
 import productsMock from '@/data/products.json';
-import type { CatalogCategory } from '@/features/catalog/model/catalogCategory';
+import type { CatalogScope } from '@/features/catalog/model/catalogCategory';
 import type { CatalogProduct } from '@/features/catalog/model/catalogProduct';
 import type { Product } from '@/entities/product/model/types';
 
 const allProducts: Product[] = parseProducts(productsMock);
 
 export type CatalogFilters = {
-  subcategory?: string;
+  subcategory?: string | string[];
   type?: string;
   brand?: string[];
   color?: string[];
@@ -17,24 +17,42 @@ export type CatalogFilters = {
 };
 
 export function getCatalogProducts(
-  category: CatalogCategory,
+  category: CatalogScope,
   locale: Locale,
   filters: CatalogFilters = {},
 ): CatalogProduct[] {
   return allProducts
     .filter((product) => {
-      if (product.category !== category) return false;
-      if (filters.subcategory && product.subcategory !== filters.subcategory) return false;
+      if (category === 'fragrances') return product.subcategory === 'fragrances';
+      if (category === 'accessories') {
+        return product.category === 'accessories' && product.subcategory !== 'fragrances';
+      }
+      if (category !== 'all' && product.category !== category) return false;
+      if (filters.subcategory) {
+        const selected = Array.isArray(filters.subcategory)
+          ? filters.subcategory
+          : [filters.subcategory];
+        if (selected.length > 0 && !selected.includes(product.subcategory)) return false;
+      }
       if (filters.type && product.type !== filters.type) return false;
       return true;
     })
     .map((product) => mapProductToCatalogCard(product, locale));
 }
 
-export function getCatalogProductsCount(category: CatalogCategory, filters: CatalogFilters = {}) {
+export function getCatalogProductsCount(category: CatalogScope, filters: CatalogFilters = {}) {
   return allProducts.filter((product) => {
-    if (product.category !== category) return false;
-    if (filters.subcategory && product.subcategory !== filters.subcategory) return false;
+    if (category === 'fragrances') return product.subcategory === 'fragrances';
+    if (category === 'accessories') {
+      return product.category === 'accessories' && product.subcategory !== 'fragrances';
+    }
+    if (category !== 'all' && product.category !== category) return false;
+    if (filters.subcategory) {
+      const selected = Array.isArray(filters.subcategory)
+        ? filters.subcategory
+        : [filters.subcategory];
+      if (selected.length > 0 && !selected.includes(product.subcategory)) return false;
+    }
     if (filters.type && product.type !== filters.type) return false;
     return true;
   }).length;

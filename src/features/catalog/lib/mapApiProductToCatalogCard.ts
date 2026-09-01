@@ -1,5 +1,8 @@
 import type { Locale } from '@/i18n/config';
-import type { CatalogCategory } from '@/features/catalog/model/catalogCategory';
+import {
+  resolveProductGroup,
+  type CatalogListingSlug,
+} from '@/features/catalog/model/catalogCategory';
 import type { CatalogProduct } from '@/features/catalog/model/catalogProduct';
 import { toImageUrl } from '@/store/api/mappers/products.mapper';
 import type {
@@ -17,7 +20,7 @@ const PLACEHOLDER_IMAGE = '/images/product1.png';
 
 type MapApiProductArgs = {
   product: ApiProduct;
-  category: CatalogCategory;
+  category: CatalogListingSlug;
   locale: Locale;
   brandById: Map<number, Brand>;
   subcategoryById: Map<number, Subcategory>;
@@ -26,6 +29,7 @@ type MapApiProductArgs = {
   sizesById: Map<number, CatalogSize>;
   images: ProductImageRecord[];
   currencies: CurrencyAmount[];
+  categoryIdBySlug: Map<string, number>;
 };
 
 function formatAmount(amount: number, currency: string, locale: Locale) {
@@ -47,6 +51,7 @@ export function mapApiProductToCatalogCard({
   sizesById,
   images,
   currencies,
+  categoryIdBySlug,
 }: MapApiProductArgs): CatalogProduct {
   const productVariants = variants.filter(
     (variant) => variant.product === product.id && variant.is_active,
@@ -115,5 +120,13 @@ export function mapApiProductToCatalogCard({
     colorIds: productVariants.map((variant) => variant.color),
     sizeIds: productVariants.map((variant) => variant.size),
     priceValue: lowestPrice?.amount,
+    genders: [...new Set(productVariants.map((variant) => variant.gender))],
+    group: resolveProductGroup({
+      subcategorySlug: subcategory?.slug,
+      subcategoryName: subcategory?.name,
+      subcategoryCategoryId: subcategory?.category,
+      categoryIdBySlug,
+    }),
+    stockTotal: productVariants.reduce((sum, variant) => sum + variant.stock, 0),
   };
 }

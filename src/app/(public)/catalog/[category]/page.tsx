@@ -4,8 +4,8 @@ import type { Metadata } from 'next';
 
 import CatalogPage from '@/features/catalog/ui/CatalogPage/CatalogPage';
 import {
-  isCatalogCategory,
-  CATALOG_CATEGORY_SLUGS,
+  isCatalogListingSlug,
+  CATALOG_LISTING_SLUGS,
 } from '@/features/catalog/model/catalogCategory';
 import { getDictionary } from '@/i18n/dictionaries';
 import { defaultLocale } from '@/i18n/config';
@@ -15,13 +15,13 @@ type CategoryPageProps = {
 };
 
 export function generateStaticParams() {
-  return CATALOG_CATEGORY_SLUGS.map((category) => ({ category }));
+  return CATALOG_LISTING_SLUGS.map((category) => ({ category }));
 }
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { category } = await params;
 
-  if (!isCatalogCategory(category)) {
+  if (!isCatalogListingSlug(category)) {
     return {};
   }
 
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 export default async function CategoryCatalogPage({ params }: CategoryPageProps) {
   const { category } = await params;
 
-  if (!isCatalogCategory(category)) {
+  if (!isCatalogListingSlug(category)) {
     notFound();
   }
 

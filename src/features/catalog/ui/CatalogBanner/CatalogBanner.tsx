@@ -2,13 +2,13 @@
 
 import Link from 'next/link';
 
-import type { CatalogCategory } from '@/features/catalog/model/catalogCategory';
+import type { CatalogScope } from '@/features/catalog/model/catalogCategory';
 import { useCatalogBanner } from '@/features/catalog/lib/useCatalogBanner';
 
 import { catalogSection } from '../catalogClasses';
 
 type CatalogBannerProps = {
-  category: CatalogCategory;
+  category: CatalogScope;
 };
 
 export default function CatalogBanner({ category }: CatalogBannerProps) {

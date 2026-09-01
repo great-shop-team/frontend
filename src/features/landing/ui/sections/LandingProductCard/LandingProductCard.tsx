@@ -13,6 +13,7 @@ type LandingProductCardProps = {
   title: string;
   price: string;
   imageClassName?: string;
+  ctaLabel?: string;
 };
 
 export default function LandingProductCard({
@@ -22,6 +23,7 @@ export default function LandingProductCard({
   title,
   price,
   imageClassName = 'object-cover object-top',
+  ctaLabel,
 }: LandingProductCardProps) {
   const { t } = useTranslation();
 
@@ -80,7 +82,7 @@ export default function LandingProductCard({
           href={href}
           className="inline-flex h-10 w-fit items-center justify-center rounded-[8px] border border-black bg-transparent px-4 font-(family-name:--font-unbounded) text-sm font-normal text-dark no-underline transition-colors hover:bg-black hover:text-white"
         >
-          {t.landing.showMore}
+          {ctaLabel ?? t.landing.showMore}
         </Link>
       </div>
     </article>

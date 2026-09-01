@@ -2,7 +2,11 @@
 
 import { useMemo } from 'react';
 
-import type { CatalogCategory } from '@/features/catalog/model/catalogCategory';
+import {
+  isFragranceSubcategory,
+  resolveProductCatalogCategory,
+  type CatalogScope,
+} from '@/features/catalog/model/catalogCategory';
 import type {
   CatalogListingFilters,
   CatalogSortOption,
@@ -40,10 +44,10 @@ function sortProducts(products: CatalogProduct[], sort: CatalogSortOption | unde
         (a, b) =>
           (b.priceValue ?? Number.NEGATIVE_INFINITY) - (a.priceValue ?? Number.NEGATIVE_INFINITY),
       );
-    case 'name_asc':
-      return next.sort((a, b) => a.title.localeCompare(b.title));
-    case 'name_desc':
-      return next.sort((a, b) => b.title.localeCompare(a.title));
+    case 'newest':
+      return next.sort((a, b) => Number(b.id) - Number(a.id));
+    case 'bestsellers':
+      return next.sort((a, b) => (b.stockTotal ?? 0) - (a.stockTotal ?? 0));
     case 'featured':
     default:
       return next;
@@ -51,14 +55,21 @@ function sortProducts(products: CatalogProduct[], sort: CatalogSortOption | unde
 }
 
 function matchesRouteCategory(
-  category: CatalogCategory,
+  category: Exclude<CatalogScope, 'all'>,
   productName: string,
   subcategory: Subcategory | undefined,
   categoryIdBySlug: Map<string, number>,
   genders: Array<'male' | 'female' | 'unisex'>,
 ) {
+  if (category === 'fragrances') {
+    return isFragranceSubcategory(subcategory);
+  }
+
   if (category === 'accessories') {
-    return subcategory?.category === categoryIdBySlug.get('accessories');
+    return (
+      subcategory?.category === categoryIdBySlug.get('accessories') &&
+      !isFragranceSubcategory(subcategory)
+    );
   }
 
   const clothingId = categoryIdBySlug.get('clothing');
@@ -91,7 +102,7 @@ function matchesRouteCategory(
   return true;
 }
 
-export function useCatalogListing(category: CatalogCategory, filters: CatalogListingFilters = {}) {
+export function useCatalogListing(category: CatalogScope, filters: CatalogListingFilters = {}) {
   const { locale } = useTranslation();
 
   const productsQuery = useGetProductsRawQuery();
@@ -137,7 +148,11 @@ export function useCatalogListing(category: CatalogCategory, filters: CatalogLis
         return active !== false && !hidden;
       })
       .filter((item) => {
-        if (category === 'accessories') return item.category === accessoriesId;
+        if (category === 'all') return true;
+        if (category === 'fragrances') return isFragranceSubcategory(item);
+        if (category === 'accessories') {
+          return item.category === accessoriesId && !isFragranceSubcategory(item);
+        }
         return item.category === clothingId || item.category === shoesId;
       });
 
@@ -188,16 +203,33 @@ export function useCatalogListing(category: CatalogCategory, filters: CatalogLis
 
     const mapped = apiProducts
       .filter((product) => {
+        if (category === 'all') return true;
+
         const subcategory = subcategoryById.get(product.subcategory);
         const productVariants = variants.filter((variant) => variant.product === product.id);
         const genders = productVariants.map((variant) => variant.gender);
 
         return matchesRouteCategory(category, product.name, subcategory, categoryIdBySlug, genders);
       })
-      .map((product) =>
-        mapApiProductToCatalogCard({
+      .map((product) => {
+        const subcategory = subcategoryById.get(product.subcategory);
+        const productVariants = variants.filter((variant) => variant.product === product.id);
+        const genders = productVariants.map((variant) => variant.gender);
+        const cardCategory =
+          category === 'all'
+            ? resolveProductCatalogCategory({
+                productName: product.name,
+                subcategoryCategoryId: subcategory?.category,
+                subcategorySlug: subcategory?.slug,
+                subcategoryName: subcategory?.name,
+                categoryIdBySlug,
+                genders,
+              })
+            : category;
+
+        return mapApiProductToCatalogCard({
           product,
-          category,
+          category: cardCategory,
           locale,
           brandById,
           subcategoryById,
@@ -206,8 +238,9 @@ export function useCatalogListing(category: CatalogCategory, filters: CatalogLis
           sizesById,
           images,
           currencies,
-        }),
-      );
+          categoryIdBySlug,
+        });
+      });
 
     const source =
       mapped.length > 0
@@ -220,6 +253,9 @@ export function useCatalogListing(category: CatalogCategory, filters: CatalogLis
     const brandFilters = new Set(filters.brand ?? []);
     const colorFilters = new Set(filters.color ?? []);
     const sizeFilters = new Set(filters.size ?? []);
+    const subcategoryFilters = new Set(filters.subcategory ?? []);
+    const genderFilters = new Set(filters.gender ?? []);
+    const groupFilters = new Set(filters.group ?? []);
 
     const filtered = source.filter((product) => {
       if (filters.q) {
@@ -231,8 +267,31 @@ export function useCatalogListing(category: CatalogCategory, filters: CatalogLis
         if (!haystack.includes(needle)) return false;
       }
 
-      if (filters.subcategory && product.subcategory !== filters.subcategory) return false;
+      if (subcategoryFilters.size > 0) {
+        const slug = product.subcategory;
+        const id = product.subcategoryId != null ? String(product.subcategoryId) : undefined;
+        if (!slug && !id) return false;
+        if (!(slug && subcategoryFilters.has(slug)) && !(id && subcategoryFilters.has(id))) {
+          return false;
+        }
+      }
       if (filters.type && product.type !== filters.type) return false;
+
+      if (genderFilters.size > 0 && genderFilters.size < 2) {
+        const genders = product.genders ?? [];
+        const wantsMen = genderFilters.has('men');
+        const wantsWomen = genderFilters.has('women');
+        const matchesMen = genders.some((gender) => gender === 'male' || gender === 'unisex');
+        const matchesWomen = genders.some((gender) => gender === 'female' || gender === 'unisex');
+        if (genders.length > 0) {
+          if (wantsMen && !wantsWomen && !matchesMen) return false;
+          if (wantsWomen && !wantsMen && !matchesWomen) return false;
+        }
+      }
+
+      if (groupFilters.size > 0 && product.group && !groupFilters.has(product.group)) {
+        return false;
+      }
 
       if (brandFilters.size > 0) {
         const brandKey = product.brandId != null ? String(product.brandId) : product.brandName;
@@ -276,6 +335,8 @@ export function useCatalogListing(category: CatalogCategory, filters: CatalogLis
     filters.q,
     filters.subcategory,
     filters.type,
+    filters.gender,
+    filters.group,
     filters.brand,
     filters.color,
     filters.size,

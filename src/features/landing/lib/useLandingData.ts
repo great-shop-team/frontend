@@ -4,7 +4,6 @@ import { useMemo } from 'react';
 
 import {
   landingCampaignImage,
-  landingClothingItems,
   landingEyewear,
   landingFeaturedFragrance,
   landingFeaturedFrames,
@@ -38,16 +37,6 @@ export function useLandingData() {
           };
         }),
       },
-      clothing: landingClothingItems.map((item) => {
-        const copy = t.landing.clothing[item.id];
-        return {
-          id: item.id,
-          href: item.href,
-          image: { src: item.image.src, alt: copy.imageAlt },
-          title: copy.title,
-          price: copy.price,
-        };
-      }),
       shopBy: landingShopByItems.map((item) => ({
         id: item.id,
         href: item.href,

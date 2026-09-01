@@ -6,6 +6,7 @@ import ProductReviews from '@/widgets/ProductReviews/ProductReviews';
 import { formatMessage, useTranslation } from '@/i18n/useTranslation';
 import { useParams, usePathname } from 'next/navigation';
 import type { CatalogProduct } from '@/features/catalog/model/catalogProduct';
+import { isCatalogListingSlug } from '@/features/catalog/model/catalogCategory';
 import ClothingProductCard from '@/features/catalog/ui/CatalogProductCard/CatalogProductCard';
 import {
   useGetProductImagesQuery,
@@ -198,17 +199,16 @@ export default function Product() {
     }
 
     const routeCategory = pathname.split('/')[2] ?? 'catalog';
-
-    const categoryLabel = formatMetaLabel(category?.name || routeCategory);
-    const subcategoryLabel = formatMetaLabel(subcategory?.name || '');
+    const categoryLabel = isCatalogListingSlug(routeCategory)
+      ? t.catalog.categories[routeCategory].navLabel
+      : formatMetaLabel(category?.name || routeCategory);
 
     return [
       { href: '/', label: t.common.home },
       { href: `/catalog/${routeCategory}`, label: categoryLabel },
-      ...(subcategoryLabel ? [{ label: subcategoryLabel }] : []),
       { label: product.name, current: true },
     ];
-  }, [category?.name, pathname, product, subcategory?.name, t.common.home]);
+  }, [category?.name, pathname, product, t.catalog.categories, t.common.home]);
 
   if (isProductLoading || isProductFetching) {
     return <div>{t.common.loading}</div>;
@@ -233,6 +233,7 @@ export default function Product() {
         rating={5}
         images={showcaseImages}
         breadcrumbs={breadcrumbs}
+        productId={String(product.id)}
         link={{
           href: `/catalog/${pathname?.split('/')[2] ?? 'catalog'}/${slugOrId}`,
           label: product.name,

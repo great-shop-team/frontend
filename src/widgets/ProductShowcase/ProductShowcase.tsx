@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import StarRating from '@/widgets/StarRating/StarRating';
+import WishlistButton from '@/features/wishlist/ui/WishlistButton/WishlistButton';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from '@/i18n/useTranslation';
 
@@ -37,6 +38,7 @@ interface ProductShowcaseProps {
     href?: string;
     current?: boolean;
   }[];
+  productId?: string;
 }
 
 const SIDEBAR_ANIMATION_DURATION_MS = 300;
@@ -52,6 +54,7 @@ export default function ProductShowcase({
   images,
   size,
   breadcrumbs,
+  productId,
 }: ProductShowcaseProps) {
   const { t } = useTranslation();
 
@@ -247,6 +250,14 @@ export default function ProductShowcase({
                 width={310}
                 height={531}
                 className="h-auto max-h-100 w-auto object-contain sm:max-h-132.75"
+              />
+            ) : null}
+
+            {productId ? (
+              <WishlistButton
+                productId={productId}
+                className="absolute top-3 right-3 z-1 flex min-h-11 min-w-11 cursor-pointer items-center justify-center border-none bg-transparent p-1 text-dark transition-transform hover:scale-110 md:top-4 md:right-4"
+                iconClassName="size-6"
               />
             ) : null}
 

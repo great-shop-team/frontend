@@ -9,21 +9,24 @@ import { useCatalogProducts } from '@/features/catalog/lib/useCatalogProducts';
 
 export function useCatalogProductsPage(category: CatalogCategory, filters: CatalogFilters = {}) {
   const products = useCatalogProducts(category, filters);
+  const subcategoryKey = Array.isArray(filters.subcategory)
+    ? filters.subcategory.join(',')
+    : (filters.subcategory ?? '');
   const [pagination, setPagination] = useState({
     category,
-    subcategory: filters.subcategory ?? '',
+    subcategory: subcategoryKey,
     type: filters.type ?? '',
     visibleCount: CATALOG_PAGE_SIZE,
   });
 
   if (
     pagination.category !== category ||
-    pagination.subcategory !== (filters.subcategory ?? '') ||
+    pagination.subcategory !== subcategoryKey ||
     pagination.type !== (filters.type ?? '')
   ) {
     setPagination({
       category,
-      subcategory: filters.subcategory ?? '',
+      subcategory: subcategoryKey,
       type: filters.type ?? '',
       visibleCount: CATALOG_PAGE_SIZE,
     });

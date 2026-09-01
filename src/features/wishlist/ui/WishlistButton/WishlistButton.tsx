@@ -1,5 +1,7 @@
 'use client';
 
+import { MouseEvent } from 'react';
+
 import { useWishlist } from '@/features/wishlist/hooks/useWishlist';
 import { useTranslation } from '@/i18n/useTranslation';
 
@@ -18,12 +20,18 @@ export default function WishlistButton({
   const { isInWishlist, toggleWishlist } = useWishlist();
   const isActive = isInWishlist(productId);
 
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    void toggleWishlist(productId);
+  };
+
   return (
     <button
       type="button"
       className={className}
-      onClick={() => toggleWishlist(productId)}
-      aria-label={t.landing.addToWishlist}
+      onClick={handleClick}
+      aria-label={isActive ? t.landing.removeFromWishlist : t.landing.addToWishlist}
       aria-pressed={isActive}
     >
       <svg
