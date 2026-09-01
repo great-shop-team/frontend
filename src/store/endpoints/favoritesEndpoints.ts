@@ -31,8 +31,9 @@ export const favoritesEndpoints = api.injectEndpoints({
       transformResponse: (response: unknown, _meta, arg) =>
         normalizeFavorite(response) ?? { id: 0, productId: String(arg.product) },
       async onQueryStarted({ product }, { dispatch, queryFulfilled }) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const patch = dispatch(
-          api.util.updateQueryData('getFavorites', undefined, (draft) => {
+          (api.util.updateQueryData as any)('getFavorites', undefined, (draft: Favorite[]) => {
             if (draft.some((item) => item.productId === String(product))) return;
             draft.push({ id: -product, productId: String(product) });
           }),
@@ -40,8 +41,9 @@ export const favoritesEndpoints = api.injectEndpoints({
 
         try {
           const { data } = await queryFulfilled;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           dispatch(
-            api.util.updateQueryData('getFavorites', undefined, (draft) => {
+            (api.util.updateQueryData as any)('getFavorites', undefined, (draft: Favorite[]) => {
               const index = draft.findIndex((item) => item.productId === data.productId);
               if (index >= 0) {
                 draft[index] = data;
@@ -95,8 +97,9 @@ export const favoritesEndpoints = api.injectEndpoints({
     deleteFavorite: builder.mutation<void, number>({
       query: (id) => ({ url: `/api/favorites/${id}/`, method: 'DELETE' }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const patch = dispatch(
-          api.util.updateQueryData('getFavorites', undefined, (draft) => {
+          (api.util.updateQueryData as any)('getFavorites', undefined, (draft: Favorite[]) => {
             const index = draft.findIndex((item) => item.id === id);
             if (index >= 0) draft.splice(index, 1);
           }),

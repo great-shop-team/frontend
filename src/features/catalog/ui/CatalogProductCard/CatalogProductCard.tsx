@@ -22,19 +22,18 @@ const getProductCategoryPath = (product: CatalogProduct): string => {
 
   const normalizedCategory = categoryName.toLowerCase();
   const normalizedSubcategory = (product.subcategory || '').toLowerCase();
-  const productKey = getProductUrlKey(product);
 
   if (normalizedSubcategory === 'fragrances' || normalizedCategory === 'fragrances') {
-    return `/catalog/fragrances/${productKey}`;
+    return `/catalog/fragrances/${product.id}`;
   }
   if (normalizedCategory === 'accessories' || normalizedSubcategory === 'accessories') {
-    return `/catalog/accessories/${productKey}`;
+    return `/catalog/accessories/${product.id}`;
   }
   if (normalizedCategory === 'women' || product.id.startsWith('w-')) {
-    return `/catalog/women/${productKey}`;
+    return `/catalog/women/${product.id}`;
   }
 
-  return `/catalog/men/${productKey}`;
+  return `/catalog/men/${product.id}`;
 };
 
 export default function CatalogProductCard({ product }: CatalogProductCardProps) {
@@ -51,3 +50,4 @@ export default function CatalogProductCard({ product }: CatalogProductCardProps)
     />
   );
 }
+
