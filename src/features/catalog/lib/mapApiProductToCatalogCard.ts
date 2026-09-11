@@ -5,7 +5,11 @@ import {
 } from '@/features/catalog/model/catalogCategory';
 import type { CatalogProduct } from '@/features/catalog/model/catalogProduct';
 import { buildProductHref } from '@/features/catalog/lib/buildProductHref';
-import { toImageUrl } from '@/store/api/mappers/products.mapper';
+import {
+  formatCatalogPrice,
+  pickMainImageUrl,
+  resolveVariantPrice,
+} from '@/features/catalog/lib/resolveVariantOffer';
 import type {
   ApiProduct,
   Brand,
@@ -16,8 +20,6 @@ import type {
   ProductVariant,
   Subcategory,
 } from '@/store/types';
-
-const PLACEHOLDER_IMAGE = '/images/product1.png';
 
 type MapApiProductArgs = {
   product: ApiProduct;
@@ -33,14 +35,6 @@ type MapApiProductArgs = {
   categoryIdBySlug: Map<string, number>;
 };
 
-function formatAmount(amount: number, currency: string, locale: Locale) {
-  const formatted = new Intl.NumberFormat(locale === 'uk' ? 'uk-UA' : 'en-US', {
-    maximumFractionDigits: 0,
-  }).format(amount);
-  const symbol = currency === 'USD' ? '$' : currency;
-  return `${formatted} ${symbol}`;
-}
-
 export function mapApiProductToCatalogCard({
   product,
   category,
@@ -54,32 +48,23 @@ export function mapApiProductToCatalogCard({
   currencies,
   categoryIdBySlug,
 }: MapApiProductArgs): CatalogProduct {
+  const productId = Number(product.id);
   const productVariants = variants.filter(
-    (variant) => variant.product === product.id && variant.is_active,
+    (variant) => Number(variant.product) === productId && variant.is_active !== false,
   );
-  const variantIds = new Set(productVariants.map((variant) => variant.id));
+  const variantIds = new Set(productVariants.map((variant) => Number(variant.id)));
 
-  const productImages = images
-    .filter((image) => variantIds.has(image.product_variant))
-    .sort((a, b) => Number(b.is_main) - Number(a.is_main) || a.sort_order - b.sort_order);
+  const productImages = images.filter((image) => variantIds.has(Number(image.product_variant)));
 
-  const priceAmounts = currencies
-    .filter((item) => variantIds.has(item.product_variant))
-    .map((item) => ({
-      amount: Number(item.amount),
-      currency: item.currency_code || 'USD',
-    }))
-    .filter((item) => Number.isFinite(item.amount));
-
-  const lowestPrice = priceAmounts.sort((a, b) => a.amount - b.amount)[0];
-  const subcategory = subcategoryById.get(product.subcategory);
-  const brand = brandById.get(product.brand);
-  const imageSrc = productImages[0]?.image ? toImageUrl(productImages[0].image) : PLACEHOLDER_IMAGE;
+  const lowestPrice = resolveVariantPrice({ variants: productVariants, currencies });
+  const subcategory = subcategoryById.get(Number(product.subcategory));
+  const brand = brandById.get(Number(product.brand));
+  const imageSrc = pickMainImageUrl(productImages) ?? '';
 
   const uniqueSizes = [
     ...new Set(
       productVariants
-        .map((variant) => sizesById.get(variant.size)?.name)
+        .map((variant) => sizesById.get(Number(variant.size))?.name)
         .filter((name): name is string => Boolean(name)),
     ),
   ];
@@ -87,7 +72,7 @@ export function mapApiProductToCatalogCard({
   const uniqueColors = [
     ...new Map(
       productVariants
-        .map((variant) => colorsById.get(variant.color))
+        .map((variant) => colorsById.get(Number(variant.color)))
         .filter((color): color is CatalogColor => Boolean(color))
         .map((color) => [color.id, { name: color.name, hex: color.hex_code }] as const),
     ).values(),
@@ -106,7 +91,7 @@ export function mapApiProductToCatalogCard({
     type: subcategory?.name,
     title: product.name,
     description: product.description,
-    price: lowestPrice ? formatAmount(lowestPrice.amount, lowestPrice.currency, locale) : '—',
+    price: lowestPrice ? formatCatalogPrice(lowestPrice.amount, lowestPrice.currency, locale) : '—',
     image: {
       src: imageSrc,
       alt: product.name,

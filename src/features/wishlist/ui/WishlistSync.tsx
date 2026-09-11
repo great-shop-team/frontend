@@ -4,13 +4,17 @@ import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useSessionEmail } from '@/features/auth/hooks/useSessionEmail';
-import { toApiProductId } from '@/features/wishlist/lib/favorites';
+import { pickVariantForProduct, toApiProductId } from '@/features/wishlist/lib/favorites';
+import { useGetProductVariantsQuery } from '@/store/endpoints/catalogMetaEndpoints';
 import {
   useCreateFavoriteMutation,
   useGetFavoritesQuery,
 } from '@/store/endpoints/favoritesEndpoints';
 import { selectAuthToken } from '@/store/slices/userSlice';
 import { persistor, type RootState } from '@/store/store';
+import type { ProductVariant } from '@/store/types';
+
+const EMPTY_VARIANTS: ProductVariant[] = [];
 
 function usePersistorReady() {
   const [ready, setReady] = useState(() => persistor.getState().bootstrapped);
@@ -38,6 +42,10 @@ export default function WishlistSync() {
   const { data, isSuccess } = useGetFavoritesQuery(undefined, {
     skip: !hasSession,
   });
+  const { data: variants = EMPTY_VARIANTS, isSuccess: areVariantsReady } = useGetProductVariantsQuery(
+    undefined,
+    { skip: !hasSession },
+  );
   const [createFavorite] = useCreateFavoriteMutation();
 
   useEffect(() => {
@@ -47,19 +55,40 @@ export default function WishlistSync() {
     }
 
     const sessionKey = token || 'session';
-    if (!rehydrated || !isSuccess || !data || mergedForToken.current === sessionKey) return;
+    if (
+      !rehydrated ||
+      !isSuccess ||
+      !areVariantsReady ||
+      !data ||
+      mergedForToken.current === sessionKey
+    ) {
+      return;
+    }
 
     mergedForToken.current = sessionKey;
 
-    const serverIds = new Set(data.map((item) => item.productId));
-    const toUpload = localItems
-      .map((item) => toApiProductId(item.productId))
-      .filter((id): id is number => id != null && !serverIds.has(String(id)));
+    const serverVariantIds = new Set(data.map((item) => item.variantId));
 
-    toUpload.forEach((product) => {
-      void createFavorite({ product });
+    localItems.forEach((item) => {
+      const productId = toApiProductId(item.productId);
+      const variantId =
+        item.variantId ?? (productId != null ? pickVariantForProduct(productId, variants)?.id : undefined);
+
+      if (variantId == null || serverVariantIds.has(variantId) || item.favoriteId) return;
+
+      void createFavorite({ product_variant: variantId });
     });
-  }, [createFavorite, data, hasSession, isSuccess, localItems, rehydrated, token]);
+  }, [
+    areVariantsReady,
+    createFavorite,
+    data,
+    hasSession,
+    isSuccess,
+    localItems,
+    rehydrated,
+    token,
+    variants,
+  ]);
 
   return null;
 }

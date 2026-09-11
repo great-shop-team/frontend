@@ -1,4 +1,5 @@
 import { api } from '../api';
+import { unwrapList } from '../api/unwrapList';
 import {
   Category,
   CategoryCreateInput,
@@ -13,12 +14,7 @@ const categoriesEndpoints = api.injectEndpoints({
     // Категорії
     getCategories: builder.query<Category[], void>({
       query: () => '/api/categories/categories/',
-      transformResponse: (response: unknown) =>
-        Array.isArray(response)
-          ? response
-          : Array.isArray((response as { results?: unknown }).results)
-            ? ((response as { results: Category[] }).results)
-            : [],
+      transformResponse: (response: unknown) => unwrapList<Category>(response),
     }),
     getCategoryById: builder.query<Category, number>({
       query: (id) => `/api/categories/categories/${id}/`,
@@ -47,12 +43,7 @@ const categoriesEndpoints = api.injectEndpoints({
     // Підкатегорії
     getSubcategories: builder.query<Subcategory[], void>({
       query: () => '/api/categories/subcategories/',
-      transformResponse: (response: unknown) =>
-        Array.isArray(response)
-          ? response
-          : Array.isArray((response as { results?: unknown }).results)
-            ? ((response as { results: Subcategory[] }).results)
-            : [],
+      transformResponse: (response: unknown) => unwrapList<Subcategory>(response),
     }),
     getSubcategoryById: builder.query<Subcategory, number>({
       query: (id) => `/api/categories/subcategories/${id}/`,

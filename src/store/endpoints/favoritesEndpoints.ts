@@ -5,7 +5,7 @@ import type { Favorite, FavoriteCreateInput, FavoriteUpdateInput } from '../type
 export const favoritesEndpoints = api.injectEndpoints({
   endpoints: (builder) => ({
     getFavorites: builder.query<Favorite[], void>({
-      query: () => '/api/favorites/',
+      query: () => '/api/favorites/favorites-user-list/',
       transformResponse: (response: unknown) => toFavoriteList(response),
       providesTags: (result) =>
         result
@@ -29,22 +29,26 @@ export const favoritesEndpoints = api.injectEndpoints({
     createFavorite: builder.mutation<Favorite, FavoriteCreateInput>({
       query: (body) => ({ url: '/api/favorites/', method: 'POST', body }),
       transformResponse: (response: unknown, _meta, arg) =>
-        normalizeFavorite(response) ?? { id: 0, productId: String(arg.product) },
-      async onQueryStarted({ product }, { dispatch, queryFulfilled }) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        normalizeFavorite(response) ?? {
+          id: 0,
+          variantId: arg.product_variant,
+          productId: '',
+        },
+      async onQueryStarted({ product_variant }, { dispatch, queryFulfilled }) {
         const patch = dispatch(
-          (api.util.updateQueryData as any)('getFavorites', undefined, (draft: Favorite[]) => {
-            if (draft.some((item) => item.productId === String(product))) return;
-            draft.push({ id: -product, productId: String(product) });
+          api.util.updateQueryData('getFavorites', undefined, (draft) => {
+            if (draft.some((item) => item.variantId === product_variant)) return;
+            draft.push({ id: -product_variant, variantId: product_variant, productId: '' });
           }),
         );
 
         try {
           const { data } = await queryFulfilled;
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           dispatch(
-            (api.util.updateQueryData as any)('getFavorites', undefined, (draft: Favorite[]) => {
-              const index = draft.findIndex((item) => item.productId === data.productId);
+            api.util.updateQueryData('getFavorites', undefined, (draft) => {
+              const index = draft.findIndex(
+                (item) => item.variantId === data.variantId || item.id === data.id,
+              );
               if (index >= 0) {
                 draft[index] = data;
                 return;
@@ -56,7 +60,6 @@ export const favoritesEndpoints = api.injectEndpoints({
           patch.undo();
         }
       },
-      invalidatesTags: [{ type: 'Favorite', id: 'LIST' }],
     }),
     updateFavorite: builder.mutation<Favorite, { id: number; body: FavoriteUpdateInput }>({
       query: ({ id, body }) => ({
@@ -97,9 +100,8 @@ export const favoritesEndpoints = api.injectEndpoints({
     deleteFavorite: builder.mutation<void, number>({
       query: (id) => ({ url: `/api/favorites/${id}/`, method: 'DELETE' }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const patch = dispatch(
-          (api.util.updateQueryData as any)('getFavorites', undefined, (draft: Favorite[]) => {
+          api.util.updateQueryData('getFavorites', undefined, (draft) => {
             const index = draft.findIndex((item) => item.id === id);
             if (index >= 0) draft.splice(index, 1);
           }),
@@ -111,12 +113,9 @@ export const favoritesEndpoints = api.injectEndpoints({
           patch.undo();
         }
       },
-      invalidatesTags: (_result, _error, id) => [
-        { type: 'Favorite', id },
-        { type: 'Favorite', id: 'LIST' },
-      ],
     }),
   }),
+  overrideExisting: process.env.NODE_ENV !== 'production',
 });
 
 export const {

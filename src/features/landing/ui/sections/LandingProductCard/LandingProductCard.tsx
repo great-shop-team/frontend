@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 
 import WishlistButton from '@/features/wishlist/ui/WishlistButton/WishlistButton';
 import { useTranslation } from '@/i18n/useTranslation';
@@ -30,14 +31,26 @@ export default function LandingProductCard({
   return (
     <article className="group flex w-full flex-col gap-3 md:gap-[19px]">
       <div className="relative flex aspect-413/493 w-full items-center justify-center overflow-hidden bg-[#fafafa]">
-        <Link href={href} className="relative aspect-258/387 h-[78%] shrink-0 overflow-hidden">
-          <Image
-            src={image.src}
-            alt={image.alt}
-            fill
-            sizes="(max-width: 768px) 80vw, 258px"
-            className={`transition-transform duration-500 ease-out group-hover:scale-[1.03] ${imageClassName}`}
-          />
+        <Link
+          href={href}
+          className="relative flex aspect-258/387 h-[78%] shrink-0 items-center justify-center overflow-hidden"
+        >
+          {image.src ? (
+            <Image
+              src={image.src}
+              alt={image.alt}
+              fill
+              sizes="(max-width: 768px) 80vw, 258px"
+              className={`transition-transform duration-500 ease-out group-hover:scale-[1.03] ${imageClassName}`}
+            />
+          ) : (
+            <span className="flex flex-col items-center gap-3 text-center text-gray-500">
+              <CameraAltOutlinedIcon className="size-12" aria-hidden />
+              <span className="font-(family-name:--font-unbounded) text-xs">
+                {t.catalog.noPhoto}
+              </span>
+            </span>
+          )}
         </Link>
 
         <div className="absolute top-3 right-3 z-1 md:top-4 md:right-4">

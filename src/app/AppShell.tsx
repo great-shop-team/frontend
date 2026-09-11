@@ -3,6 +3,7 @@
 import Header from '@/widgets/Header/Header';
 import Footer from '@/widgets/Footer/Footer';
 import MainContent from '@/widgets/MainContent/MainContent';
+import ScrollToTop from '@/widgets/ScrollToTop/ScrollToTop';
 import { usePathname } from 'next/navigation';
 
 type AppShellProps = {
@@ -28,6 +29,7 @@ export default function AppShell({ children }: AppShellProps) {
         </div>
       </div>
       <Footer />
+      <ScrollToTop />
     </>
   );
 }

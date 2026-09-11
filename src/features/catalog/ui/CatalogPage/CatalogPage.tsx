@@ -14,7 +14,6 @@ import {
   parseGroupParams,
   toPartialCsvParam,
   type CatalogListingFilters,
-  type CatalogSortOption,
 } from '@/features/catalog/model/catalogFilters';
 import { useCatalogListing } from '@/features/catalog/lib/useCatalogListing';
 import { CATALOG_PAGE_SIZE } from '@/features/catalog/config/catalogPagination';
@@ -158,10 +157,6 @@ export default function CatalogPage({ category }: CatalogPageProps) {
       <div id="catalog-products" className={catalogPage.content}>
         <CatalogToolbar
           stylesCount={products.length}
-          sort={filters.sort}
-          onSortChange={(sort: CatalogSortOption) =>
-            updateParams({ sort: sort === 'featured' ? undefined : sort })
-          }
           onFilterClick={() => setIsFilterOpen(true)}
           activeFilterCount={activeFilterCount}
         />

@@ -48,7 +48,8 @@ const uk: Dictionary = {
     filter: 'фільтр',
     stylesFound: 'Знайдено {count} моделей',
     moreColours: 'Більше кольорів',
-    viewDetails: 'View details',
+    viewDetails: 'Переглянути деталі',
+    noPhoto: 'Немає фото',
     viewedProducts: 'Ви переглянули {viewed} з {total} товарів',
     loadMore: 'Завантажити ще',
     addToCart: 'Додати в кошик',
@@ -473,6 +474,7 @@ const uk: Dictionary = {
     digit: 'Цифра {number}',
     showPassword: 'Показати пароль',
     hidePassword: 'Приховати пароль',
+    backToTop: 'Нагору',
   },
   validation: {
     firstNameRequired: "Ім'я обов'язкове.",

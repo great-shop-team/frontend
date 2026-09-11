@@ -12,7 +12,6 @@ import type {
   CatalogSortOption,
 } from '@/features/catalog/model/catalogFilters';
 import type { CatalogProduct } from '@/features/catalog/model/catalogProduct';
-import { getCatalogProducts } from '@/features/catalog/lib/catalogProductsData';
 import { mapApiProductToCatalogCard } from '@/features/catalog/lib/mapApiProductToCatalogCard';
 import { useTranslation } from '@/i18n/useTranslation';
 import { useGetBrandsQuery } from '@/store/endpoints/brandsEndpoints';
@@ -115,17 +114,7 @@ export function useCatalogListing(category: CatalogScope, filters: CatalogListin
   const imagesQuery = useGetProductImagesQuery();
   const currenciesQuery = useGetCurrenciesQuery();
 
-  const isLoading =
-    productsQuery.isLoading ||
-    brandsQuery.isLoading ||
-    categoriesQuery.isLoading ||
-    subcategoriesQuery.isLoading ||
-    colorsQuery.isLoading ||
-    sizesQuery.isLoading ||
-    variantsQuery.isLoading ||
-    imagesQuery.isLoading ||
-    currenciesQuery.isLoading;
-
+  const isLoading = productsQuery.isLoading || productsQuery.isUninitialized;
   const isError = Boolean(productsQuery.isError);
 
   const facetData = useMemo(() => {
@@ -197,6 +186,9 @@ export function useCatalogListing(category: CatalogScope, filters: CatalogListin
     const categoryIdBySlug = new Map(
       (categoriesQuery.data ?? []).map((item) => [item.slug, item.id]),
     );
+    const categorySlugById = new Map(
+      (categoriesQuery.data ?? []).map((item) => [item.id, item.slug]),
+    );
     const variants = variantsQuery.data ?? [];
     const images = imagesQuery.data ?? [];
     const currencies = currenciesQuery.data ?? [];
@@ -205,15 +197,19 @@ export function useCatalogListing(category: CatalogScope, filters: CatalogListin
       .filter((product) => {
         if (category === 'all') return true;
 
-        const subcategory = subcategoryById.get(product.subcategory);
-        const productVariants = variants.filter((variant) => variant.product === product.id);
+        const subcategory = subcategoryById.get(Number(product.subcategory));
+        const productVariants = variants.filter(
+          (variant) => Number(variant.product) === Number(product.id),
+        );
         const genders = productVariants.map((variant) => variant.gender);
 
         return matchesRouteCategory(category, product.name, subcategory, categoryIdBySlug, genders);
       })
       .map((product) => {
-        const subcategory = subcategoryById.get(product.subcategory);
-        const productVariants = variants.filter((variant) => variant.product === product.id);
+        const subcategory = subcategoryById.get(Number(product.subcategory));
+        const productVariants = variants.filter(
+          (variant) => Number(variant.product) === Number(product.id),
+        );
         const genders = productVariants.map((variant) => variant.gender);
         const cardCategory =
           category === 'all'
@@ -242,14 +238,6 @@ export function useCatalogListing(category: CatalogScope, filters: CatalogListin
         });
       });
 
-    const source =
-      mapped.length > 0
-        ? mapped
-        : getCatalogProducts(category, locale, {
-            subcategory: filters.subcategory,
-            type: filters.type,
-          });
-
     const brandFilters = new Set(filters.brand ?? []);
     const colorFilters = new Set(filters.color ?? []);
     const sizeFilters = new Set(filters.size ?? []);
@@ -257,7 +245,7 @@ export function useCatalogListing(category: CatalogScope, filters: CatalogListin
     const genderFilters = new Set(filters.gender ?? []);
     const groupFilters = new Set(filters.group ?? []);
 
-    const filtered = source.filter((product) => {
+    const filtered = mapped.filter((product) => {
       if (filters.q) {
         const needle = filters.q.toLowerCase();
         const haystack = [product.title, product.description, product.brandName]
@@ -270,10 +258,17 @@ export function useCatalogListing(category: CatalogScope, filters: CatalogListin
       if (subcategoryFilters.size > 0) {
         const slug = product.subcategory;
         const id = product.subcategoryId != null ? String(product.subcategoryId) : undefined;
-        if (!slug && !id) return false;
-        if (!(slug && subcategoryFilters.has(slug)) && !(id && subcategoryFilters.has(id))) {
-          return false;
-        }
+        const parentSlug =
+          product.subcategoryId != null
+            ? categorySlugById.get(
+                subcategoryById.get(Number(product.subcategoryId))?.category ?? -1,
+              )
+            : undefined;
+        const hit =
+          (slug && subcategoryFilters.has(slug)) ||
+          (id && subcategoryFilters.has(id)) ||
+          (parentSlug && subcategoryFilters.has(parentSlug));
+        if (!hit) return false;
       }
       if (filters.type && product.type !== filters.type) return false;
 

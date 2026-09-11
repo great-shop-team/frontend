@@ -1,16 +1,12 @@
 import { api } from '../api';
+import { unwrapList } from '../api/unwrapList';
 import type { Brand, BrandCreateInput, BrandUpdateInput } from '../types';
 
 const brandsEndpoints = api.injectEndpoints({
   endpoints: (builder) => ({
     getBrands: builder.query<Brand[], void>({
       query: () => '/api/brands/',
-      transformResponse: (response: unknown) =>
-        Array.isArray(response)
-          ? response
-          : Array.isArray((response as { results?: unknown }).results)
-            ? ((response as { results: Brand[] }).results)
-            : [],
+      transformResponse: (response: unknown) => unwrapList<Brand>(response),
     }),
     getBrandById: builder.query<Brand, number>({
       query: (id) => `/api/brands/${id}/`,

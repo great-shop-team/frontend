@@ -1,5 +1,4 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { toApiProductId } from '@/features/wishlist/lib/favorites';
 import type { WishlistItem } from '@/store/types';
 import { logout } from '@/store/slices/userSlice';
 
@@ -11,20 +10,26 @@ const initialState: WishlistState = {
   items: [],
 };
 
+function sameItem(left: WishlistItem, right: WishlistItem) {
+  if (left.productId && right.productId && left.productId === right.productId) return true;
+  if (left.variantId && right.variantId && left.variantId === right.variantId) return true;
+  return false;
+}
+
 export const wishlistSlice = createSlice({
   name: 'wishlist',
   initialState,
   reducers: {
     addToWishlist(state, action: PayloadAction<WishlistItem>) {
-      const exists = state.items.some((item) => item.productId === action.payload.productId);
+      const exists = state.items.some((item) => sameItem(item, action.payload));
       if (!exists) {
         state.items.push(action.payload);
       }
     },
     upsertWishlistItem(state, action: PayloadAction<WishlistItem>) {
-      const index = state.items.findIndex((item) => item.productId === action.payload.productId);
+      const index = state.items.findIndex((item) => sameItem(item, action.payload));
       if (index >= 0) {
-        state.items[index] = action.payload;
+        state.items[index] = { ...state.items[index], ...action.payload };
         return;
       }
       state.items.push(action.payload);
@@ -32,13 +37,17 @@ export const wishlistSlice = createSlice({
     removeFromWishlist(state, action: PayloadAction<string>) {
       state.items = state.items.filter((item) => item.productId !== action.payload);
     },
+    mergeRemoteWishlist(state, action: PayloadAction<WishlistItem[]>) {
+      const remote = action.payload.filter((item) => item.productId || item.variantId);
+      const pendingLocal = state.items.filter(
+        (item) =>
+          !item.favoriteId &&
+          !remote.some((remoteItem) => sameItem(item, remoteItem)),
+      );
+      state.items = [...remote, ...pendingLocal];
+    },
     setWishlist(state, action: PayloadAction<WishlistItem[]>) {
-      const localOnly = state.items.filter((item) => toApiProductId(item.productId) == null);
-      const remoteIds = new Set(action.payload.map((item) => item.productId));
-      state.items = [
-        ...action.payload,
-        ...localOnly.filter((item) => !remoteIds.has(item.productId)),
-      ];
+      state.items = action.payload;
     },
     clearWishlist(state) {
       state.items = [];
@@ -55,6 +64,7 @@ export const {
   addToWishlist,
   upsertWishlistItem,
   removeFromWishlist,
+  mergeRemoteWishlist,
   setWishlist,
   clearWishlist,
 } = wishlistSlice.actions;

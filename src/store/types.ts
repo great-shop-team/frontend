@@ -177,19 +177,21 @@ export interface CartItem {
 export interface WishlistItem {
   productId: string;
   favoriteId?: number;
+  variantId?: number;
 }
 
 export interface Favorite {
   id: number;
+  variantId: number;
   productId: string;
 }
 
 export type FavoriteCreateInput = {
-  product: number;
+  product_variant: number;
 };
 
 export type FavoriteUpdateInput = {
-  product?: number;
+  product_variant?: number;
 };
 
 /** Raw product from GET /api/products/ */

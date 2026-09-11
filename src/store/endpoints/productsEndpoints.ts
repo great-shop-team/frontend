@@ -1,5 +1,6 @@
 import { api } from '../api';
 import { normalizeProduct } from '../api/mappers/products.mapper';
+import { unwrapList } from '../api/unwrapList';
 import type { ApiProduct, ProductCardData } from '../types';
 
 function isNumericProductId(value: string) {
@@ -10,13 +11,8 @@ export const productsEndpoints = api.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query<ProductCardData[], void>({
       query: () => '/api/products/',
-      transformResponse: (response: unknown) => {
-        if (!Array.isArray(response)) {
-          return [];
-        }
-
-        return response.map((item, index) => normalizeProduct(item, index + 1));
-      },
+      transformResponse: (response: unknown) =>
+        unwrapList(response).map((item, index) => normalizeProduct(item, index + 1)),
       providesTags: ['Product'],
     }),
     getProductById: builder.query<ProductCardData, number>({
@@ -34,12 +30,7 @@ export const productsEndpoints = api.injectEndpoints({
      */
     getProductsRaw: builder.query<ApiProduct[], void>({
       query: () => '/api/products/',
-      transformResponse: (response: unknown) =>
-        Array.isArray(response)
-          ? response
-          : Array.isArray((response as { results?: unknown }).results)
-            ? (response as { results: ApiProduct[] }).results
-            : [],
+      transformResponse: (response: unknown) => unwrapList<ApiProduct>(response),
       providesTags: ['Product'],
     }),
     /**
@@ -54,7 +45,7 @@ export const productsEndpoints = api.injectEndpoints({
           return { error: result.error };
         }
 
-        const data = Array.isArray(result.data) ? (result.data as ApiProduct[]) : [];
+        const data = unwrapList<ApiProduct>(result.data);
         const numericId = Number(slugOrId);
         const product =
           data.find((item) => item.slug === slugOrId) ??
@@ -85,7 +76,7 @@ export const productsEndpoints = api.injectEndpoints({
           return { error: listResult.error };
         }
 
-        const products = Array.isArray(listResult.data) ? (listResult.data as ApiProduct[]) : [];
+        const products = unwrapList<ApiProduct>(listResult.data);
         const matchedProduct = products.find((item) => item.slug === slugOrId) ?? null;
 
         if (!matchedProduct) {
@@ -105,6 +96,7 @@ export const productsEndpoints = api.injectEndpoints({
       ],
     }),
   }),
+  overrideExisting: process.env.NODE_ENV !== 'production',
 });
 
 export const {

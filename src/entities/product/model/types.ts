@@ -15,7 +15,7 @@ export type ProductOptions = {
   sizes: string[];
 };
 
-/** Canonical product shape (matches API / mock JSON). */
+/** Canonical product shape. */
 export type Product = {
   id: string;
   slug: string;

@@ -73,17 +73,10 @@ function AccordionIcon({ open }: { open: boolean }) {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="size-7 shrink-0"
+      className={`size-5 shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
       aria-hidden
     >
-      {open ? (
-        <path strokeLinecap="round" d="M5 12h14" />
-      ) : (
-        <>
-          <path strokeLinecap="round" d="M12 5v14" />
-          <path strokeLinecap="round" d="M5 12h14" />
-        </>
-      )}
+      <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
     </svg>
   );
 }
@@ -241,7 +234,7 @@ export default function CatalogFilterPanel({
   };
 
   const clearAll = () => {
-    setDraft({
+    const next: FilterDraft = {
       sort: 'featured',
       gender: [...CATALOG_GENDER_FILTERS],
       subcategory: subcategoryIds,
@@ -249,7 +242,9 @@ export default function CatalogFilterPanel({
       size: sizeIds,
       color: colorIds,
       brand: brandIds,
-    });
+    };
+    setDraft(next);
+    onApply(next);
   };
 
   const sortOptions: Array<{ value: CatalogSortOption; label: string }> = [

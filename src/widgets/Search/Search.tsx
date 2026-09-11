@@ -33,14 +33,14 @@ function highlightMatch(text: string, query: string) {
 }
 
 export default function Search({ onOpen }: SearchProps) {
-  const { t, locale } = useTranslation();
+  const { t } = useTranslation();
   const router = useRouter();
   const pathname = usePathname();
   const titleId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
-  const { hits } = useSearchSuggestions(query, locale, isOpen);
+  const { hits } = useSearchSuggestions(query, isOpen);
 
   const close = useCallback(() => {
     setIsOpen(false);

@@ -47,6 +47,7 @@ const en = {
     stylesFound: '{count} styles found',
     moreColours: 'More colours',
     viewDetails: 'View details',
+    noPhoto: 'No photo',
     viewedProducts: "You've viewed {viewed} of {total} products",
     loadMore: 'Load More',
     addToCart: 'Add to cart',
@@ -469,6 +470,7 @@ const en = {
     digit: 'Digit {number}',
     showPassword: 'Show password',
     hidePassword: 'Hide password',
+    backToTop: 'Back to top',
   },
   validation: {
     firstNameRequired: 'First name is required.',
