@@ -21,7 +21,16 @@ import type {
   Subcategory,
 } from '@/store/types';
 
-const PLACEHOLDER_IMAGE = '/images/product1.png';
+const PLACEHOLDER_IMAGES = {
+  en: {
+    src: '/images/catalog/photo-placeholder-en.svg',
+    alt: 'No photo',
+  },
+  uk: {
+    src: '/images/catalog/photo-placeholder-uk.svg',
+    alt: 'Немає фото',
+  },
+} as const;
 
 type MapApiProductArgs = {
   product: ApiProduct;
@@ -56,14 +65,15 @@ export function mapApiProductToCatalogCard({
   );
   const variantIds = new Set(productVariants.map((variant) => Number(variant.id)));
 
-  const productImages = images.filter((image) =>
-    variantIds.has(Number(image.product_variant)),
-  );
+  const productImages = images.filter((image) => variantIds.has(Number(image.product_variant)));
 
   const lowestPrice = resolveVariantPrice({ variants: productVariants, currencies });
   const subcategory = subcategoryById.get(Number(product.subcategory));
   const brand = brandById.get(Number(product.brand));
-  const imageSrc = pickMainImageUrl(productImages) ?? PLACEHOLDER_IMAGE;
+  const mainImageUrl = pickMainImageUrl(productImages);
+  const image = mainImageUrl
+    ? { src: mainImageUrl, alt: product.name }
+    : PLACEHOLDER_IMAGES[locale];
 
   const uniqueSizes = [
     ...new Set(
@@ -96,10 +106,7 @@ export function mapApiProductToCatalogCard({
     title: product.name,
     description: product.description,
     price: lowestPrice ? formatCatalogPrice(lowestPrice.amount, lowestPrice.currency, locale) : '—',
-    image: {
-      src: imageSrc,
-      alt: product.name,
-    },
+    image,
     sizes: uniqueSizes.length > 0 ? uniqueSizes : undefined,
     colors: uniqueColors.length > 0 ? uniqueColors : undefined,
     inStock,
