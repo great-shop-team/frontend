@@ -47,7 +47,6 @@ const en = {
     stylesFound: '{count} styles found',
     moreColours: 'More colours',
     viewDetails: 'View details',
-    noPhoto: 'No photo',
     viewedProducts: "You've viewed {viewed} of {total} products",
     loadMore: 'Load More',
     addToCart: 'Add to cart',

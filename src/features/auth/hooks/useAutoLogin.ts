@@ -7,6 +7,7 @@ import { clearPendingAuth } from '@/features/auth/lib/pendingAuth';
 import { normalizeEmail } from '@/features/auth/lib/normalizeEmail';
 import { saveUserEmail } from '@/features/auth/lib/userInitials';
 import { logTokenExpirations } from '@/features/auth/lib/jwtExpiration';
+import { useSyncGuestFavorites } from '@/features/wishlist/hooks/useSyncGuestFavorites';
 import { useLazyGetCurrentUserQuery, useLoginMutation } from '@/store/endpoints/authEndpoints';
 import { setAuthEmail, setToken } from '@/store/slices/userSlice';
 
@@ -23,6 +24,7 @@ export function useAutoLogin() {
   const dispatch = useDispatch();
   const [login] = useLoginMutation();
   const [fetchCurrentUser] = useLazyGetCurrentUserQuery();
+  const syncGuestFavorites = useSyncGuestFavorites();
 
   const autoLogin = useCallback(
     async (email: string, password: string) => {
@@ -46,6 +48,7 @@ export function useAutoLogin() {
           dispatch(setToken(result.access));
           dispatch(setAuthEmail(normalizedEmail));
           await fetchCurrentUser();
+          await syncGuestFavorites();
           clearPendingAuth();
           return;
         } catch (error) {
@@ -55,7 +58,7 @@ export function useAutoLogin() {
 
       throw lastError;
     },
-    [dispatch, login, fetchCurrentUser],
+    [dispatch, login, fetchCurrentUser, syncGuestFavorites],
   );
 
   return autoLogin;

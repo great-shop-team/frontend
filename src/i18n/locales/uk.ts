@@ -49,7 +49,6 @@ const uk: Dictionary = {
     stylesFound: 'Знайдено {count} моделей',
     moreColours: 'Більше кольорів',
     viewDetails: 'Переглянути деталі',
-    noPhoto: 'Немає фото',
     viewedProducts: 'Ви переглянули {viewed} з {total} товарів',
     loadMore: 'Завантажити ще',
     addToCart: 'Додати в кошик',

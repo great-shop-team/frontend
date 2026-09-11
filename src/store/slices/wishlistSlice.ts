@@ -39,12 +39,10 @@ export const wishlistSlice = createSlice({
     },
     mergeRemoteWishlist(state, action: PayloadAction<WishlistItem[]>) {
       const remote = action.payload.filter((item) => item.productId || item.variantId);
-      const pendingLocal = state.items.filter(
-        (item) =>
-          !item.favoriteId &&
-          !remote.some((remoteItem) => sameItem(item, remoteItem)),
+      const localOnly = state.items.filter(
+        (item) => !remote.some((remoteItem) => sameItem(item, remoteItem)),
       );
-      state.items = [...remote, ...pendingLocal];
+      state.items = [...remote, ...localOnly];
     },
     setWishlist(state, action: PayloadAction<WishlistItem[]>) {
       state.items = action.payload;

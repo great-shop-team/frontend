@@ -36,7 +36,7 @@ export const favoritesEndpoints = api.injectEndpoints({
         },
       async onQueryStarted({ product_variant }, { dispatch, queryFulfilled }) {
         const patch = dispatch(
-          favoritesEndpoints.util.updateQueryData('getFavorites', undefined, (draft) => {
+          api.util.updateQueryData('getFavorites', undefined, (draft) => {
             if (draft.some((item) => item.variantId === product_variant)) return;
             draft.push({ id: -product_variant, variantId: product_variant, productId: '' });
           }),
@@ -45,7 +45,7 @@ export const favoritesEndpoints = api.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           dispatch(
-            favoritesEndpoints.util.updateQueryData('getFavorites', undefined, (draft) => {
+            api.util.updateQueryData('getFavorites', undefined, (draft) => {
               const index = draft.findIndex(
                 (item) => item.variantId === data.variantId || item.id === data.id,
               );
@@ -101,7 +101,7 @@ export const favoritesEndpoints = api.injectEndpoints({
       query: (id) => ({ url: `/api/favorites/${id}/`, method: 'DELETE' }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         const patch = dispatch(
-          favoritesEndpoints.util.updateQueryData('getFavorites', undefined, (draft) => {
+          api.util.updateQueryData('getFavorites', undefined, (draft) => {
             const index = draft.findIndex((item) => item.id === id);
             if (index >= 0) draft.splice(index, 1);
           }),
@@ -120,6 +120,7 @@ export const favoritesEndpoints = api.injectEndpoints({
 
 export const {
   useGetFavoritesQuery,
+  useLazyGetFavoritesQuery,
   useGetFavoriteByIdQuery,
   useCreateFavoriteMutation,
   useUpdateFavoriteMutation,

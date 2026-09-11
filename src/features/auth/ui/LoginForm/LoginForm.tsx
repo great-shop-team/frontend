@@ -14,6 +14,7 @@ import { logTokenExpirations } from '@/features/auth/lib/jwtExpiration';
 import { useTranslation } from '@/i18n/useTranslation';
 import { useLazyGetCurrentUserQuery, useLoginMutation } from '@/store/endpoints/authEndpoints';
 import { setAuthEmail, setToken } from '@/store/slices/userSlice';
+import { useSyncGuestFavorites } from '@/features/wishlist/hooks/useSyncGuestFavorites';
 
 import facebookLogo from '../../../../../public/icons/FacebookLogo.svg';
 import appleLogo from '../../../../../public/icons/AppleLogo.svg';
@@ -44,6 +45,7 @@ export default function LoginForm({
   const [isChecked, setIsChecked] = useState(false);
   const [login, { isLoading }] = useLoginMutation();
   const [fetchCurrentUser] = useLazyGetCurrentUserQuery();
+  const syncGuestFavorites = useSyncGuestFavorites();
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -70,6 +72,7 @@ export default function LoginForm({
       dispatch(setToken(result.access));
       dispatch(setAuthEmail(normalizedEmail));
       await fetchCurrentUser();
+      await syncGuestFavorites();
       onSuccess?.();
       router.push('/profile');
     } catch (error: unknown) {

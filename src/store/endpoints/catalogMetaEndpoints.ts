@@ -38,6 +38,7 @@ export const {
   useGetColorsQuery,
   useGetSizesQuery,
   useGetProductVariantsQuery,
+  useLazyGetProductVariantsQuery,
   useGetProductImagesQuery,
   useGetCurrenciesQuery,
 } = catalogMetaEndpoints;

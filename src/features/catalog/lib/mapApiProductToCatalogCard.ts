@@ -21,6 +21,8 @@ import type {
   Subcategory,
 } from '@/store/types';
 
+const PLACEHOLDER_IMAGE = '/images/product1.png';
+
 type MapApiProductArgs = {
   product: ApiProduct;
   category: CatalogListingSlug;
@@ -54,12 +56,14 @@ export function mapApiProductToCatalogCard({
   );
   const variantIds = new Set(productVariants.map((variant) => Number(variant.id)));
 
-  const productImages = images.filter((image) => variantIds.has(Number(image.product_variant)));
+  const productImages = images.filter((image) =>
+    variantIds.has(Number(image.product_variant)),
+  );
 
   const lowestPrice = resolveVariantPrice({ variants: productVariants, currencies });
   const subcategory = subcategoryById.get(Number(product.subcategory));
   const brand = brandById.get(Number(product.brand));
-  const imageSrc = pickMainImageUrl(productImages) ?? '';
+  const imageSrc = pickMainImageUrl(productImages) ?? PLACEHOLDER_IMAGE;
 
   const uniqueSizes = [
     ...new Set(
