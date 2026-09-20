@@ -454,7 +454,7 @@ const uk: Dictionary = {
     changePassword: 'Змінити пароль',
     logOut: 'Вийти',
     bonuses: 'Бонуси',
-    notifications: 'Сповіщення',
+    favorites: 'Улюблені',
     user: 'Користувач',
   },
   common: {
@@ -640,6 +640,12 @@ const uk: Dictionary = {
     delivery: 'Доставка',
     arrived: 'Прибув',
     canceled: 'Скасовано',
+  },
+  favoritesFormList: {
+    all: 'Усі',
+    women: 'Жіночі',
+    man: 'Чоловічі',
+    perfumes: 'Парфуми',
   },
   orders: {
     filtersAria: 'Фільтри статусу замовлень',

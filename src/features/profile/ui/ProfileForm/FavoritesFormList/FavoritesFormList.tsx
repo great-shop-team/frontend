@@ -1,32 +1,36 @@
-'use client';
-
 import { useTranslation } from '@/i18n/useTranslation';
-import { ReactNode, useMemo, useState } from 'react';
-import Delivery from '@/features/profile/ui/ProfileForm/OrderFormList/components/delivery/Delivery';
-import Arrived from '@/features/profile/ui/ProfileForm/OrderFormList/components/arrived/Arrived';
-import Canceled from '@/features/profile/ui/ProfileForm/OrderFormList/components/canceled/Canceled';
 import MyOrder from '@/data/MyOrders_json/MyOrderDelivery.json';
 import CancelDelivery from '@/data/MyOrders_json/CanceledDelivery.json';
 import arrived from '@/data/MyOrders_json/ArrivedOrderDelivery.json';
+import { ReactNode, useMemo, useState } from 'react';
+import AllFavorites from '@/features/profile/ui/ProfileForm/FavoritesFormList/AllFavorites/AllFavorites';
+import WomenFavorites from '@/features/profile/ui/ProfileForm/FavoritesFormList/WomenFavorites/WomenFavorites';
+import ManFavorites from '@/features/profile/ui/ProfileForm/FavoritesFormList/ManFavorites/ManFavorites';
+import PerfumesFavorites from '@/features/profile/ui/ProfileForm/FavoritesFormList/PerfumesFavorites/PerfumesFavorites';
 
-type Tab = 'delivery' | 'arrived' | 'canceled';
+type Tab = 'all' | 'women' | 'man' | 'perfumes';
 
-const OrderFormList = () => {
+const FavoritesFormList = () => {
   const { t } = useTranslation();
   const arrOrederJson = MyOrder;
   const arrOrederCancelDeliveryJson = CancelDelivery;
   const arrOrederArrivedDeliveryJson = arrived;
   const tabs = useMemo(
     () => [
-      { id: 'delivery' as Tab, label: t.orderFormList.delivery, count: arrOrederJson.length },
+      { id: 'all' as Tab, label: t.favoritesFormList.all, count: arrOrederJson.length },
       {
-        id: 'arrived' as Tab,
-        label: t.orderFormList.arrived,
+        id: 'women' as Tab,
+        label: t.favoritesFormList.women,
         count: arrOrederArrivedDeliveryJson.length,
       },
       {
-        id: 'canceled' as Tab,
-        label: t.orderFormList.canceled,
+        id: 'man' as Tab,
+        label: t.favoritesFormList.man,
+        count: arrOrederCancelDeliveryJson.length,
+      },
+      {
+        id: 'perfumes' as Tab,
+        label: t.favoritesFormList.perfumes,
         count: arrOrederCancelDeliveryJson.length,
       },
     ],
@@ -34,12 +38,13 @@ const OrderFormList = () => {
   );
 
   const tabContent: Record<Tab, ReactNode> = {
-    delivery: <Delivery />,
-    arrived: <Arrived />,
-    canceled: <Canceled />,
+    all: <AllFavorites />,
+    women: <WomenFavorites />,
+    man: <ManFavorites />,
+    perfumes: <PerfumesFavorites />,
   };
 
-  const [activeTab, setActiveTab] = useState<Tab>('delivery');
+  const [activeTab, setActiveTab] = useState<Tab>('all');
   return (
     <>
       <div className="flex min-h-[50vh] mt-10">
@@ -64,4 +69,4 @@ const OrderFormList = () => {
   );
 };
 
-export default OrderFormList;
+export default FavoritesFormList;

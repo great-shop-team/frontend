@@ -450,7 +450,7 @@ const en = {
     changePassword: 'Change password',
     logOut: 'Log out',
     bonuses: 'Bonuses',
-    notifications: 'Notifications',
+    favorites: 'Favorites',
     user: 'User',
   },
   common: {
@@ -633,6 +633,12 @@ const en = {
     delivery: 'Delivery',
     arrived: 'Arrived',
     canceled: 'Canceled',
+  },
+  favoritesFormList: {
+    all: 'All',
+    women: 'Women',
+    man: 'Man',
+    perfumes: 'Perfumes',
   },
   orders: {
     filtersAria: 'Order status filters',

@@ -1,12 +1,22 @@
 import { api } from '../api';
 import { normalizeFavorite, toFavoriteList } from '@/features/wishlist/lib/favorites';
-import type { Favorite, FavoriteCreateInput, FavoriteUpdateInput } from '../types';
+import { Favorite, FavoriteCreateInput, FavoriteUpdateInput, FavoriteUserList } from '../types';
 
 export const favoritesEndpoints = api.injectEndpoints({
   endpoints: (builder) => ({
     getFavorites: builder.query<Favorite[], void>({
       query: () => '/api/favorites/favorites-user-list/',
       transformResponse: (response: unknown) => toFavoriteList(response),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: 'Favorite' as const, id })),
+              { type: 'Favorite', id: 'LIST' },
+            ]
+          : [{ type: 'Favorite', id: 'LIST' }],
+    }),
+    getFavoritesUserList: builder.query<FavoriteUserList[], void>({
+      query: () => '/api/favorites/favorites-user-list/',
       providesTags: (result) =>
         result
           ? [
@@ -125,4 +135,6 @@ export const {
   useUpdateFavoriteMutation,
   usePatchFavoriteMutation,
   useDeleteFavoriteMutation,
+  useGetFavoritesUserListQuery,
+
 } = favoritesEndpoints;

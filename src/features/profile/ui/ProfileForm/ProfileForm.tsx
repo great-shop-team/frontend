@@ -21,8 +21,10 @@ import { selectCurrentUser } from '@/store/slices/userSlice';
 import styles from './Profile.module.scss';
 import AddressesList from '@/features/profile/ui/ProfileForm/AddressesList/AddressesList';
 import MyBonuses from '@/features/profile/ui/ProfileForm/ProfileFormList/MyBonuses/MyBonuses';
+import FavoritesFormList from '@/features/profile/ui/ProfileForm/FavoritesFormList/FavoritesFormList';
 
-type MenuId = 'profile' | 'bonuses' | 'orders' | 'addresses' | 'notifications' | 'out';
+
+type MenuId = 'profile' | 'bonuses' | 'orders' | 'addresses' | 'favorites' | 'out';
 
 const ProfileForm = () => {
   const { t } = useTranslation();
@@ -36,6 +38,7 @@ const ProfileForm = () => {
     orders: <OrderFormList />,
     addresses: <AddressesList />,
     bonuses: <MyBonuses />,
+    favorites: <FavoritesFormList />,
   };
 
   const [activeTab, setActiveTab] = useState<MenuId>('profile');
@@ -44,9 +47,9 @@ const ProfileForm = () => {
   const listMain = useMemo(
     () => [
       { id: 'profile' as MenuId, name: t.account.profile, icon: user },
-      { id: 'orders' as MenuId, name: t.account.myOrders, icon: orders },
+      { id: 'favorites' as MenuId, name: t.account.favorites, icon: bell },
       { id: 'addresses' as MenuId, name: t.account.addresses, icon: location },
-      { id: 'notifications' as MenuId, name: t.account.notifications, icon: bell },
+      { id: 'orders' as MenuId, name: t.account.myOrders, icon: orders },
       { id: 'out' as MenuId, name: t.account.logOut, icon: exit },
     ],
     [t],
