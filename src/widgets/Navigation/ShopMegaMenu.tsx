@@ -8,7 +8,7 @@ import {
   useGetSubcategoriesQuery,
 } from '@/store/endpoints/categoriesEndpoints';
 import { buildCatalogHref, catalogRoutes } from '@/features/catalog/config/catalogRoutes';
-import { isCatalogCategory } from '@/features/catalog/model/catalogCategory';
+import { isCatalogListingSlug } from '@/features/catalog/model/catalogCategory';
 
 import { headerNav } from './navigationClasses';
 import { shopMenuColumns, shopMenuTiles } from './shopMenuConfig';
@@ -48,7 +48,7 @@ export default function ShopMegaMenu() {
       key: String(subcategory.id ?? subcategory.slug),
       label: subcategory.name,
       href:
-        categorySlug && isCatalogCategory(categorySlug)
+        categorySlug && isCatalogListingSlug(categorySlug)
           ? buildCatalogHref(categorySlug, { subcategory: subcategory.slug })
           : catalogRoutes.index,
     };

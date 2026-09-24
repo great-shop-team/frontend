@@ -71,6 +71,10 @@ function matchesRouteCategory(
     );
   }
 
+  if (category === 'shoes') {
+    return subcategory?.category === categoryIdBySlug.get('shoes');
+  }
+
   const clothingId = categoryIdBySlug.get('clothing');
   const shoesId = categoryIdBySlug.get('shoes');
   const isApparel =
@@ -142,6 +146,7 @@ export function useCatalogListing(category: CatalogScope, filters: CatalogListin
         if (category === 'accessories') {
           return item.category === accessoriesId && !isFragranceSubcategory(item);
         }
+        if (category === 'shoes') return item.category === shoesId;
         return item.category === clothingId || item.category === shoesId;
       });
 

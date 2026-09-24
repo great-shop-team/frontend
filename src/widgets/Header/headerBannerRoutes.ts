@@ -6,6 +6,7 @@ const BANNER_HEADER_PATHS = [
   '/catalog/women',
   '/catalog/accessories',
   '/catalog/fragrances',
+  '/catalog/shoes',
 ] as const;
 
 export function hasBannerHeader(pathname: string) {
