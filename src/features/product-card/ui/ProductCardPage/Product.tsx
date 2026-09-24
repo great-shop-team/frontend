@@ -5,15 +5,11 @@ import ProductShowcase from '@/widgets/ProductShowcase/ProductShowcase';
 import ProductReviews from '@/widgets/ProductReviews/ProductReviews';
 import { formatMessage, useTranslation } from '@/i18n/useTranslation';
 import { useParams, usePathname, useRouter } from 'next/navigation';
-import type { CatalogProduct } from '@/features/catalog/model/catalogProduct';
 import { isCatalogListingSlug } from '@/features/catalog/model/catalogCategory';
 import ClothingProductCard from '@/features/catalog/ui/CatalogProductCard/CatalogProductCard';
 import { buildProductHref } from '@/features/catalog/lib/buildProductHref';
-import {
-  formatCatalogPrice,
-  pickMainImageUrl,
-  resolveVariantPrice,
-} from '@/features/catalog/lib/resolveVariantOffer';
+import { mapApiProductToCatalogCard } from '@/features/catalog/lib/mapApiProductToCatalogCard';
+import { resolveVariantPrice } from '@/features/catalog/lib/resolveVariantOffer';
 import {
   buildVariantColorOptions,
   buildVariantSizeOptions,
@@ -30,7 +26,7 @@ import {
 } from '@/store/endpoints/catalogMetaEndpoints';
 import {
   useGetProductDetailsBySlugOrIdQuery,
-  useGetProductsRawQuery,
+  useGetSimilarProductsQuery,
 } from '@/store/endpoints/productsEndpoints';
 import { useGetBrandByIdQuery } from '@/store/endpoints/brandsEndpoints';
 import {
@@ -107,12 +103,18 @@ export default function Product() {
     isLoading: isProductLoading,
     isFetching: isProductFetching,
     isUninitialized: isProductUninitialized,
+    refetch: refetchProduct,
   } = useGetProductDetailsBySlugOrIdQuery(slugOrId, {
     skip: !slugOrId,
+    refetchOnMountOrArgChange: true,
   });
-  const { data: productsRaw = [] } = useGetProductsRawQuery(undefined, {
-    skip: !product,
-  });
+  const { data: similarRaw } = useGetSimilarProductsQuery(
+    {
+      productId: Number(product?.id),
+      subcategoryId: Number(product?.subcategory),
+    },
+    { skip: !product },
+  );
   const {
     data: variantsRaw = [],
     isLoading: isVariantsLoading,
@@ -240,47 +242,49 @@ export default function Product() {
   );
 
   const relatedProducts = useMemo(() => {
-    if (!product) return [];
+    if (!product || !similarRaw) return [];
 
-    const sameSubcategoryProducts = productsRaw.filter(
-      (item) => item.id !== product.id && item.subcategory === product.subcategory,
+    const routeCategory = pathname?.split('/')[2] ?? 'women';
+    const cardCategory = isCatalogListingSlug(routeCategory) ? routeCategory : 'women';
+    const currentGenders = new Set(
+      similarRaw.variants
+        .filter((variant) => Number(variant.product) === Number(product.id) && variant.is_active)
+        .map((variant) => variant.gender),
     );
-    const fallbackProducts = productsRaw.filter(
-      (item) =>
-        item.id !== product.id &&
-        !sameSubcategoryProducts.some((candidate) => candidate.id === item.id),
-    );
 
-    return [...sameSubcategoryProducts, ...fallbackProducts]
-      .slice(0, 3)
-      .map((item): CatalogProduct => {
-        const itemVariants = variantsRaw.filter(
-          (variant) => Number(variant.product) === Number(item.id) && variant.is_active,
-        );
-        const itemVariantIds = new Set(itemVariants.map((variant) => Number(variant.id)));
-        const itemImages = imagesRaw.filter((image) =>
-          itemVariantIds.has(Number(image.product_variant)),
-        );
-        const itemPrice = resolveVariantPrice({
-          variants: itemVariants,
-          currencies: currenciesRaw,
-        });
+    const ranked = [...similarRaw.products].sort((left, right) => {
+      const score = (itemId: number) => {
+        if (currentGenders.size === 0) return 0;
+        const genders = similarRaw.variants
+          .filter((variant) => Number(variant.product) === itemId && variant.is_active)
+          .map((variant) => variant.gender);
+        return genders.some((gender) => currentGenders.has(gender)) ? 0 : 1;
+      };
 
-        return {
-          id: String(item.id),
-          title: item.name,
-          price: itemPrice ? formatCatalogPrice(itemPrice.amount, itemPrice.currency, locale) : '—',
-          image: {
-            src: pickMainImageUrl(itemImages) ?? '',
-            alt: item.name,
-          },
-          href: pathname ? buildProductHref(pathname.split('/')[2] ?? 'catalog', item) : '',
-          slug: item.slug,
-          description: item.description ?? '',
-        };
-      })
-      .filter((item) => item.image.src);
-  }, [currenciesRaw, imagesRaw, locale, pathname, product, productsRaw, variantsRaw]);
+      return score(Number(left.id)) - score(Number(right.id));
+    });
+
+    return ranked.slice(0, 3).map((item) => {
+      const card = mapApiProductToCatalogCard({
+        product: item,
+        category: cardCategory,
+        locale,
+        brandById: new Map(),
+        subcategoryById: new Map(),
+        variants: similarRaw.variants,
+        colorsById: new Map(),
+        sizesById: new Map(),
+        images: similarRaw.images,
+        currencies: currenciesRaw,
+        categoryIdBySlug: new Map(),
+      });
+
+      return {
+        ...card,
+        href: buildProductHref(routeCategory, item),
+      };
+    });
+  }, [currenciesRaw, locale, pathname, product, similarRaw]);
 
   const breadcrumbs = useMemo(() => {
     if (!product || !pathname) {
@@ -312,7 +316,14 @@ export default function Product() {
       // queryFn повернув null, бо slug не знайдено (це НЕ помилка RTK Query)
       (!isProductError && product === null));
 
-  const hasTriggeredNotFoundRedirect = useRef(false);
+  const redirectedSlug = useRef<string | null>(null);
+  const [trackedSlug, setTrackedSlug] = useState(slugOrId);
+  const [productRetryCount, setProductRetryCount] = useState(0);
+
+  if (trackedSlug !== slugOrId) {
+    setTrackedSlug(slugOrId);
+    setProductRetryCount(0);
+  }
 
   useEffect(() => {
     if (!product?.slug || !pathname || !slugOrId) return;
@@ -327,14 +338,25 @@ export default function Product() {
   }, [pathname, product, router, slugOrId]);
 
   useEffect(() => {
-    if (!shouldRedirectToNotFound) return;
-    if (hasTriggeredNotFoundRedirect.current) return;
-    hasTriggeredNotFoundRedirect.current = true;
+    if (!isProductError || !slugOrId || productRetryCount >= 2) return;
+
+    const timer = window.setTimeout(() => {
+      setProductRetryCount((count) => count + 1);
+      refetchProduct();
+    }, 400);
+
+    return () => window.clearTimeout(timer);
+  }, [isProductError, productRetryCount, refetchProduct, slugOrId]);
+
+  useEffect(() => {
+    if (!shouldRedirectToNotFound || !slugOrId) return;
+    if (redirectedSlug.current === slugOrId) return;
+    redirectedSlug.current = slugOrId;
 
     // Робимо "жорсткий" редирект, щоб гарантовано відкривалась готова сторінка `/404`,
     // а не залишався порожній стан на URL товару.
     window.location.replace('/404');
-  }, [shouldRedirectToNotFound]);
+  }, [shouldRedirectToNotFound, slugOrId]);
 
   if (isPending) {
     return <div>{t.common.loading}</div>;
@@ -346,7 +368,19 @@ export default function Product() {
   }
 
   if (isProductError) {
-    return null;
+    if (productRetryCount < 2) {
+      return <div>{t.common.loading}</div>;
+    }
+
+    return (
+      <button
+        type="button"
+        className="mx-auto block cursor-pointer border-0 bg-transparent py-16 text-center text-dark/70"
+        onClick={() => refetchProduct()}
+      >
+        {t.catalog.loadError}
+      </button>
+    );
   }
 
   const isMetaPending =
@@ -394,17 +428,19 @@ export default function Product() {
 
       <ProductReviews />
 
-      <div className="mb-16">
-        <h2 className="mb-6 text-[24px] font-normal md:mb-8 md:text-[36px]">
-          {t.product.youMayAlsoLike}
-        </h2>
+      {relatedProducts.length > 0 ? (
+        <div className="mb-16">
+          <h2 className="mb-6 text-[24px] font-normal md:mb-8 md:text-[36px]">
+            {t.product.youMayAlsoLike}
+          </h2>
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
-          {relatedProducts.map((item, key) => (
-            <ClothingProductCard key={key} product={item as CatalogProduct} />
-          ))}
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
+            {relatedProducts.map((item) => (
+              <ClothingProductCard key={item.id} product={item} />
+            ))}
+          </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 }
