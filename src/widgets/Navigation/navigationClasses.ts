@@ -16,7 +16,7 @@ export const headerNav = {
   shopTypeLink:
     'block w-full text-sm font-normal text-dark transition-colors hover:text-dark/70 hover:opacity-60 cursor-pointer',
   shopColumnLink:
-    'inline-flex items-center pb-0.5 transition-[border-color] duration-300 ease-in-out hover:opacity-60 cursor-pointer',
+    'inline-flex items-center pb-0.5 text-dark transition-[border-color] duration-300 ease-in-out hover:opacity-60 cursor-pointer',
   shopTiles: 'flex justify-end gap-4',
   shopTile:
     'relative flex h-[280px] w-[200px] items-end overflow-hidden rounded-sm p-4 text-sm font-medium transition-opacity hover:opacity-90',

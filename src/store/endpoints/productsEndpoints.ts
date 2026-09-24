@@ -1,7 +1,13 @@
 import { api } from '../api';
 import { normalizeProduct } from '../api/mappers/products.mapper';
 import { unwrapList } from '../api/unwrapList';
-import type { ApiProduct, ProductCardData } from '../types';
+import type { ApiProduct, ProductCardData, ProductImageRecord, ProductVariant } from '../types';
+
+export type SimilarProductsPayload = {
+  products: ApiProduct[];
+  variants: ProductVariant[];
+  images: ProductImageRecord[];
+};
 
 function isNumericProductId(value: string) {
   return /^\d+$/.test(value);
@@ -39,7 +45,7 @@ export const productsEndpoints = api.injectEndpoints({
      */
     getProductBySlug: builder.query<ApiProduct | null, string>({
       async queryFn(slugOrId, _api, _extraOptions, baseQuery) {
-        const result = await baseQuery('/api/products/');
+        const result = await baseQuery('/api/products/?limit=500');
 
         if (result.error) {
           return { error: result.error };
@@ -70,14 +76,22 @@ export const productsEndpoints = api.injectEndpoints({
           return { data: (productResult.data as ApiProduct) ?? null };
         }
 
-        const listResult = await baseQuery('/api/products/');
+        let matchedProduct: ApiProduct | null = null;
+        let offset = 0;
 
-        if (listResult.error) {
-          return { error: listResult.error };
+        while (!matchedProduct && offset < 1000) {
+          const listResult = await baseQuery(`/api/products/?limit=100&offset=${offset}`);
+
+          if (listResult.error) {
+            if (offset === 0) return { error: listResult.error };
+            break;
+          }
+
+          const products = unwrapList<ApiProduct>(listResult.data);
+          matchedProduct = products.find((item) => item.slug === slugOrId) ?? null;
+          if (products.length < 100) break;
+          offset += products.length;
         }
-
-        const products = unwrapList<ApiProduct>(listResult.data);
-        const matchedProduct = products.find((item) => item.slug === slugOrId) ?? null;
 
         if (!matchedProduct) {
           return { data: null };
@@ -95,6 +109,57 @@ export const productsEndpoints = api.injectEndpoints({
         { type: 'Product', id: `product-details-${slugOrId}` },
       ],
     }),
+    /**
+     * Products from the same subcategory, plus the variants and images needed to render them.
+     */
+    getSimilarProducts: builder.query<
+      SimilarProductsPayload,
+      { productId: number; subcategoryId: number }
+    >({
+      async queryFn({ productId, subcategoryId }, _api, _extraOptions, baseQuery) {
+        const productsResult = await baseQuery(
+          `/api/products/?subcategory=${subcategoryId}&limit=24`,
+        );
+
+        if (productsResult.error) {
+          return { error: productsResult.error };
+        }
+
+        const products = unwrapList<ApiProduct>(productsResult.data).filter(
+          (item) =>
+            Number(item.id) !== Number(productId) && item.is_active !== false && !item.is_hidden,
+        );
+
+        try {
+          const [variantsResult, imagesResult] = await Promise.all([
+            baseQuery('/api/product-variants/?limit=2500'),
+            baseQuery('/api/product-images/?limit=50'),
+          ]);
+
+          const watchedIds = new Set(products.map((item) => Number(item.id)));
+          watchedIds.add(Number(productId));
+
+          return {
+            data: {
+              products,
+              variants: variantsResult.error
+                ? []
+                : unwrapList<ProductVariant>(variantsResult.data).filter((variant) =>
+                    watchedIds.has(Number(variant.product)),
+                  ),
+              images: imagesResult.error
+                ? []
+                : unwrapList<ProductImageRecord>(imagesResult.data),
+            },
+          };
+        } catch {
+          return { data: { products, variants: [], images: [] } };
+        }
+      },
+      providesTags: (_result, _error, arg) => [
+        { type: 'Product', id: `similar-${arg.productId}` },
+      ],
+    }),
   }),
   overrideExisting: process.env.NODE_ENV !== 'production',
 });
@@ -106,4 +171,5 @@ export const {
   useGetProductsRawQuery,
   useGetProductBySlugQuery,
   useGetProductDetailsBySlugOrIdQuery,
+  useGetSimilarProductsQuery,
 } = productsEndpoints;

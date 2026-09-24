@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 
 import { useTranslation } from '@/i18n/useTranslation';
@@ -16,14 +17,26 @@ import { shopMenuColumns, shopMenuTiles } from './shopMenuConfig';
 export default function ShopMegaMenu() {
   const { t } = useTranslation();
   const menu = t.nav.shopMenu;
-  const { data: categories } = useGetCategoriesQuery();
+  const {
+    data: categories,
+    isError: isCategoriesError,
+    refetch: refetchCategories,
+  } = useGetCategoriesQuery(undefined, { refetchOnMountOrArgChange: true });
   const { data: subcategories } = useGetSubcategoriesQuery();
 
   const categoriesList = Array.isArray(categories) ? categories : [];
   const subcategoriesList = Array.isArray(subcategories) ? subcategories : [];
 
+  const didRetryCategories = useRef(false);
+
+  useEffect(() => {
+    if (!isCategoriesError || categoriesList.length > 0 || didRetryCategories.current) return;
+    didRetryCategories.current = true;
+    refetchCategories();
+  }, [categoriesList.length, isCategoriesError, refetchCategories]);
+
   const categoryLinks = categoriesList
-    .filter((category) => category.is_active && !category.is_hidden)
+    .filter((category) => category.is_active !== false && !category.is_hidden)
     .slice(0, 10)
     .map((category) => ({
       key: String(category.id ?? category.slug),
