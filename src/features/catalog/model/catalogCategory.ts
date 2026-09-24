@@ -1,5 +1,5 @@
 export const CATALOG_CATEGORY_SLUGS = ['men', 'women', 'accessories'] as const;
-export const CATALOG_LISTING_SLUGS = ['men', 'women', 'accessories', 'fragrances'] as const;
+export const CATALOG_LISTING_SLUGS = ['men', 'women', 'accessories', 'fragrances', 'shoes'] as const;
 
 export type CatalogCategory = (typeof CATALOG_CATEGORY_SLUGS)[number];
 export type CatalogListingSlug = (typeof CATALOG_LISTING_SLUGS)[number];

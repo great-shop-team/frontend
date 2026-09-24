@@ -10,7 +10,7 @@ import { useTranslation } from '@/i18n/useTranslation';
 import { getHeaderActionClass } from '@/widgets/Header/headerActionClasses';
 import { useSearchSuggestions } from '@/widgets/Search/useSearchSuggestions';
 
-const CATALOG_CATEGORY_PATH = /^\/catalog\/(women|men|accessories|fragrances)/;
+const CATALOG_CATEGORY_PATH = /^\/catalog\/(women|men|accessories|fragrances|shoes)/;
 
 type SearchProps = {
   onOpen?: () => void;

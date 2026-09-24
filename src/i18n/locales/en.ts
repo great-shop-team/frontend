@@ -127,6 +127,14 @@ const en = {
         bannerDescription:
           'Fragrances that speak in emotion, not words. Each fragrance is a journey — crafted with rare ingredients and timeless artistry — created to awaken your senses and tell your story without saying a single word.',
       },
+      shoes: {
+        navLabel: 'Shoes',
+        title: 'Shoes',
+        bannerImageAlt: 'Shoes catalog banner',
+        bannerTitle: 'Find Your Next Favorite Pair',
+        bannerDescription:
+          'Step into styles made for every step. Timeless with every moment, and new favorites designed to move with you.',
+      },
     },
   },
   landing: {
