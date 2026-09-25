@@ -179,6 +179,9 @@ export interface CartItem {
   currency: string;
   imageSrc: string;
   imageAlt: string;
+  sku?: string;
+  color?: string;
+  size?: string;
 }
 
 export interface WishlistItem {

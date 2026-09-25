@@ -415,6 +415,9 @@ export default function ProductShowcase({
                 const numericProductId = Number(productId);
                 if (!Number.isFinite(numericProductId)) return;
 
+                const sizeLabel = sizes.find((item) => item.id === selectedSizeId)?.name ?? '';
+                const colorLabel = colors.find((item) => item.id === selectedColorId)?.name ?? '';
+
                 dispatch(
                   addToCart({
                     productId: numericProductId,
@@ -426,6 +429,9 @@ export default function ProductShowcase({
                     currency: price.currency,
                     imageSrc: images.main.front.src,
                     imageAlt: images.main.front.alt,
+                    sku: code,
+                    color: colorLabel,
+                    size: sizeLabel,
                   }),
                 );
                 openCart();

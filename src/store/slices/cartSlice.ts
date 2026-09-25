@@ -28,6 +28,9 @@ export const cartSlice = createSlice({
         existing.currency = action.payload.currency;
         existing.imageSrc = action.payload.imageSrc;
         existing.imageAlt = action.payload.imageAlt;
+        existing.sku = action.payload.sku;
+        existing.color = action.payload.color;
+        existing.size = action.payload.size;
       } else {
         state.items.push(action.payload);
       }
