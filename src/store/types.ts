@@ -171,7 +171,14 @@ export interface ResendActivationInput {
 
 export interface CartItem {
   productId: number;
+  variantId: number;
   quantity: number;
+  brand: string;
+  title: string;
+  price: number;
+  currency: string;
+  imageSrc: string;
+  imageAlt: string;
 }
 
 export interface WishlistItem {

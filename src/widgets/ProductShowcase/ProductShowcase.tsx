@@ -5,7 +5,10 @@ import Link from 'next/link';
 import StarRating from '@/widgets/StarRating/StarRating';
 import WishlistButton from '@/features/wishlist/ui/WishlistButton/WishlistButton';
 import { useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useCartDrawer } from '@/features/cart/context/CartDrawerContext';
 import { useTranslation } from '@/i18n/useTranslation';
+import { addToCart } from '@/store/slices/cartSlice';
 import ProductMainImageZoom from './ProductMainImageZoom';
 
 interface ProductShowcaseProps {
@@ -52,6 +55,7 @@ interface ProductShowcaseProps {
     current?: boolean;
   }[];
   productId?: string;
+  variantId?: number;
 }
 
 const SIDEBAR_ANIMATION_DURATION_MS = 300;
@@ -73,8 +77,11 @@ export default function ProductShowcase({
   onSelectColor,
   breadcrumbs,
   productId,
+  variantId,
 }: ProductShowcaseProps) {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const { openCart } = useCartDrawer();
 
   const infoTabs = useMemo(
     () => [
@@ -404,6 +411,25 @@ export default function ProductShowcase({
             <button
               type="button"
               className="inline-flex h-12 w-full items-center justify-center rounded-[10px] border border-black px-6 font-sans text-[16px] font-normal text-black transition-colors duration-200 hover:bg-black hover:text-white-fa sm:w-auto sm:min-w-35"
+              onClick={() => {
+                const numericProductId = Number(productId);
+                if (!Number.isFinite(numericProductId)) return;
+
+                dispatch(
+                  addToCart({
+                    productId: numericProductId,
+                    variantId: variantId ?? 0,
+                    quantity: 1,
+                    brand,
+                    title,
+                    price: price.current,
+                    currency: price.currency,
+                    imageSrc: images.main.front.src,
+                    imageAlt: images.main.front.alt,
+                  }),
+                );
+                openCart();
+              }}
             >
               {t.product.addToCart}
             </button>

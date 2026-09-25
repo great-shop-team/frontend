@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import { useTranslation } from '@/i18n/useTranslation';
 
-type StubPageKey = 'wishlist' | 'cart' | 'sales';
+type StubPageKey = 'wishlist' | 'cart' | 'checkout' | 'sales';
 
 type StubPageProps = {
   pageKey: StubPageKey;

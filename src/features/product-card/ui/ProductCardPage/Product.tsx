@@ -9,7 +9,7 @@ import { isCatalogListingSlug } from '@/features/catalog/model/catalogCategory';
 import ClothingProductCard from '@/features/catalog/ui/CatalogProductCard/CatalogProductCard';
 import { buildProductHref } from '@/features/catalog/lib/buildProductHref';
 import { mapApiProductToCatalogCard } from '@/features/catalog/lib/mapApiProductToCatalogCard';
-import { resolveVariantPrice } from '@/features/catalog/lib/resolveVariantOffer';
+import { parseMoneyAmount, resolveVariantPrice } from '@/features/catalog/lib/resolveVariantOffer';
 import {
   buildVariantColorOptions,
   buildVariantSizeOptions,
@@ -171,7 +171,14 @@ export default function Product() {
       const current = productVariants.find((variant) => Number(variant.id) === selectedVariantId);
       if (current) return current;
     }
-    return findMatchingVariant({ variants: productVariants });
+
+    const cheapest = [...productVariants].sort((left, right) => {
+      const leftPrice = parseMoneyAmount(left.price) ?? Number.POSITIVE_INFINITY;
+      const rightPrice = parseMoneyAmount(right.price) ?? Number.POSITIVE_INFINITY;
+      return leftPrice - rightPrice;
+    })[0];
+
+    return cheapest ?? findMatchingVariant({ variants: productVariants });
   }, [productVariants, selectedVariantId]);
 
   const selectedVariantImages = useMemo(
@@ -420,6 +427,7 @@ export default function Product() {
         images={showcaseImages}
         breadcrumbs={breadcrumbs}
         productId={String(product.id)}
+        variantId={selectedVariant ? Number(selectedVariant.id) : undefined}
         link={{
           href: buildProductHref(pathname?.split('/')[2] ?? 'catalog', product),
           label: product.name,

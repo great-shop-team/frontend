@@ -35,7 +35,7 @@ export const productsEndpoints = api.injectEndpoints({
      * Useful when we need to resolve product by slug (the backend exposes /api/products/{id}/ only).
      */
     getProductsRaw: builder.query<ApiProduct[], void>({
-      query: () => '/api/products/',
+      query: () => '/api/products/?limit=500',
       transformResponse: (response: unknown) => unwrapList<ApiProduct>(response),
       providesTags: ['Product'],
     }),
