@@ -19,7 +19,7 @@ export const catalogMetaEndpoints = api.injectEndpoints({
       transformResponse: (response: unknown) => unwrapList<CatalogSize>(response),
     }),
     getProductVariants: builder.query<ProductVariant[], void>({
-      query: () => '/api/product-variants/',
+      query: () => '/api/product-variants/?limit=2500',
       transformResponse: (response: unknown) => unwrapList<ProductVariant>(response),
     }),
     getProductImages: builder.query<ProductImageRecord[], void>({
