@@ -444,14 +444,13 @@ export default function CheckoutPage() {
             <h2 className="m-0 font-heading text-[20px] font-normal text-dark">
               {t.checkout.deliveryMethod}
             </h2>
-            <div className="inline-flex h-[60px] w-[92px] items-center justify-center rounded-[5px] border-2 border-black bg-white">
-              <Image
-                src="/images/catalog/new-posta-icon.png"
-                alt={t.checkout.novaPoshta}
-                width={51}
-                height={51}
-              />
-            </div>
+            <Image
+              src="/images/catalog/new-posta-icon.png"
+              alt={t.checkout.novaPoshta}
+              width={92}
+              height={60}
+              className="h-[60px] w-[92px]"
+            />
           </div>
 
           <div className="flex flex-col gap-4">
@@ -585,12 +584,18 @@ export default function CheckoutPage() {
                   role="radio"
                   aria-checked={payment === method.id}
                   aria-label={method.alt}
-                  className={`inline-flex h-[60px] w-[92px] items-center justify-center rounded-[5px] border-2 bg-white ${
-                    payment === method.id ? 'border-black' : 'border-[#c0c0c0]'
+                  className={`inline-flex h-[60px] w-[92px] items-center justify-center border-0 bg-transparent p-0 ${
+                    payment === method.id ? 'rounded-[5px] outline outline-2 outline-black' : ''
                   }`}
                   onClick={() => setPayment(method.id)}
                 >
-                  <Image src={method.src} alt="" width={70} height={40} className="object-contain" />
+                  <Image
+                    src={method.src}
+                    alt=""
+                    width={92}
+                    height={60}
+                    className="h-[60px] w-[92px] object-contain"
+                  />
                 </button>
               ))}
             </div>
