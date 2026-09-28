@@ -216,6 +216,13 @@ export interface FavoriteUserList {
   };
 }
 
+export interface FavoriteUserListResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: FavoriteUserList[];
+}
+
 export type FavoriteCreateInput = {
   product_variant: number;
 };

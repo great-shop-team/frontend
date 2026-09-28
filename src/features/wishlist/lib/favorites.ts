@@ -1,4 +1,10 @@
-import type { Favorite, ProductVariant, WishlistItem } from '@/store/types';
+import {
+  Favorite,
+  FavoriteUserList,
+  FavoriteUserListResponse,
+  ProductVariant,
+  WishlistItem,
+} from '@/store/types';
 
 function readId(value: unknown): number | null {
   if (typeof value === 'number' && Number.isFinite(value)) return value;
@@ -44,6 +50,31 @@ export function toFavoriteList(response: unknown): Favorite[] {
   return single ? [single] : [];
 }
 
+// export function toFavoriteUserList(response: unknown): FavoriteUserList[] {
+//   if (Array.isArray(response)) {
+//     return response
+//       .map(normalizeFavoriteUserList)
+//       .filter((item): item is FavoriteUserList => item != null);
+//   }
+//
+//   if (response && typeof response === 'object') {
+//     const results = (response as { results?: unknown }).results;
+//
+//     if (Array.isArray(results)) {
+//       return results
+//         .map(normalizeFavoriteUserList)
+//         .filter((item): item is FavoriteUserList => item != null);
+//     }
+//   }
+//
+//   const single = normalizeFavoriteUserList(response);
+//
+//   return single ? [single] : [];
+// }
+export function toFavoriteUserList(response: FavoriteUserListResponse): FavoriteUserList[] {
+  return response.results;
+}
+
 function readVariant(record: Record<string, unknown>): {
   variantId: number | null;
   productId: string | null;
@@ -77,6 +108,24 @@ export function normalizeFavorite(raw: unknown): Favorite | null {
     productId: productId ?? '',
   };
 }
+
+// export function normalizeFavoriteUserList(raw: unknown): FavoriteUserList | null {
+//   if (!raw || typeof raw !== 'object') {
+//     return null;
+//   }
+//
+//   const record = raw as Record<string, unknown>;
+//
+//   if (typeof record.id !== 'number') {
+//     return null;
+//   }
+//
+//   if (!record.product_variant || typeof record.product_variant !== 'object') {
+//     return null;
+//   }
+//
+//   return record as FavoriteUserList;
+// }
 
 export function toWishlistItem(
   favorite: Favorite,

@@ -11,15 +11,20 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 
 const AllFavorites = () => {
-  const { data, isError } = useGetFavoritesUserListQuery();
+  // const { data, isError } = useGetFavoritesUserListQuery();
   const [deleteFavoriteId, { isLoading: isDeleting }] = useDeleteFavoriteMutation();
-  const [favoriteId, setFavoriteId] = useState();
+  const [favoriteId, setFavoriteId] = useState<number[]>([]);
+
+  const { data, isError } = useGetFavoritesUserListQuery();
 
   if (isError) {
     return <div>Error</div>;
   }
+  useEffect(()=>{
+    console.log('data',data)
+  },[data])
 
-  function deletedFavorite(id) {
+  function deletedFavorite(id:number) {
     if (!favoriteId.includes(id)) {
       setFavoriteId([...favoriteId, id]);
     } else {
@@ -29,6 +34,7 @@ const AllFavorites = () => {
   function handleDelete(id: number) {
     deleteFavoriteId(id);
   }
+
   useEffect(() => {
     if (data) {
       setFavoriteId(data.map((item) => item.id));
@@ -65,7 +71,7 @@ const AllFavorites = () => {
             {}
           </div>
           <div>
-            <p className={' px-5 m-0 text-xs opacity-60'}>{item.product_variant.gender}</p>
+            {/*<p className={' px-5 m-0 text-xs opacity-60'}>{item.product_variant.gender}</p>*/}
             <p className={'font-bold px-5 m-0 text-base'}>{item.product_variant.color.name}</p>
             <p className={'font-bold px-5 m-0'}>${Number(item.product_variant.price)}</p>
           </div>
