@@ -41,13 +41,13 @@ const AllFavorites = () => {
     }
   }, [data]);
   return (
-    <div className={'flex flex-row flex-wrap'}>
+    <div className={'grid grid-cols-3'}>
       {data?.map((item, key) => (
-        <div key={item.product_variant.id} className="bg-[#F7F7F6] m-4 rounded-lg">
+        <div key={item.product_variant.id} className="bg-[#F7F7F6] m-1 rounded-lg">
           <div className={' px-2  '}>
             <div className={'relative'}>
               <div className={'flex justify-between absolute top-4 left-5 right-5 '}>
-                <NotificationsNoneIcon className={''}  />
+                <NotificationsNoneIcon className={''} />
                 {favoriteId?.includes(item.id) ? (
                   <FavoriteOutlinedIcon
                     onClick={() => {
@@ -75,11 +75,13 @@ const AllFavorites = () => {
             <p className={'font-bold px-5 m-0 text-base'}>{item.product_variant.color.name}</p>
             <p className={'font-bold px-5 m-0'}>${Number(item.product_variant.price)}</p>
           </div>
-          <div className={'flex items-center gap-1 my-3 px-2'}>
-            <button className={'border py-2 px-12 rounded-lg bg-black text-white'}>
+          <div className={'flex items-center justify-between  my-3 px-2'}>
+            <button className={'border py-2 px-6 rounded-lg bg-black text-white truncate'}>
               Add to cart
             </button>
-            <p className={'m-0 border py-2 px-4 rounded-lg opacity-60'}>
+            <p
+              className={'m-0 ml-1 border py-2 px-3 rounded-lg opacity-60   '}
+            >
               {item.product_variant.size.name}
             </p>
           </div>

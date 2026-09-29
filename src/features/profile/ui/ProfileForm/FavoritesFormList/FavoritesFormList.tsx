@@ -2,39 +2,54 @@ import { useTranslation } from '@/i18n/useTranslation';
 import MyOrder from '@/data/MyOrders_json/MyOrderDelivery.json';
 import CancelDelivery from '@/data/MyOrders_json/CanceledDelivery.json';
 import arrived from '@/data/MyOrders_json/ArrivedOrderDelivery.json';
-import { ReactNode, useMemo, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 import AllFavorites from '@/features/profile/ui/ProfileForm/FavoritesFormList/AllFavorites/AllFavorites';
 import WomenFavorites from '@/features/profile/ui/ProfileForm/FavoritesFormList/WomenFavorites/WomenFavorites';
 import ManFavorites from '@/features/profile/ui/ProfileForm/FavoritesFormList/ManFavorites/ManFavorites';
 import PerfumesFavorites from '@/features/profile/ui/ProfileForm/FavoritesFormList/PerfumesFavorites/PerfumesFavorites';
+import { useGetFavoritesUserListQuery } from '@/store/endpoints/favoritesEndpoints';
+import { FavoriteUserList } from '@/store/types';
 
 type Tab = 'all' | 'women' | 'man' | 'perfumes';
 
 const FavoritesFormList = () => {
+  const { data } = useGetFavoritesUserListQuery();
+  const [favoriteWoomenData, setFavoriteWoomenData] = useState<FavoriteUserList[]>([]);
+  const [favoriteManData, setFavoriteManData] = useState<FavoriteUserList[]>([]);
+  const [favoriteAllData, setFavoriteAllData] = useState<FavoriteUserList[]>([]);
+  const [favoritePerfumesData, setFavoritePerfumesData] = useState<FavoriteUserList[]>([]);
+
+  useEffect(() => {
+    if (data) {
+      setFavoriteWoomenData(data?.filter((item) => item.product_variant.gender == 'female'));
+      setFavoriteManData(data?.filter((item) => item.product_variant.gender == 'female'));
+      setFavoriteAllData(data);
+      setFavoritePerfumesData(data?.filter((item) => item.product_variant.gender == 'perfumes'));
+    }
+  }, [data]);
+
+
   const { t } = useTranslation();
-  const arrOrederJson = MyOrder;
-  const arrOrederCancelDeliveryJson = CancelDelivery;
-  const arrOrederArrivedDeliveryJson = arrived;
   const tabs = useMemo(
     () => [
-      { id: 'all' as Tab, label: t.favoritesFormList.all, count: arrOrederJson.length },
+      { id: 'all' as Tab, label: t.favoritesFormList.all, count: favoriteAllData.length },
       {
         id: 'women' as Tab,
         label: t.favoritesFormList.women,
-        count: arrOrederArrivedDeliveryJson.length,
+        count: favoriteWoomenData.length,
       },
       {
         id: 'man' as Tab,
         label: t.favoritesFormList.man,
-        count: arrOrederCancelDeliveryJson.length,
+        count: favoriteManData.length,
       },
       {
         id: 'perfumes' as Tab,
         label: t.favoritesFormList.perfumes,
-        count: arrOrederCancelDeliveryJson.length,
+        count: favoritePerfumesData.length,
       },
     ],
-    [t, arrOrederJson.length],
+    [t, favoriteAllData.length],
   );
 
   const tabContent: Record<Tab, ReactNode> = {

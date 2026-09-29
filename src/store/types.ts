@@ -189,7 +189,7 @@ export interface Favorite {
 export interface FavoriteUserList {
   id: number;
   product_variant: {
-    id:number;
+    id: number;
     images: {
       id: number;
       image: string;
@@ -206,13 +206,13 @@ export interface FavoriteUserList {
       id: number;
       name: string;
       hex_code: string;
-      is_active:boolean;
+      is_active: boolean;
     };
-    sku:string;
-    stock:number;
-    price:string;
-    gander:string;
-    is_active:boolean;
+    sku: string;
+    stock: number;
+    price: string;
+    gender: string;
+    is_active: boolean;
   };
 }
 
