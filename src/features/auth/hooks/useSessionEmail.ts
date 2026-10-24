@@ -11,7 +11,9 @@ export function useSessionEmail() {
     typeof window !== 'undefined' ? Boolean(localStorage.getItem('accessToken')) : false;
 
   const hasSession = isAuthenticated || Boolean(token) || hasToken;
-  const email = user?.email || authEmail || storedEmail;
+  const profile = user as ({ email?: string; user?: { email?: string } } | null);
+  const profileEmail = profile?.email || profile?.user?.email || '';
+  const email = profileEmail || authEmail || storedEmail;
 
   return {
     email,

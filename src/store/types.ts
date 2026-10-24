@@ -216,6 +216,16 @@ export interface ApiProduct {
   is_hidden: boolean;
 }
 
+export interface ProductWriteInput {
+  name: string;
+  slug: string;
+  description: string;
+  brand: number;
+  subcategory: number;
+  is_active: boolean;
+  is_hidden: boolean;
+}
+
 export interface CatalogColor {
   id: number;
   name: string;
@@ -240,6 +250,17 @@ export interface ProductVariant {
   sku: string;
   stock: number;
   price?: string | null;
+  gender: ProductVariantGender;
+  is_active: boolean;
+}
+
+export interface ProductVariantWrite {
+  product: number;
+  size: number;
+  color: number;
+  sku: string;
+  stock: number;
+  price: string;
   gender: ProductVariantGender;
   is_active: boolean;
 }

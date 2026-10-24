@@ -27,6 +27,14 @@ const profilesEndpoints = api.injectEndpoints({
       }),
       invalidatesTags: ['Profile'],
     }),
+    patchProfilePhoto: builder.mutation<Profile, { profile_id: number; photo: File }>({
+      query: ({ profile_id, photo }) => {
+        const body = new FormData();
+        body.append('photo', photo);
+        return { url: `/api/profiles/${profile_id}/`, method: 'PATCH', body };
+      },
+      invalidatesTags: ['Profile'],
+    }),
   }),
 });
 
@@ -35,4 +43,5 @@ export const {
   useGetProfileByIdQuery,
   useUpdateProfileMutation,
   usePatchProfileMutation,
+  usePatchProfilePhotoMutation,
 } = profilesEndpoints;

@@ -114,51 +114,6 @@ export default function Header() {
         className={`mx-auto box-border flex h-[var(--site-header-height)] w-full max-w-[var(--layout-max-width)] items-center justify-between px-[var(--header-padding-x)] py-[var(--header-padding-y)] ${headerBarTextClass}`}
       >
         <div className="flex h-full min-w-0 items-center gap-3 lg:gap-24">
-          <button
-            type="button"
-            className="inline-flex size-10 shrink-0 cursor-pointer items-center justify-center border-none bg-transparent p-0 text-inherit lg:hidden"
-            aria-label={isMobileNavOpen ? t.nav.closeMenu : t.nav.openMenu}
-            aria-expanded={isMobileNavOpen}
-            aria-controls="mobile-nav"
-            onClick={() => {
-              setIsMobileNavOpen((prev) => {
-                const next = !prev;
-                if (next) closeAuth();
-                return next;
-              });
-            }}
-          >
-            {isMobileNavOpen ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-6"
-                aria-hidden
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-6"
-                aria-hidden
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                />
-              </svg>
-            )}
-          </button>
-
           <Logo />
           <div className="hidden h-full lg:block">
             <Navigation />
@@ -188,6 +143,55 @@ export default function Header() {
             <LanguageSwitcher variant="dropdown" />
           </div>
         </div>
+
+        <button
+          type="button"
+          className="inline-flex size-10 shrink-0 cursor-pointer items-center justify-center border-none bg-transparent p-0 text-inherit lg:hidden"
+          aria-label={isMobileNavOpen ? t.nav.closeMenu : t.nav.openMenu}
+          aria-expanded={isMobileNavOpen}
+          aria-controls="mobile-nav"
+          onClick={() => {
+            setIsMobileNavOpen((prev) => {
+              const next = !prev;
+              if (next) closeAuth();
+              return next;
+            });
+          }}
+        >
+          <div
+            aria-hidden
+            className={`h-10 mr-2 w-px shrink-0 ${isTransparent ? 'bg-white/80' : 'bg-gray/40'}`}
+          />
+          {isMobileNavOpen ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+              aria-hidden
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+              aria-hidden
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+              />
+            </svg>
+          )}
+        </button>
       </div>
 
       <MobileNav isOpen={isMobileNavOpen} onClose={closeMobileNav} />

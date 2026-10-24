@@ -52,7 +52,9 @@ export const userSlice = createSlice({
         authEndpoints.endpoints.getCurrentUser.matchFulfilled,
         (state, action: PayloadAction<User>) => {
           state.user = action.payload;
-          state.authEmail = action.payload.email;
+          const profile = action.payload as User & { user?: { email?: string } };
+          const email = profile.email || profile.user?.email;
+          if (email) state.authEmail = email;
           state.status = 'authenticated';
         },
       );

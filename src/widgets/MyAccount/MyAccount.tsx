@@ -1,8 +1,11 @@
 'use client';
 
+import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { usePathname, useRouter } from 'next/navigation';
 
+import AdminGearIcon from '@/app/admin/AdminGearIcon';
+import { isAdminUser } from '@/app/admin/isAdminUser';
 import { useAuthOverlay } from '@/features/auth/context/AuthOverlayContext';
 import { useSessionEmail } from '@/features/auth/hooks/useSessionEmail';
 import { useTranslation } from '@/i18n/useTranslation';
@@ -22,7 +25,10 @@ export default function MyAccount({
   const { isOpen, openAuth } = useAuthOverlay();
   const currentUser = useSelector(selectCurrentUser);
 
-  const isActive = isActivePath(pathname, '/profile') || isOpen;
+  const adminEntry = hasSession && isAuthenticated && isAdminUser(currentUser, hookEmail);
+  const isActive = adminEntry
+    ? isActivePath(pathname, '/admin')
+    : isActivePath(pathname, '/profile') || isOpen;
 
   const toggle = () => {
     if (hasSession && isAuthenticated) {
@@ -52,11 +58,27 @@ export default function MyAccount({
 
   const finalInitials = firstLetter.trim().toUpperCase();
   const showInitials = hasSession && isAuthenticated && Boolean(finalInitials);
+  const adminActive = isActivePath(pathname, '/admin');
+  const actionClass = (active: boolean) =>
+    `${getHeaderActionClass(active)} cursor-pointer border-x-0 border-t-0 bg-transparent text-inherit no-underline [&_svg]:block`;
+
+  const gear = (
+    <Link
+      href="/admin"
+      className={actionClass(adminActive)}
+      aria-current={adminActive ? 'page' : undefined}
+      aria-label={t.admin.open}
+    >
+      <AdminGearIcon />
+    </Link>
+  );
+
+  if (adminEntry) return gear;
 
   return (
     <button
       type="button"
-      className={`${getHeaderActionClass(isActive)} cursor-pointer border-x-0 border-t-0 bg-transparent [&_svg]:block`}
+      className={actionClass(isActive)}
       onClick={toggle}
       aria-expanded={isOpen}
       aria-controls="auth-overlay"
