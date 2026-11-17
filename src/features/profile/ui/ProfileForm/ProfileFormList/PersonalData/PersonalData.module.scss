@@ -1,0 +1,22 @@
+.nameSetting {
+  font-size: 20px;
+  font-weight: 400;
+  margin: 2% 0 2% 0;
+}
+.form {
+  display: flex;
+}
+
+.formDataUser {
+  display: flex;
+  flex-direction: column;
+  margin: 0 1% 0 0;
+
+  input {
+    width: 413px;
+    margin: 3% 3% 3% 0;
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 8px;
+  }
+}

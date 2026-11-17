@@ -1,0 +1,14 @@
+node_modules
+.next
+out
+build
+dist
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
+**/*.min.js
+public/**/*.svg
+public/**/*.png
+public/**/*.jpg
+public/**/*.jpeg
+public/**/*.webp

@@ -1,0 +1,18 @@
+{
+  "imagesFirst": {
+    "image_first": "/images/profile/return/Frame_1_step.png",
+    "alt": "first_step"
+  },
+  "imagesSecond": {
+    "image_first": "/images/profile/return/Frame_2_step.png",
+    "alt": "second_step"
+  },
+  "imagesThird": {
+    "image_first": "/images/profile/return/Frame_3_step.png",
+    "alt": "third_step"
+  },
+  "imagesFouth": {
+    "image_first": "/images/profile/return/Frame_4_step.png",
+    "alt": "fourth_step"
+  }
+}

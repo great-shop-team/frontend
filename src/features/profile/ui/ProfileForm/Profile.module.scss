@@ -1,0 +1,48 @@
+.headerProfile {
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 15vh;
+  border-top: 1px solid #030303;
+  border-bottom: 1px solid #030303;
+}
+
+.nameUser {
+  margin-right: 3%;
+  span {
+    font-size: 32px;
+    font-weight: bold;
+  }
+}
+
+.listItemMain {
+  display: flex;
+  align-items: center;
+  gap: 15%;
+  padding: 0.5%;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  white-space: nowrap;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.listItemMainActive {
+  display: flex;
+  align-items: center;
+  gap: 15%;
+  padding: 0.5%;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  white-space: nowrap;
+  font-size: 16px;
+  background-color: #030303;
+  color: #ffffff;
+  cursor: pointer;
+}

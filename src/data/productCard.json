@@ -1,0 +1,97 @@
+{
+  "id": "m-cloth-002",
+  "brand": "Nike",
+  "title": "Brown Zip Hoodie",
+  "description": [
+    "- Price includes all taxes and duties",
+    "- Free worldwide express shipping & returns",
+    "Deep cocoa cotton, quiet confidence in silhouette. A relaxed essential designed for movement and ease.",
+    "Crafted from premium heavyweight cotton with a soft brushed interior for warmth and structure."
+  ],
+  "price": {
+    "current": 135,
+    "currency": "USD"
+  },
+  "code": "S-2353173",
+  "rating": 4,
+  "size": ["XS", "S", "M", "L", "XL"],
+  "images": {
+    "main": {
+      "front": {
+        "src": "/images/frontViewhoodieBrown.png",
+        "alt": "Brown hoodie front view"
+      },
+      "back": {
+        "src": "/images/backViewhoodieBrown.png",
+        "alt": "Brown hoodie back view"
+      }
+    },
+    "gallery": [
+      {
+        "src": "/images/backViewhoodieBrownBotton.png",
+        "alt": "Hoodie detail"
+      },
+      {
+        "src": "/images/backViewhoodieBrownBotton.png",
+        "alt": "Hoodie detail"
+      }
+    ],
+    "colors": [
+      {
+        "src": "/images/frontViewhoodieBrownColor.png",
+        "alt": "Brown color option"
+      },
+      {
+        "src": "/images/frontViewhoodieBrownColor.png",
+        "alt": "Brown color option"
+      },
+      {
+        "src": "/images/frontViewhoodieBrownColor.png",
+        "alt": "Brown color option"
+      }
+    ]
+  },
+  "link": {
+    "href": "/product/hoodie-brown",
+    "label": "Shop now"
+  },
+
+  "botonImages": [
+    {
+      "id": "m-cloth-001",
+      "category": "men",
+      "image": {
+        "src": "/images/product1.png",
+        "alt": "Product Photo"
+      },
+      "title": "Essential Cotton Tee",
+      "price": "$35"
+    },
+    {
+      "id": "m-cloth-002",
+      "category": "men",
+      "image": {
+        "src": "/images/product2.png",
+        "alt": "Product Photo"
+      },
+      "title": "Red Oversized Hoodie",
+      "price": "$135"
+    },
+    {
+      "id": "m-cloth-003",
+      "category": "men",
+      "image": {
+        "src": "/images/product3.png",
+        "alt": "Product Photo"
+      },
+      "title": "Green Oversized Hoodie",
+      "price": "$135"
+    },
+    {
+      "id": "w-cloth-005",
+      "category": "women",
+      "title": "Women Oversized Hoodie",
+      "price": "$135"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "2616503",
+  "store": "TTH: 2616567",
+  "estimatedDelivery": "22. 03. 2026",
+  "status": "On Deliver",
+  "fromAddress": "Kharkiv, 28 B. Khmelnytsky Street",
+  "toAddress": "Kyiv, 27 B. Khmelnytsky Street",
+  "total": 305,
+  "productCard": [
+    {
+      "id": "1",
+      "brand": "Nike",
+      "name": "Brown Zip Hoodie",
+      "code": "Product code: S-2353173",
+      "variant": "S",
+      "price": 135,
+      "quantity": 1,
+      "image": "/images/frontViewhoodieBrown.png"
+    },
+    {
+      "id": "2",
+      "brand": "Nike",
+      "name": "Brown Zip Hoodie",
+      "code": "Product code: S-2336931",
+      "variant": "L",
+      "price": 50,
+      "quantity": 1,
+      "image": "/images/image34.jpg"
+    },
+    {
+      "id": "3",
+      "brand": "Nike",
+      "name": "Red Oversized Hoodie",
+      "code": "Product code: S-2337124",
+      "variant": "50ml",
+      "price": 120,
+      "quantity": 2,
+      "image": "/images/image-34-parfume.jpg"
+    }
+  ]
+}

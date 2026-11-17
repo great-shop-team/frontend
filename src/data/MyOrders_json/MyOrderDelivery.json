@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1,
+    "date": "22.03.2026",
+    "address": "Kharkiv, 28 B. Khmelnytsky Street",
+    "street": "Kyiv, 27 B. Khmelnytsky Street",
+    "order": [
+      {
+        "image": "/images/MyOrders/hoody.png",
+        "name": "Nike",
+        "title": "Red T-Shirt",
+        "code": "product code s-234",
+        "size": "S",
+        "count": 1,
+        "price": "135$"
+      },
+      {
+        "image": "/images/MyOrders/t-short.png",
+        "name": "Nike",
+        "title": "Red T-Shirt",
+        "code": "product code s-234",
+        "size": "L",
+        "count": 1,
+        "price": "135$"
+      },
+      {
+        "image": "/images/MyOrders/parfum.png",
+        "name": "Nike",
+        "title": "Brown Zip Hoodie",
+        "code": "product code s-234",
+        "size": "50ml",
+        "count": 2,
+        "price": "135$"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "date": "22.03.2026",
+    "address": "Kharkiv, 28 B. Khmelnytsky Street",
+    "street": "Kyiv, 27 B. Khmelnytsky Street",
+    "order": [
+      {
+        "image": "/images/MyOrders/parfum.png",
+        "name": "Nike",
+        "title": "Brown Zip Hoodie",
+        "code": "product code s-234",
+        "size": "50ml",
+        "count": 2,
+        "price": "135$"
+      }
+    ]
+  }
+]

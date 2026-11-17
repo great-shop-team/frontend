@@ -1,0 +1,19 @@
+[
+  {
+    "id": 1,
+    "date": "22.03.2026",
+    "address": "Kharkiv, 28 B. Khmelnytsky Street",
+    "street": "Kyiv, 27 B. Khmelnytsky Street",
+    "order": [
+      {
+        "image": "/images/MyOrders/t-short.png",
+        "name": "Nike",
+        "title": "Red T-Shirt",
+        "code": "product code s-234",
+        "size": "L",
+        "count": 1,
+        "price": "135$"
+      }
+    ]
+  }
+]
